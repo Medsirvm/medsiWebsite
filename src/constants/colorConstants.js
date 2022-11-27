@@ -1,0 +1,8 @@
+export const MAIN_COLORS = {
+  MAIN_PURPLE: "#3552CC",
+  DISABLED_TEXT: "#6B7779",
+  WHITE_COLOR: "#FFFFFF",
+  BLACK_MEDIUM:"rgba(0, 0, 0, 0.5)",
+  MAIN_BLACK:"#000",
+  LIGHT_GREEN:"#E6E6E6"
+};

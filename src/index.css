@@ -1,0 +1,21 @@
+@font-face {
+  font-family: "urbanistBold";
+  src: local("PoppinsBold"),
+    url("./assets/fonts/Urbanist-Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "urbanistMedium";
+  src: local("PoppinsBold"),
+    url("./assets/fonts/Urbanist-Medium.ttf") format("truetype");
+}
+@font-face {
+  font-family: "urbanistSemiBold";
+  src: local("PoppinsBold"),
+    url("./assets/fonts/Urbanist-SemiBold.ttf") format("truetype");
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
