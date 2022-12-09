@@ -1,37 +1,43 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import PublicRoute from "./components/PublicRoute";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import PrivateRoute from "./components/PrivateRoute";
 import { PRIVATE_ROUTES } from "./constants/routesConstants";
 import Contract from "./pages/Contract";
+import PaymentsDashboard from "./pages/PaymentsDashboard";
 import TandasCalculator from "./pages/TandasCalculator";
 
 const AppRouter = (props) => {
   return (
     <BrowserRouter>
-      <Switch>
-        {/* <PublicRoute
-          restricted={false}
-          component={TandasCalculator}
-          path={PRIVATE_ROUTES.DASHBOARD_TANDA_AHORRO}
-          exact
-        />
-        <PublicRoute
-          restricted={false}
-          component={Contract}
-          path={PRIVATE_ROUTES.DASHBOARD_CONTRATO_SERVICIO}
-          exact
-        /> */}
+      <Routes>
         <Route
           path={PRIVATE_ROUTES.DASHBOARD_TANDA_AHORRO}
+          element={
+            <PrivateRoute>
+              <TandasCalculator />
+            </PrivateRoute>
+          }
           exact
-          component={TandasCalculator}
         />
         <Route
           path={PRIVATE_ROUTES.DASHBOARD_CONTRATO_SERVICIO}
+          element={
+            <PrivateRoute>
+              <Contract />
+            </PrivateRoute>
+          }
           exact
-          component={Contract}
         />
-      </Switch>
+        <Route
+          path={PRIVATE_ROUTES.DASHBOARD_PAYMENTS_PAY_CHART}
+          element={
+            <PrivateRoute>
+              <PaymentsDashboard />
+            </PrivateRoute>
+          }
+          exact
+        />
+      </Routes>
     </BrowserRouter>
   );
 };

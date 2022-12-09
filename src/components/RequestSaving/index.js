@@ -3,7 +3,6 @@ import { Box } from "@mui/system";
 import React from "react";
 import { MAIN_COLORS } from "../../constants/colorConstants";
 import { FONTS } from "../../constants/fontsConstants";
-import CalendarPayments from "../CalendarPayments";
 import { requestSavingStyles } from "./requestSaving.styles";
 import SavingCalculator from "./SavingCalculator";
 
@@ -26,7 +25,7 @@ const RequestSaving = (props) => {
       </Typography>
 
       <SavingCalculator />
-      <CalendarPayments />
+      
     </Box>
   );
 };

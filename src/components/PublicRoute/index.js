@@ -1,23 +1,11 @@
 import React from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route } from "react-router-dom";
 
-function isLogin() {
-  return true;
-}
-const PublicRoute = ({ component: Component, restricted, ...rest }) => {
+const PublicRoute = ({ element: Element, ...rest }) => {
   return (
     // restricted = false meaning public route
     // restricted = true meaning restricted route
-    <Route
-      {...rest}
-      render={(props) =>
-        isLogin() && restricted ? (
-          <Redirect to="/" />
-        ) : (
-          <Component {...props} />
-        )
-      }
-    />
+    <Route {...rest} element={<Element />} />
   );
 };
 

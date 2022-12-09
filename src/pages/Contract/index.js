@@ -45,7 +45,7 @@ const Contract = () => {
 
   return (
     <Layout>
-      <Box sx={{ marginBottom: 50 }}>
+      <Box >
         <CenteredContent>
           <Card
             sx={{
@@ -74,7 +74,7 @@ const Contract = () => {
               </div>
               <div>
                 <IconButton
-                  onClick={() => setOpen(!open)}
+                  // onClick={() => setOpen(!open)}
                   aria-label="expand"
                   size="small"
                 >

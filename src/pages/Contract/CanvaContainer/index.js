@@ -1,12 +1,15 @@
 import { Box, Button, Typography } from "@mui/material";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CenteredContent from "../../../components/CenteredContent";
 import { MAIN_COLORS } from "../../../constants/colorConstants";
+import { PRIVATE_ROUTES } from "../../../constants/routesConstants";
 import { CanvaContainerPageStyles } from "./CanvaContainer.styles";
 import CanvaSignatureModal from "./CanvaSignatureModal";
 
 const CanvaContainer = () => {
   const classes = CanvaContainerPageStyles();
+  const navigate = useNavigate();
   const [openSignatureModal, setOpenSignatureModal] = useState(false);
   const handleOpenSignatureModal = () => setOpenSignatureModal(true);
   const handleCloseSignatureModal = () => setOpenSignatureModal(false);
@@ -113,6 +116,9 @@ const CanvaContainer = () => {
               },
             }}
             variant="contained"
+            onClick={() =>
+              navigate(PRIVATE_ROUTES.DASHBOARD_PAYMENTS_PAY_CHART)
+            }
           >
             Continuar
           </Button>

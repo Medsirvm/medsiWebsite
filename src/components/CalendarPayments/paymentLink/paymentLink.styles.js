@@ -2,7 +2,6 @@ import { makeStyles } from "@material-ui/styles";
 import { MAIN_COLORS } from "../../../constants/colorConstants";
 export const paymentLinkStyles = makeStyles({
   contentWrapper: {
-    backgroundColor: "red",
     width: 777,
     height: 40,
     marginBottom: 10,
@@ -19,16 +18,35 @@ export const paymentLinkStyles = makeStyles({
     justifyContent: "center",
     alignItems: "center",
   },
-  amountContainer: {
+  dateContainer: {
+    minWidth: 320,
+    minHeight: 38,
+    maxWidth: 320,
+    maxHeight: 38,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: 100,
   },
   paymentContainer: {
+    minWidth: 180,
+    minHeight: 38,
+    maxWidth: 180,
+    maxHeight: 38,
+    display: "flex",
+    alignItems: "center",
+    marginLeft: 80,
+  },
+  loanContainer: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: 100,
+  },
+  isLoanLink: {
+    width: 777,
+    height: 40,
+    marginBottom: 10,
+    borderRadius: 8,
+    display: "flex",
+    backgroundColor: MAIN_COLORS.BLUE_CONTRAST,
   },
 });

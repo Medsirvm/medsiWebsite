@@ -21,7 +21,6 @@ const initialState = {
     biWeeklyAmount: 0,
     creditLineAmount: 0,
   },
-  currentUserStep: 0,
   //userPaymentsInformation: [
   /**
      *Example
