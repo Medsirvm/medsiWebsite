@@ -13,6 +13,11 @@
   src: local("PoppinsBold"),
     url("./assets/fonts/Urbanist-SemiBold.ttf") format("truetype");
 }
+@font-face {
+  font-family: "urbanistRegular";
+  src: local("PoppinsBold"),
+    url("./assets/fonts/Urbanist-Regular.ttf") format("truetype");
+}
 
 body {
   margin: 0;

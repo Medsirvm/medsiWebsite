@@ -3,32 +3,29 @@ import { Box } from "@mui/system";
 import React from "react";
 import { MAIN_COLORS } from "../../constants/colorConstants";
 import { FONTS } from "../../constants/fontsConstants";
-import CalendarPayments from "../CalendarPayments";
-import { requestSavingStyles } from "./requestSaving.styles";
-import SavingCalculator from "./SavingCalculator";
+import ChartContainer from "./ChartContainer";
+import { PaymentDashboardPageStyles } from "./PaymentDashboardPage.styles";
 
-const RequestSaving = (props) => {
-  const classes = requestSavingStyles();
+const PaymentsDashboard = () => {
+  const classes = PaymentDashboardPageStyles();
   return (
     <Box className={classes.mainContainer}>
       <Typography
         variant="h5"
         sx={{
           fontWeight: "bold",
-          marginTop: 2,
+          marginTop: 3,
           marginBottom: 5,
           fontSize: 22,
           fontFamily: FONTS.URBANISMEDIUM,
           color: MAIN_COLORS.MAIN_PURPLE,
         }}
       >
-        Programa tu Tanda de ahorro
+        Detalles de tu Tanda Ahorro
       </Typography>
-
-      <SavingCalculator />
-      <CalendarPayments />
+      <ChartContainer />
     </Box>
   );
 };
 
-export default RequestSaving;
+export default PaymentsDashboard;

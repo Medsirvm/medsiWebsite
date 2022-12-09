@@ -4,8 +4,10 @@ import { paymentLinkStyles } from "./paymentLink.styles";
 import paymentLink from "../../../assets/icons/paymentLink.svg";
 import { FONTS } from "../../../constants/fontsConstants";
 import { MAIN_COLORS } from "../../../constants/colorConstants";
-const PaymentLink = () => {
+const PaymentLink = (props) => {
   const classes = paymentLinkStyles();
+  const { id, date, amount } = props;
+
   return (
     <Box
       className={classes.contentWrapper}
@@ -26,7 +28,7 @@ const PaymentLink = () => {
             color: MAIN_COLORS.BLACK_MEDIUM,
           }}
         >
-          2 de Diciembre del 2022
+          {date}
         </Typography>
       </Box>
       <Box className={classes.paymentContainer}>
@@ -34,10 +36,10 @@ const PaymentLink = () => {
           sx={{
             fontSize: 18,
             fontFamily: FONTS.URBANISTBOLD,
-            color: MAIN_COLORS.BLACK_MEDIUM,
+            color:   MAIN_COLORS.BLACK_MEDIUM,
           }}
         >
-          $3,000
+          {amount}
         </Typography>
       </Box>
     </Box>

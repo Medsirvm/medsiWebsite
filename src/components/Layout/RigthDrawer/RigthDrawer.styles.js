@@ -28,5 +28,14 @@ export const drawerStyles = makeStyles({
       backgroundColor: "none",
     },
   },
+  root: {
+    '&$selected': {
+      backgroundColor: 'white !important',
+      '&:hover': {
+        backgroundColor: 'yellow',
+      }
+    },
+  },
+  selected: {},
 
 });

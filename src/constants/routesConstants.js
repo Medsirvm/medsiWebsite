@@ -1,11 +1,7 @@
-import Dashboard from "../pages/Dashboard";
-
-export const PUBLIC_ROUTES = [
-  {
-    path: "/dashboard",
-    key: "landingPage",
-    exact: true,
-    restricted:false,
-    component: () => <Dashboard />,
-  },
-];
+export const PUBLIC_ROUTES = {
+  LOGIN_PAGE: "/iniciarSesion",
+};
+export const PRIVATE_ROUTES = {
+  DASHBOARD_TANDA_AHORRO: "/dashboard/tandaAhorro",
+  DASHBOARD_CONTRATO_SERVICIO: "/dashboard/contratoServicio",
+};

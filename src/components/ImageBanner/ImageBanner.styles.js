@@ -5,6 +5,8 @@ export const imageBannerStyles = makeStyles({
     backgroundImage: `url(${banner})`,
     backgroundSize: "center",
     backgroundPosition: "cover",
+    // backgroundRepeat:"no-repeat",
     minHeight:155,
+    width:"100%"
   },
 });

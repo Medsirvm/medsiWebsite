@@ -5,7 +5,7 @@ export const paymentLinkStyles = makeStyles({
     backgroundColor: "red",
     width: 777,
     height: 40,
-    marginBottom: 300,
+    marginBottom: 10,
     borderRadius: 8,
     display: "flex",
   },

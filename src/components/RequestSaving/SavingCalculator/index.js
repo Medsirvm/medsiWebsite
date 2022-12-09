@@ -1,20 +1,59 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Slider, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { MAIN_COLORS } from "../../../constants/colorConstants";
 import { FONTS } from "../../../constants/fontsConstants";
+import { PRIVATE_ROUTES } from "../../../constants/routesConstants";
+import { setPaymentAmounts } from "../../../store/reducers/user/UserAccountSlice";
+import { formatNumber } from "../../../utils/formatFieldsUtils";
 import { savingCalculatorStyles } from "./savingCalculator.styles";
 
 const SavingCalculator = () => {
   const classes = savingCalculatorStyles();
+  const dispatch = useDispatch();
+  const history = useHistory();
   function valuetext(value) {
-    return `${value}°C`;
+    return `${value}`;
   }
-  const [totalAmountForSave, setTotalAmountForSave] = useState(0);
-  const handleTotalAmountForSave = (amount) => {
-    console.log(totalAmountForSave);
-    setTotalAmountForSave(amount);
+  const handleContinueToContract = () => {
+    history.push(PRIVATE_ROUTES.DASHBOARD_CONTRATO_SERVICIO);
   };
+  const [totalAmountForSave, setTotalAmountForSave] = useState(500);
+  const debounce = (func) => {
+    let timer;
+    return function (...args) {
+      const context = this;
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        timer = null;
+        func.apply(context, args);
+      }, 1000);
+    };
+  };
+  const handleTotalAmountForSave = (amount) => {
+    setTotalAmountForSave(amount);
+    dispatch(
+      setPaymentAmounts({
+        biWeeklyAmount: amount,
+        creditLineAmount: amount * 10,
+      })
+    );
+  };
+
+  const handleChange = useCallback(debounce(handleTotalAmountForSave), []);
+
+  useEffect(() => {
+    dispatch(
+      setPaymentAmounts({
+        biWeeklyAmount: totalAmountForSave,
+        creditLineAmount: totalAmountForSave * 10,
+      })
+    );
+  }, []);
+
   return (
     <Box className={classes.mainContainer}>
       <Box sx={{ maxWidth: 600 }}>
@@ -44,7 +83,7 @@ const SavingCalculator = () => {
               marginRight: 2,
             }}
             size="50px"
-            onChange={(e) => handleTotalAmountForSave(e.target.value)}
+            onChange={(e) => handleChange(e.target.value)}
           />
           <Typography
             variant="subtitle2"
@@ -81,7 +120,7 @@ const SavingCalculator = () => {
               textAlign: "CENTER",
             }}
           >
-            $30,000
+            {`$ ${formatNumber(totalAmountForSave * 10)}`}
           </Typography>
         </Box>
         <Box>
@@ -93,7 +132,9 @@ const SavingCalculator = () => {
               marginTop: 3,
             }}
           >
-            Pagadero en 12 pagos quincenales de $3,000
+            {`Pagadero en 12 pagos quincenales de $ ${formatNumber(
+              totalAmountForSave
+            )}`}
           </Typography>
         </Box>
         <Box display="flex" justifyContent="center" alignItems="center">
@@ -105,6 +146,7 @@ const SavingCalculator = () => {
               fontFamily: FONTS.URBANISTBOLD,
             }}
             className={classes.requestSaveButton}
+            onClick={handleContinueToContract}
           >
             Contratar Tanda ahorro ahora
           </Button>
