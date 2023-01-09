@@ -30,7 +30,7 @@ import { useNavigate } from "react-router-dom";
 import { PRIVATE_ROUTES } from "../../constants/routesConstants";
 const LoginPage = () => {
   const dispatch = useDispatch();
-  const isWaitingOTP = true
+  const isWaitingOTP = useSelector(selectIsWaitingForOTPCode);
   // const isWaitingOTP = useSelector(selectIsWaitingForOTPCode);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otpCode, setOtpCode] = useState("");
