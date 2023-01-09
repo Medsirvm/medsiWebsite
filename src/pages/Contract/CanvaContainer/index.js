@@ -7,14 +7,14 @@ import { PRIVATE_ROUTES } from "../../../constants/routesConstants";
 import { CanvaContainerPageStyles } from "./CanvaContainer.styles";
 import CanvaSignatureModal from "./CanvaSignatureModal";
 
-const CanvaContainer = () => {
+const CanvaContainer = (props) => {
+  const { userName } = props;
   const classes = CanvaContainerPageStyles();
   const navigate = useNavigate();
   const [openSignatureModal, setOpenSignatureModal] = useState(false);
   const handleOpenSignatureModal = () => setOpenSignatureModal(true);
   const handleCloseSignatureModal = () => setOpenSignatureModal(false);
   const [imageURL, setImageURL] = React.useState(null);
-
   const handleSaveSignatureImage = (image) => {
     setImageURL(image);
   };
@@ -41,7 +41,7 @@ const CanvaContainer = () => {
               marginBottom: 5,
             }}
           >
-            Yo <strong className={classes.userName}> Jessica García,</strong>{" "}
+            Yo <strong className={classes.userName}> {userName},</strong>{" "}
             acepto los términos y condiciones de Medsi
           </Typography>
           <Box

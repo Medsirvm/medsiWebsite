@@ -24,8 +24,7 @@ const RequestSaving = (props) => {
         Programa tu Tanda de ahorro
       </Typography>
 
-      <SavingCalculator />
-      
+      <SavingCalculator isSimulator={true} />
     </Box>
   );
 };

@@ -1,15 +1,17 @@
 import { Box } from "@mui/material";
 import React from "react";
 
-import ImageBanner from "../../components/ImageBanner";
+import ImageBanner from "../sharedComponents/ImageBanner";
 import RigthDrawer from "../../components/Layout/RigthDrawer";
 import WelcomeMessage from "../../components/WelcomeMessage";
 import { layoutPageStyles } from "./Layout.style";
-
+import { useSelector } from "react-redux";
+import { selectuserInformation } from "../../store/reducers/user/UserAccountSlice";
 const Layout = (props) => {
   const classes = layoutPageStyles();
   const { children } = props;
-  const userName = "Rogelio Vazquez Mejia";
+  const userInformation = useSelector(selectuserInformation);
+  const userName = `${userInformation.first_name} ${userInformation.last_name} ${userInformation.maternal_name}`
 
   return (
     <Box>
@@ -19,7 +21,7 @@ const Layout = (props) => {
             <WelcomeMessage userName={userName} />
           </Box>
         </Box>
-        <ImageBanner />
+        <ImageBanner bannerStyle={classes.bannerImageContainer} />
         {children}
       </RigthDrawer>
     </Box>

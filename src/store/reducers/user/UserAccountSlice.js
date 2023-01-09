@@ -1,16 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  userInformation: {
-    name: "",
-    lastName: "",
-    surname: "",
-    email: "",
-    phoneNumber: "",
-    kycStatus: null,
-    creditDecisionStatus: null,
-    created_at: "",
-  },
+  userInformation: {},
   userContractInformation: {
     userHasSigned: false,
     userContractImage: "",
@@ -18,24 +9,13 @@ const initialState = {
   },
   simulationPayments: [],
   userPaymentInformation: {
-    biWeeklyAmount: 0,
-    creditLineAmount: 0,
+    biWeeklyAmount: 500,
+    creditLineAmount: 500 * 10,
   },
-  //userPaymentsInformation: [
-  /**
-     *Example
-     {
-      IdPayment: "",
-      email:"",
-      paymentDate:"",
-      transactionType:null,
-      paymentAmount: null,
-      idPayment:""  on wich one we are 1, 2, 3, 4...,
-      realPaymentDate:"" when the user pay
-      conektaIdPayment:null
-      } 
-     */
-  //],
+  userOTPProcessInformation: {},
+  waitingForOtp: false,
+  currentUserNumberPayment: 0,
+  isAuth: false,
 };
 
 export const UserAccountSlice = createSlice({
@@ -51,11 +31,30 @@ export const UserAccountSlice = createSlice({
     setPaymentAmounts(state, { payload }) {
       state.userPaymentInformation = payload;
     },
+    setOTPUserSemilla(state, { payload }) {
+      state.userOTPProcessInformation = payload;
+    },
+    setWaitingForOtp(state, { payload }) {
+      state.waitingForOtp = payload;
+    },
+    setCurrentNumberUserPayment(state, { payload }) {
+      state.currentUserNumberPayment = payload;
+    },
+    setUserAuth(state, { payload }) {
+      state.isAuth = payload;
+    },
   },
 });
 
-export const { setUserInformation, setSimulationPayments, setPaymentAmounts } =
-  UserAccountSlice.actions;
+export const {
+  setUserInformation,
+  setSimulationPayments,
+  setPaymentAmounts,
+  setOTPUserSemilla,
+  setWaitingForOtp,
+  setCurrentNumberUserPayment,
+  setUserAuth,
+} = UserAccountSlice.actions;
 
 export default UserAccountSlice.reducer;
 //Selectors
@@ -63,5 +62,13 @@ export const selectuserInformation = (state) =>
   state.user ? state.user.userInformation : null;
 export const selectCreditLineAndPaymentAmounts = (state) =>
   state.user ? state.user.userPaymentInformation : null;
+export const selectOTPInformation = (state) =>
+  state.user ? state.user.userOTPProcessInformation : null;
+export const selectIsWaitingForOTPCode = (state) =>
+  state.user ? state.user.waitingForOtp : null;
 export const selectSimulationPaymentsInformation = (state) =>
   state.user ? state.user.simulationPayments : [];
+export const selectCurrentNumberUserPayment = (state) =>
+  state.user ? state.user.currentUserNumberPayment : null;
+export const selectIsUserAuth = (state) =>
+  state.user ? state.user.isAuth : false;

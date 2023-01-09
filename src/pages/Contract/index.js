@@ -18,12 +18,15 @@ import { FONTS } from "../../constants/fontsConstants";
 import { MAIN_COLORS } from "../../constants/colorConstants";
 import CanvaContainer from "./CanvaContainer";
 import Layout from "../../components/Layout";
+import { useSelector } from "react-redux";
+import { selectuserInformation } from "../../store/reducers/user/UserAccountSlice";
 
 const Contract = () => {
   const classes = contratPageStyles();
   const [open, setOpen] = useState(false);
   const [checkContractOption, setCheckContractOption] = useState(false);
-
+  const userInformation = useSelector(selectuserInformation);
+  const userName = `${userInformation.first_name} ${userInformation.last_name} ${userInformation.maternal_name}`
   const handleOpenContractCanva = () => {
     setCheckContractOption(!checkContractOption);
     setOpen(!open);
@@ -45,7 +48,7 @@ const Contract = () => {
 
   return (
     <Layout>
-      <Box >
+      <Box>
         <CenteredContent>
           <Card
             sx={{
@@ -110,7 +113,7 @@ const Contract = () => {
                       intereses establecidos.{" "}
                     </Typography>
                     <CenteredContent direction="column">
-                      <CanvaContainer />
+                      <CanvaContainer userName = { userName} />
                     </CenteredContent>
                   </Container>
                 </CardContent>

@@ -1,14 +1,22 @@
 import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
+import { useSelector } from "react-redux";
+import CalendarPayments from "../../components/CalendarPayments";
 import Layout from "../../components/Layout";
 import { MAIN_COLORS } from "../../constants/colorConstants";
 import { FONTS } from "../../constants/fontsConstants";
 import ChartContainer from "./ChartContainer";
 import { PaymentDashboardPageStyles } from "./PaymentDashboardPage.styles";
-
+import { selectSimulationPaymentsInformation } from "../../store/reducers/user/UserAccountSlice";
+import { useNavigate } from "react-router-dom";
+import { PRIVATE_ROUTES } from "../../constants/routesConstants";
 const PaymentsDashboard = () => {
   const classes = PaymentDashboardPageStyles();
+  const simulationPaymentLinks = useSelector(
+    selectSimulationPaymentsInformation
+  );
+  const navigate = useNavigate();
   return (
     <Layout>
       <Box className={classes.mainContainer}>
@@ -62,15 +70,16 @@ const PaymentsDashboard = () => {
               marginLeft: 2,
               marginTop: 3,
               textTransform: "none",
-              fontFamily:"urbanistBold",
-              fontSize:16
+              fontFamily: "urbanistBold",
+              fontSize: 16,
             }}
+            onClick={() => navigate(PRIVATE_ROUTES.DASHBOARD_MAKE_PAYMENT)}
           >
             {" "}
             Pagar ahora
           </Button>
         </Box>
-        <Typography
+        {/* <Typography
           variant="h5"
           sx={{
             fontWeight: "bold",
@@ -81,7 +90,9 @@ const PaymentsDashboard = () => {
           }}
         >
           Calendario de próximos pagos
-        </Typography>
+        </Typography> */}
+
+        <CalendarPayments paymentLinks={simulationPaymentLinks} />
       </Box>
     </Layout>
   );

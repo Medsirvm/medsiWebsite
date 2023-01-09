@@ -18,7 +18,8 @@ import { savingCalculatorStyles } from "./savingCalculator.styles";
 import moment from "moment";
 import CalendarPayments from "../../CalendarPayments";
 
-const SavingCalculator = () => {
+const SavingCalculator = (props) => {
+  const { isSimulator } = props;
   const classes = savingCalculatorStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -48,7 +49,16 @@ const SavingCalculator = () => {
         setSimulationPaymentLinks(paymentLinks);
         // console.log("paymentLinks ", paymentLinks);
       } else {
-        //La fecha inicial es el 17
+        //La fecha inicial es el 02
+        const totalDays = today.daysInMonth();
+        const daysToAdd = totalDays - monthNumberDay + 2;
+        const initialPaymentDate = today.add(daysToAdd, "days");
+        const paymentLinks = await getPaymentsLinks(
+          initialPaymentDate,
+          biWeeklyAmount
+        );
+        dispatch(setSimulationPayments(paymentLinks));
+        setSimulationPaymentLinks(paymentLinks);
       }
     };
     paymentLinks();
@@ -89,7 +99,13 @@ const SavingCalculator = () => {
 
   return (
     <React.Fragment>
-      <Box className={classes.mainContainer}>
+      <Box
+        className={
+          isSimulator
+            ? classes.calculatorContainerSimulation
+            : classes.calculatorContainerNotSimulation
+        }
+      >
         <Box sx={{ maxWidth: 600 }}>
           <Typography
             variant="subtitle2"
@@ -109,10 +125,10 @@ const SavingCalculator = () => {
               aria-label="MedsiAmount"
               defaultValue={30}
               getAriaValueText={valuetext}
-              valueLabelDisplay="auto"
+              valueLabelDisplay="on"
               step={100}
               min={500}
-              max={8000}
+              max={5000}
               sx={{
                 marginRight: 2,
               }}
@@ -151,7 +167,7 @@ const SavingCalculator = () => {
                 fontFamily: FONTS.URBANISTBOLD,
                 color: MAIN_COLORS.MAIN_BLACK,
                 marginTop: 3,
-                textAlign: "CENTER",
+                textAlign: "center",
               }}
             >
               {`$ ${formatNumber(totalAmountForSave * 10)}`}
@@ -166,28 +182,31 @@ const SavingCalculator = () => {
                 marginTop: 3,
               }}
             >
-              {`Pagadero en 12 pagos quincenales de $ ${formatNumber(
-                totalAmountForSave
-              )}`}
+              Pagadero en 12 pagos quincenales de{" "}
+              <strong>{` $ ${formatNumber(totalAmountForSave)}`}</strong>
             </Typography>
           </Box>
           <Box display="flex" justifyContent="center" alignItems="center">
-            <Button
-              variant="contained"
-              sx={{
-                marginTop: 3,
-                textTransform: "none",
-                fontFamily: FONTS.URBANISTBOLD,
-              }}
-              className={classes.requestSaveButton}
-              onClick={handleContinueToContract}
-            >
-              Contratar Tanda ahorro ahora
-            </Button>
+            {isSimulator && (
+              <Button
+                variant="contained"
+                sx={{
+                  marginTop: 3,
+                  textTransform: "none",
+                  fontFamily: FONTS.URBANISTBOLD,
+                }}
+                className={classes.requestSaveButton}
+                onClick={handleContinueToContract}
+              >
+                Contratar Tanda ahorro ahora
+              </Button>
+            )}
           </Box>
         </Box>
       </Box>
-      <CalendarPayments paymentLinks={simulationPaymentLinks} />
+      {isSimulator && (
+        <CalendarPayments paymentLinks={simulationPaymentLinks} />
+      )}
     </React.Fragment>
   );
 };

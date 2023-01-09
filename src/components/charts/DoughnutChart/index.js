@@ -6,30 +6,18 @@ import CenteredContent from "../../CenteredContent";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const data = {
-  labels: ["Pagados", "Retrasados", "Yellow", "Green", "Purple", "Orange"],
+  labels: ["Pendientes", "Pagados", "Retrazados"],
   datasets: [
     {
-      label: "# of Votes",
-      data: [0, 19, 3, 5, 2, 3],
-      backgroundColor: [
-        "rgba(255, 99, 132, 0.2)",
-        "rgba(54, 162, 235, 0.2)",
-        "rgba(255, 206, 86, 0.2)",
-        "rgba(75, 192, 192, 0.2)",
-        "rgba(153, 102, 255, 0.2)",
-        "rgba(255, 159, 64, 0.2)",
-      ],
-      borderColor: [
-        "rgba(255, 99, 132, 1)",
-        "rgba(54, 162, 235, 1)",
-        "rgba(255, 206, 86, 1)",
-        "rgba(75, 192, 192, 1)",
-        "rgba(153, 102, 255, 1)",
-        "rgba(255, 159, 64, 1)",
-      ],
+      label: "Pagos",
+      data: [9, 2, 1],
+      backgroundColor: ["#00263A", "#0ACC97", "#1B63DB"],
+      borderColor: ["#00263A", "#0ACC97", "#1B63DB"],
       borderWidth: 1,
+
     },
   ],
+
 };
 const DoughnutChart = () => {
   return (
@@ -37,10 +25,7 @@ const DoughnutChart = () => {
       style={{
         maxWidth: 300,
         maxHeight: 300,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        marginLeft:220
+        marginLeft: 200,
       }}
     >
       <Doughnut data={data} />

@@ -2,12 +2,14 @@ import moment from "moment";
 
 export const getPaymentsLinks = async (initialDate, biWeeklyAmount) => {
   let currentDate = moment(initialDate);
+  const dayNumber = currentDate.get("date");
   let paymentsArrayLinks = [];
   const addToArray = (index, date) => {
     paymentsArrayLinks.push({
-      id: index,
+      id: index + 1,
       date: date.format("MM/DD/YYYY"),
       amount: biWeeklyAmount,
+      status: "pending",
     });
   };
 
@@ -56,10 +58,18 @@ export const getPaymentsLinks = async (initialDate, biWeeklyAmount) => {
       // console.log("=================");
       // console.log(currentDate.format("MM/DD/YYYY"));
       // console.log("=================");
-      addDaysForSeventeen(i);
+      if (dayNumber === 2) {
+        addDaysForTwo(daysInMonth, i);
+      } else {
+        addDaysForSeventeen(i);
+      }
     } else {
       //Impar
-      addDaysForTwo(daysInMonth, i);
+      if (dayNumber === 2) {
+        addDaysForSeventeen(i);
+      } else {
+        addDaysForTwo(daysInMonth, i);
+      }
     }
   }
   return paymentsArrayLinks;
