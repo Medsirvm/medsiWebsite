@@ -54,25 +54,27 @@ const CalendarPayments = (props) => {
       </Box>
       {paymentLinks.length > 0 &&
         paymentLinks.map((payment, index) => {
-          if (index === 3) {
-            return (
-              <PaymentLink
-                key={payment.id}
-                id={payment.id}
-                date={payment.date}
-                amount={payment.amount}
-                loan={creditLineAmount}
-              />
-            );
-          } else {
-            return (
-              <PaymentLink
-                key={payment.id}
-                id={payment.id}
-                date={payment.date}
-                amount={payment.amount}
-              />
-            );
+          if (index <= 3) {
+            if (index === 3) {
+              return (
+                <PaymentLink
+                  key={payment.id}
+                  id={payment.id}
+                  date={payment.date}
+                  amount={payment.amount}
+                  loan={creditLineAmount}
+                />
+              );
+            } else {
+              return (
+                <PaymentLink
+                  key={payment.id}
+                  id={payment.id}
+                  date={payment.date}
+                  amount={payment.amount}
+                />
+              );
+            }
           }
         })}
     </Box>

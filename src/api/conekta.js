@@ -1,5 +1,5 @@
 import axios from "axios";
-const { REACT_APP_CONEKTA_HOST_URL, REACT_APP_CONEKTA_BASE_URL } = process.env;
+const { REACT_APP_API_HOST_URL, REACT_APP_API_BASE_URL } = process.env;
 
 export const createClientConekta = (name, email, phone) => {
   const payload = {
@@ -9,9 +9,9 @@ export const createClientConekta = (name, email, phone) => {
   };
 
   const request = {
-    host: `${REACT_APP_CONEKTA_HOST_URL}`,
+    host: `${REACT_APP_API_HOST_URL}`,
     method: "POST",
-    url: `${REACT_APP_CONEKTA_BASE_URL}conekta/crear-cliente`,
+    url: `${REACT_APP_API_BASE_URL}conekta/crear-cliente`,
     data: payload,
     body: JSON.stringify(payload),
     headers: {
@@ -35,9 +35,9 @@ export const createOrderConekta = (custId, amount, phone, client, email) => {
   console.log(payload);
 
   const request = {
-    host: `${REACT_APP_CONEKTA_HOST_URL}`,
+    host: `${REACT_APP_API_HOST_URL}`,
     method: "POST",
-    url: `${REACT_APP_CONEKTA_BASE_URL}conekta/crear-orden`,
+    url: `${REACT_APP_API_BASE_URL}conekta/crear-orden`,
     data: payload,
     body: JSON.stringify(payload),
     headers: {
@@ -47,5 +47,3 @@ export const createOrderConekta = (custId, amount, phone, client, email) => {
 
   return axios(request);
 };
-
-

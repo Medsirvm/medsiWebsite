@@ -28,18 +28,21 @@ import {
 import CountDown from "../../components/sharedComponents/CountDown";
 import { useNavigate } from "react-router-dom";
 import { PRIVATE_ROUTES } from "../../constants/routesConstants";
+import LoadingButton from "@mui/lab/LoadingButton";
+import SaveIcon from "@mui/icons-material/Save";
+
 const LoginPage = () => {
   const dispatch = useDispatch();
+  // const isWaitingOTP = true
   const isWaitingOTP = useSelector(selectIsWaitingForOTPCode);
-  // const isWaitingOTP = useSelector(selectIsWaitingForOTPCode);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otpCode, setOtpCode] = useState("");
   const classes = LoginPageStyles();
   const [disabled, setDisabled] = useState(true);
-  // const [wait, setWait] = useState(false);
   const otpInformation = useSelector(selectOTPInformation);
   const { correo, numero, semilla } = otpInformation;
   const [openSnackbarError, setOpenSnackbarError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [expired, setExpired] = useState(false);
   const navigate = useNavigate();
   const handleCloseSnackbarError = () => {
@@ -76,6 +79,7 @@ const LoginPage = () => {
       };
       dispatch(setOTPUserSemilla(otpData));
       dispatch(setWaitingForOtp(true));
+      setIsLoading(false);
       // setWait(true);
     });
   };
@@ -91,6 +95,7 @@ const LoginPage = () => {
   };
 
   const fetchUserInformation = () => {
+    setIsLoading(true);
     getUserInformationByPhoneNumber(phoneNumber)
       .then((res) => {
         if (res?.data?.body === "[]" || !res.data.body) {
@@ -160,6 +165,7 @@ const LoginPage = () => {
             placeholder="Ingresa tu numero celular"
           />
         </Box>
+
         {isWaitingOTP && (
           <Box
             display="flex"
@@ -200,9 +206,9 @@ const LoginPage = () => {
           <Button
             variant="contained"
             onClick={validateOTPCode}
-            disabled={expired}
+            disabled={expired || !otpCode}
             sx={{
-              backgroundColor: `rgba(255, 255, 255, 0.5)`,
+              background: `linear-gradient(270deg, #1B63DB 1.32%, #0ACC97 99.08%)`,
               borderRadius: 10,
               height: 58,
               width: 200,
@@ -215,24 +221,52 @@ const LoginPage = () => {
             Validar Código
           </Button>
         ) : (
-          <Button
-            variant="contained"
-            disabled={disabled}
-            onClick={fetchUserInformation}
-            loa
-            sx={{
-              backgroundColor: `rgba(255, 255, 255, 0.5)`,
-              borderRadius: 10,
-              height: 58,
-              width: 140,
-              marginTop: 5,
-              textTransform: "none",
-              fontFamily: FONTS.URBANISTBOLD,
-              fontSize: 18,
-            }}
-          >
-            Continuar
-          </Button>
+          <div>
+            {isLoading ? (
+              <LoadingButton
+                loading
+                loadingPosition="start"
+                startIcon={<SaveIcon />}
+                variant="outlined"
+                sx={{
+                  background: `linear-gradient(270deg, #1B63DB 1.32%, #0ACC97 99.08%)`,
+                  borderRadius: 10,
+                  height: 58,
+                  width: 180,
+                  marginTop: 5,
+                  textTransform: "none",
+                  fontFamily: FONTS.URBANISTBOLD,
+                  fontSize: 18,
+                }}
+              >
+                Enviando
+              </LoadingButton>
+            ) : (
+              <Button
+                variant="contained"
+                disabled={disabled}
+                onClick={fetchUserInformation}
+                sx={{
+                  background: `linear-gradient(270deg, #1B63DB 1.32%, #0ACC97 99.08%)`,
+                  borderRadius: 10,
+                  height: 58,
+                  width: 180,
+                  marginTop: 5,
+                  textTransform: "none",
+                  fontFamily: FONTS.URBANISTBOLD,
+                  fontSize: 18,
+                  "&.Mui-disabled": {
+                    pointerEvents: "unset", // allow :hover styles to be triggered
+                    cursor: "not-allowed", // and custom cursor can be defined without :hover state
+                    color: "rgba(255, 255, 255, 0.5)",
+                    background: "rgba(255, 255, 255, 0.5)",
+                  },
+                }}
+              >
+                Continuar
+              </Button>
+            )}
+          </div>
         )}
 
         <img src={vectorMedsi} alt="vectorMedsi" style={{ marginTop: 100 }} />

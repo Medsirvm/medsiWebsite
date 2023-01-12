@@ -30,7 +30,7 @@ const SavingCalculator = (props) => {
     navigate(PRIVATE_ROUTES.DASHBOARD_CONTRATO_SERVICIO);
   };
   const [totalAmountForSave, setTotalAmountForSave] = useState(500);
-  const { biWeeklyAmount } = useSelector(selectCreditLineAndPaymentAmounts);
+  const tandasInfo = useSelector(selectCreditLineAndPaymentAmounts);
   const [simulationPaymentLinks, setSimulationPaymentLinks] = useState([]);
   useEffect(() => {
     const paymentLinks = async () => {
@@ -43,7 +43,7 @@ const SavingCalculator = (props) => {
         const initialPaymentDate = today.add(daysToAdd, "days");
         const paymentLinks = await getPaymentsLinks(
           initialPaymentDate,
-          biWeeklyAmount
+          tandasInfo.biWeeklyAmount
         );
         dispatch(setSimulationPayments(paymentLinks));
         setSimulationPaymentLinks(paymentLinks);
@@ -55,14 +55,14 @@ const SavingCalculator = (props) => {
         const initialPaymentDate = today.add(daysToAdd, "days");
         const paymentLinks = await getPaymentsLinks(
           initialPaymentDate,
-          biWeeklyAmount
+          tandasInfo.biWeeklyAmount
         );
         dispatch(setSimulationPayments(paymentLinks));
         setSimulationPaymentLinks(paymentLinks);
       }
     };
     paymentLinks();
-  }, [biWeeklyAmount]);
+  }, [tandasInfo]);
 
   const debounce = (func) => {
     let timer;

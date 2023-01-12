@@ -7,7 +7,7 @@ import {
   selectuserInformation,
 } from "../../store/reducers/user/UserAccountSlice";
 import { createClientConekta, createOrderConekta } from "../../api/conekta";
-
+const { REACT_APP_CONEKTA_API_KEY } = process.env;
 const PaymentProcess = () => {
   const userInformation = useSelector(selectuserInformation);
   const { first_name, last_name, maternal_name, email, phone_number } =
@@ -66,7 +66,7 @@ const PaymentProcess = () => {
         window.ConektaCheckoutComponents.Integration({
             targetIFrame: "#conektaIframeContainer",
             checkoutRequestId: "${checkoutId}",
-            publicKey: "key_Koo3RdDXsRAhe4Do0y1j8yQ",
+            publicKey: "${REACT_APP_CONEKTA_API_KEY}",
             options: {},
             styles: {},
             onFinalizePayment: function(e){

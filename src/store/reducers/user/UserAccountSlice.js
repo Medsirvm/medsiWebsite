@@ -12,7 +12,11 @@ const initialState = {
     biWeeklyAmount: 500,
     creditLineAmount: 500 * 10,
   },
-  userOTPProcessInformation: {},
+  userOTPProcessInformation: {
+    correo: "",
+    numero: "",
+    semilla: "",
+  },
   waitingForOtp: false,
   currentUserNumberPayment: 0,
   isAuth: false,
