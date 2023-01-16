@@ -55,8 +55,11 @@ const AppRouter = (props) => {
           element={<LandingPage />}
           exact
         />
-        <Route path={PUBLIC_ROUTES.LOGIN_PAGE} element={<LoginPage />} exact />
-        <Route path={'/MexPagoTest'} element={<MexPagoPageTest />} exact />
+        <Route
+          path={PUBLIC_ROUTES.LOGIN_PAGE}
+          element={<LoginPage />}
+          exact
+        />
       </Routes>
     </BrowserRouter>
   );

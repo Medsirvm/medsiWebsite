@@ -11,7 +11,6 @@ import MexPago from "../../components/MexPago";
 
 const PaymentProcess = () => {
 
-  const { REACT_APP_CONEKTA_API_KEY } = process.env; 
   const userInformation = useSelector(selectuserInformation);
   const { first_name, last_name, maternal_name, email, phone_number } = userInformation;
   const payments = useSelector(selectSimulationPaymentsInformation);
@@ -20,7 +19,7 @@ const PaymentProcess = () => {
   const { amount } = paymentToPayInfo;
   const [checkoutId, setCheckoutId] = useState();
   const [isReady, setIsReady] = useState(false);
-
+   
   useEffect(() => {
     const fullname = `${first_name} ${last_name} ${maternal_name}`;
     const createConektaPayment = async () => {
@@ -59,6 +58,7 @@ const PaymentProcess = () => {
   useEffect(() => {
     if (isReady) {
       const s = document.createElement("script");
+      const { REACT_APP_CONEKTA_API_KEY } = process.env;
       console.log("This is the user information ", userInformation);
       s.type = "text/javascript";
       s.async = true;
@@ -97,10 +97,6 @@ const PaymentProcess = () => {
         phone={phone_number}
       >
       </MexPago>
-
-      <div style={{ outline: '1px solid red' }}>
-
-      </div>
       <div id="conektaIframeContainer" style={{ height: "1350px" }}></div>
     </Layout>
   );

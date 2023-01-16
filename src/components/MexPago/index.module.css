@@ -11,9 +11,7 @@
   gap: 0.5rem;
   align-items: flex-start;
   max-width: 500px;
-}
-
-.mxPayment {}
+} 
 
 .titleBox {
   font-size: 1.5rem;
@@ -63,6 +61,7 @@
   display: block;
   width: 100%;
   padding: 12px 0;
+  margin-top: 1rem;
   font-size: 1rem;
   text-align: center;
   border-radius: 4px;

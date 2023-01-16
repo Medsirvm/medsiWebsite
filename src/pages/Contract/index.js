@@ -55,6 +55,9 @@ const Contract = () => {
               width: "80%",
               minHeight: 50,
               marginTop: 5,
+              paddingBottom: 2,
+              marginBottom: 5
+
             }}
           >
             <Box
@@ -112,6 +115,7 @@ const Contract = () => {
                       contrato, así como las condiciones de pago y comisiones e
                       intereses establecidos.{" "}
                     </Typography>
+                    <div style={{marginBottom: "2rem"}}></div>
                     <CenteredContent direction="column">
                       <CanvaContainer userName = { userName} />
                     </CenteredContent>

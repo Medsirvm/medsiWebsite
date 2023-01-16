@@ -14,9 +14,11 @@ const RequestSaving = (props) => {
         variant="h5"
         sx={{
           fontWeight: "bold",
+          marginLeft: 3,
           marginTop: 2,
           marginBottom: 5,
-          fontSize: 22,
+          marginRight: 'auto',
+          fontSize: 24,
           fontFamily: FONTS.URBANISMEDIUM,
           color: MAIN_COLORS.MAIN_PURPLE,
         }}

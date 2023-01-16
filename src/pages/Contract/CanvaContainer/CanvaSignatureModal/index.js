@@ -43,6 +43,7 @@ export default function CanvaSignatureModal(props) {
         BackdropProps={{
           timeout: 500,
         }}
+        sx={{ left: '320px' }}
       >
         <Fade in={open}>
           <Box className={classes.mainContainer}>

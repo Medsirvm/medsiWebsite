@@ -10,9 +10,9 @@ export const paymentLinkStyles = makeStyles({
   },
   iconContainer: {
     minWidth: 50,
-    minHeight: 38,
+    minHeight: 40,
     maxWidth: 50,
-    maxHeight: 38,
+    maxHeight: 40,
     backgroundColor: MAIN_COLORS.LIGHT_GREEN,
     display: "flex",
     justifyContent: "center",

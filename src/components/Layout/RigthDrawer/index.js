@@ -10,6 +10,7 @@ import medsiLogo from "../../../assets/images/medsi.png";
 import { drawerStyles } from "./RigthDrawer.styles";
 //Import Icons
 import homeIcon from "../../../assets/icons/home.svg";
+import { useNavigate } from "react-router-dom";
 // import payments from "../../../assets/icons/makePayment.svg";
 // import calendar from "../../../assets/icons/paymentCalendar.svg";
 // import movements from "../../../assets/icons/movements.svg";
@@ -20,12 +21,13 @@ const drawerWidth = 320;
 export default function RigthDrawer(props) {
   const { children } = props;
   const classes = drawerStyles();
-
+  const navigate = useNavigate();
+  
   const LIST_ITEMS = [
     {
       index: 1,
       label: "inicio",
-      path: "/dashboard",
+      path: "/dashboard/tandaAhorro",
       key: "inicioDashboard",
       icon: homeIcon,
     },
@@ -68,14 +70,11 @@ export default function RigthDrawer(props) {
 
   const [selectedIndex, setSelectedIndex] = useState(1);
   const handleListItemClick = (event, index) => {
-    setSelectedIndex(index);
+    setSelectedIndex(index+1);
+    navigate(LIST_ITEMS[index].path);
   };
   return (
-    <Box
-      sx={{
-        display: "flex",
-      }}
-    >
+    <Box sx={{ display: "flex", }} >
       <CssBaseline />
       <Drawer
         classes={{ paper: classes.paper }}
@@ -95,13 +94,13 @@ export default function RigthDrawer(props) {
           <img src={medsiLogo} alt="LogoMedsi" className={classes.logo} />
         </Box>
         <List>
-          {LIST_ITEMS.map((item) => (
+          {LIST_ITEMS.map((item, index) => (
             <ListItem
               key={item.key}
               classes={{ root: classes.root, selected: classes.selected }}
               className={classes.listItem}
               selected={selectedIndex === item.index}
-              onClick={(event) => handleListItemClick(event, item.index)}
+              onClick={(event) => handleListItemClick(event, index)}
             >
               <ListItemIcon>
                 <img src={item.icon} alt={item.label} />
