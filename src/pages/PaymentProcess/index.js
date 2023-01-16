@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import { useSelector } from "react-redux";
 import {
@@ -7,12 +7,13 @@ import {
   selectuserInformation,
 } from "../../store/reducers/user/UserAccountSlice";
 import { createClientConekta, createOrderConekta } from "../../api/conekta";
-const { REACT_APP_CONEKTA_API_KEY } = process.env;
-const PaymentProcess = () => {
-  const userInformation = useSelector(selectuserInformation);
-  const { first_name, last_name, maternal_name, email, phone_number } =
-    userInformation;
+import MexPago from "../../components/MexPago";
 
+const PaymentProcess = () => {
+
+  const { REACT_APP_CONEKTA_API_KEY } = process.env; 
+  const userInformation = useSelector(selectuserInformation);
+  const { first_name, last_name, maternal_name, email, phone_number } = userInformation;
   const payments = useSelector(selectSimulationPaymentsInformation);
   const numberOfPaymentToPay = useSelector(selectCurrentNumberUserPayment);
   const paymentToPayInfo = payments[numberOfPaymentToPay];
@@ -22,7 +23,6 @@ const PaymentProcess = () => {
 
   useEffect(() => {
     const fullname = `${first_name} ${last_name} ${maternal_name}`;
-
     const createConektaPayment = async () => {
       await createClientConekta(fullname, email, phone_number)
         .then(async (res) => {
@@ -90,6 +90,17 @@ const PaymentProcess = () => {
 
   return (
     <Layout>
+      <MexPago
+        name={{ first_name, last_name, maternal_name, }}
+        amount={amount}
+        email={email}
+        phone={phone_number}
+      >
+      </MexPago>
+
+      <div style={{ outline: '1px solid red' }}>
+
+      </div>
       <div id="conektaIframeContainer" style={{ height: "1350px" }}></div>
     </Layout>
   );

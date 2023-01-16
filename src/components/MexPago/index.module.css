@@ -1,0 +1,79 @@
+.paymentSectionView {
+  margin: 1.5rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.mxPayBoxData {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+  max-width: 500px;
+}
+
+.mxPayment {}
+
+.titleBox {
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.inputBox {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: baseline;
+  justify-content: space-between;
+  min-width: 500px;
+}
+
+.inputBox input[type=text] {
+  flex-grow: 1;
+  max-width: 300px;
+  font-size: 1rem;
+  padding: 8px 10px;
+  border-radius: 4px;
+  border: 1px solid #c7c7c7;
+  text-align: end;
+  text-overflow: ellipsis;
+}
+
+.checkBox {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  margin: 0.25rem 0;
+}
+
+.checkBox label:hover {
+  cursor: pointer;
+}
+
+.mxPayBoxData form {
+  width: 100%;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.submitPayment {
+  display: block;
+  width: 100%;
+  padding: 12px 0;
+  font-size: 1rem;
+  text-align: center;
+  border-radius: 4px;
+  color: white;
+  border: none;
+  background: rgb(73, 102, 224);
+  transition: all 150ms ease;
+}
+
+.submitPayment:hover {
+  cursor: pointer;
+  background: rgb(55 84 204);
+  transition: all 150ms ease;
+}

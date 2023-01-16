@@ -5,6 +5,7 @@ import { PRIVATE_ROUTES, PUBLIC_ROUTES } from "./constants/routesConstants";
 import Contract from "./pages/Contract";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
+import MexPagoPageTest from "./pages/MexPagoPage";
 import PaymentProcess from "./pages/PaymentProcess";
 import PaymentsDashboard from "./pages/PaymentsDashboard";
 import TandasCalculator from "./pages/TandasCalculator";
@@ -55,6 +56,7 @@ const AppRouter = (props) => {
           exact
         />
         <Route path={PUBLIC_ROUTES.LOGIN_PAGE} element={<LoginPage />} exact />
+        <Route path={'/MexPagoTest'} element={<MexPagoPageTest />} exact />
       </Routes>
     </BrowserRouter>
   );
