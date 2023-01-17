@@ -1,4 +1,4 @@
-import { formatCurrency } from "../../utils/formatCurrency";
+import { formatCurrency } from "../../utils/formats";
 import ui from './index.module.css';
 import { generateTransaction } from '../../utils/generateTransaction';
 

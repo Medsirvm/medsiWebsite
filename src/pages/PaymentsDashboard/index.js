@@ -13,6 +13,7 @@ import useUrlParams from "../../hooks/useUrlParams";
 import axios from "axios";
 import ModalValidation from "./ModalValidation";
 import { ValidationContext } from "../../contexts/validationContext";
+import { formatDate } from "../../utils/formats"; 
 
 const PaymentsDashboard = () => {
 
@@ -32,7 +33,7 @@ const PaymentsDashboard = () => {
   }).filter(i => i !== null);
 
   const { params, redirectPage } = useUrlParams(window.location);
-  const { open, setOpen } = useContext(ValidationContext); 
+  const { open, setOpen } = useContext(ValidationContext);
 
   useEffect(() => {
     if (params === null) return;
@@ -42,7 +43,7 @@ const PaymentsDashboard = () => {
       folioMexpago: folio[1],
       noTransaccion: num[1],
       fecha: new Date().toLocaleDateString('sv')
-    } 
+    }
     axios.post("https://taqxihc1u8.execute-api.us-west-2.amazonaws.com/dev/mexpago/validate-transaction", { ...axiosData })
       .then(response => {
         const {
@@ -64,7 +65,7 @@ const PaymentsDashboard = () => {
 
   }, [params, setOpen]);
 
-  const handleClosemodal = () => { 
+  const handleClosemodal = () => {
     setOpen(false);
     setEstatus(null);
     setFecha(null);
@@ -88,7 +89,7 @@ const PaymentsDashboard = () => {
         }}>
           <Typography variant="h5" sx={sxStyles.h5style2} >
             Debes realizar tu próxima aportación antes del{" "}
-            <strong>{firstPayment}</strong> próximo:
+            <strong>{formatDate(firstPayment)}</strong> próximo:
           </Typography>
           <Button
             variant="contained"
@@ -121,7 +122,7 @@ const PaymentsDashboard = () => {
           authorized={estatus}
           closeModal={() => handleClosemodal()}
         />
-      </Box>
+      </Box> 
     </Layout>
   );
 };

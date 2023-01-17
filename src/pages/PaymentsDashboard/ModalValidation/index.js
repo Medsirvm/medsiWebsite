@@ -1,7 +1,7 @@
 import ui from './index.module.css';
 import validIcon from '../../../assets/icons/valid.svg';
 import noValidIcon from '../../../assets/icons/noValid.svg';
-import { formatCurrency } from '../../../utils/formatCurrency.js';
+import { formatCurrency } from '../../../utils/formats.js';
 
 export default function ModalValidation({
   open,

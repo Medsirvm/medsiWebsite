@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Layout from "../../components/Layout";
 import { useSelector } from "react-redux";
 import {
@@ -19,7 +19,7 @@ const PaymentProcess = () => {
   const { amount } = paymentToPayInfo;
   // const [checkoutId, setCheckoutId] = useState();
   // const [isReady, setIsReady] = useState(false);
-   
+
   // useEffect(() => {
   //   const fullname = `${first_name} ${last_name} ${maternal_name}`;
   //   const createConektaPayment = async () => {
