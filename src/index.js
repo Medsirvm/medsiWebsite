@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import store from "./store/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
+import ValidationProvider from "./contexts/validationContext";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 let persistantStore = persistStore(store);
 
@@ -13,7 +14,9 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistantStore}>
-        <App />
+        <ValidationProvider>
+          <App />
+        </ValidationProvider>
       </PersistGate>
     </Provider>
   </React.StrictMode>

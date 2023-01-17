@@ -9,53 +9,36 @@ export default function MexPago({
   phone
 }) {
   const { maternal_name, last_name, first_name } = name;
-  const testingArticulos = `{ "articulos": [{ "descripcion": "Pago", "monto": "${1}" }] }`;
+  const testingArticulos = {
+    articulos: [
+      { descripcion: "Pago", monto: "1" }
+    ]
+  };
   // const userData = `{ "nombre": "${first_name}", "apPaterno": "${last_name}", "apMaterno": "${maternal_name}", "correo": "${email.replace('+101', '')}", "celular": "${phone.replace('+52', '')}" }`;
-  const userData = `{ "nombre": "Hector Manuel", "apPaterno": "Rios", "apMaterno": "Vazquez", "correo": "hrios.isc@gmail.com", "celular": "6631032623"}`;
+  const userData = {
+    nombre: "Hector Manuel",
+    apPaterno: "Rios",
+    apMaterno: "Vazquez",
+    correo: "hrios.isc@gmail.com",
+    celular: "6631032623"
+  };
   const transaction = generateTransaction([last_name, maternal_name, first_name]);
 
   return (
     <section className={ui.paymentSectionView}>
-      <div style={{ alignSelf: 'center' }}>
-        <p>Ya casi, valida tus datos para terminar tu compra.</p>
-        <p><strong>¡Paga utilizando MexPago!</strong></p>
-      </div>
       <div className={ui.mxPayBoxData} >
-        <div className={ui.inputBox}>
-          <span>Monto a pagar:</span>
-          <input type="text" disabled value={formatCurrency(amount)} />
+        <div>
+          <p>Ya casi, valida tus datos para terminar tu compra.</p>
+          <p><strong>¡Paga utilizando MexPago!</strong></p>
+          <p>Monto a pagar: <strong style={{ fontSize: "20px" }}>{formatCurrency(amount)}</strong></p>
         </div>
-        <div className={ui.inputBox}>
-          <span>Nombre completo:</span>
-          <input type="text" disabled={true} value={[first_name, last_name, maternal_name].join(" ")} />
-        </div>
-        {/* <div className={ui.inputBox}>
-          <span>Fecha:</span>
-          <input type="text" disabled value={new Date().toLocaleString('sv').split(" ")[0]} />
-        </div> */}
-        {/* <div className={ui.inputBox}>
-          <span>Correo:</span>
-          <input type="text" disabled value={email} />
-        </div>
-        <div className={ui.inputBox}>
-          <span>Teléfono:</span>
-          <input type="text" disabled value={phone} />
-        </div> */}
-        {/* <div className={ui.checkBox}>
-          <input type="checkbox" id='checkbox-email' />
-          <label htmlFor="checkbox-email">¿Enviar comprobante a correo?</label>
-        </div>
-        <div className={ui.checkBox}>
-          <input type="checkbox" id='checkbox-market' />
-          <label htmlFor="checkbox-market">¿Mostrar datos de comercio?</label>
-        </div> */}
-        <form target="_blank" action="https://dev.mexpago.com/app/pagoOnline" method="POST" >
+        <form action="https://dev.mexpago.com/app/pagoOnline" method="POST" >
           <input type="hidden" name="monto" value={1} />
           <input type="hidden" name="noTransaccion" value={transaction} />
           <input type="hidden" name="llave" value={process.env.REACT_APP_MEXPAGO_API_KEY + '='} />
           <input type="hidden" name="fecha" value={new Date().toLocaleString('sv')} />
-          <input type="hidden" name="articulos" value={testingArticulos} />
-          <input type="hidden" name="precargaDatos" value={userData} />
+          <input type="hidden" name="articulos" value={JSON.stringify(testingArticulos)} />
+          <input type="hidden" name="precargaDatos" value={JSON.stringify(userData)} />
           <input type="hidden" name="enviarCorreo" value="false" />
           <input type="hidden" name="infoComercio" value="false" />
           <input type="hidden" name="lenguaje" value="es" />

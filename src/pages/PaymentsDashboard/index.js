@@ -1,6 +1,6 @@
 import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import CalendarPayments from "../../components/CalendarPayments";
 import Layout from "../../components/Layout";
@@ -9,6 +9,10 @@ import { PaymentDashboardPageStyles, sxStyles } from "./PaymentDashboardPage.sty
 import { selectSimulationPaymentsInformation } from "../../store/reducers/user/UserAccountSlice";
 import { useNavigate } from "react-router-dom";
 import { PRIVATE_ROUTES } from "../../constants/routesConstants";
+import useUrlParams from "../../hooks/useUrlParams";
+import axios from "axios";
+import ModalValidation from "./ModalValidation";
+import { ValidationContext } from "../../contexts/validationContext";
 
 const PaymentsDashboard = () => {
 
@@ -16,10 +20,50 @@ const PaymentsDashboard = () => {
   const simulationPaymentLinks = useSelector(selectSimulationPaymentsInformation);
   const navigate = useNavigate();
 
+  const [estatus, setEstatus] = useState(null);
+  const [fecha, setFecha] = useState(null);
+  const [monto, setMonto] = useState(null);
+  const [noTransaccion, setNoTransaccion] = useState(null);
+  const [numAuth, setNumAuth] = useState(null);
+
   const [firstPayment] = simulationPaymentLinks.map((pay, index) => {
     if (pay.status === 'pending') return pay.date;
     return null;
   }).filter(i => i !== null);
+
+  const { params } = useUrlParams(window.location.search);
+  const { open, setOpen } = useContext(ValidationContext);
+
+  useEffect(() => {
+    if (params === null) return;
+
+    const [folio, num] = params;
+    const axiosData = {
+      folioMexpago: folio[1],
+      noTransaccion: num[1],
+      fecha: new Date().toLocaleDateString('sv')
+    }
+
+    axios.post("https://taqxihc1u8.execute-api.us-west-2.amazonaws.com/dev/mexpago/validate-transaction", { ...axiosData })
+      .then(response => {
+        const {
+          estatus,
+          fecha,
+          monto,
+          noTransaccion,
+          numAuth
+        } = response.data.body;
+
+        setEstatus(estatus);
+        setFecha(fecha);
+        setMonto(monto);
+        setNoTransaccion(noTransaccion);
+        setNumAuth(numAuth);
+        setOpen(true);
+        
+      }).catch(error => console.log(error));
+
+  }, [params, setOpen]);
 
   return (
     <Layout>
@@ -58,6 +102,15 @@ const PaymentsDashboard = () => {
         </Typography> */}
 
         <CalendarPayments paymentLinks={simulationPaymentLinks} />
+        <ModalValidation
+          open={open}
+          fecha={fecha}
+          noTransac={noTransaccion}
+          paymentAmount={monto}
+          folioPago={numAuth}
+          authorized={estatus}
+          closeModal={() => setOpen(false)}
+        />
       </Box>
     </Layout>
   );

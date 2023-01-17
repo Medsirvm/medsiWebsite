@@ -1,0 +1,141 @@
+.modalValidation {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1600;
+  top: 0;
+  left: 0;
+}
+
+.modalContainer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: transparent;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.containerHead {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.containerHead>* {
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+.containerBody {
+  background: white;
+  position: relative;
+  z-index: 1080;
+  border-radius: 4px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 33px 46px;
+}
+
+.containerBody>*,
+.containerBody p {
+  padding: 0;
+  margin: 0;
+}
+
+.modalBackground {
+  display: block;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background: #000000a9;
+}
+
+.urbanistH3 {
+
+  font-family: 'urbanistRegular';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 26px;
+  text-align: center;
+
+  color: #6B7779;
+}
+
+.urbanistH1 {
+  font-family: 'urbanistRegular';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 60px;
+  color: #000000;
+}
+
+.urbanistH2 {
+  font-family: 'urbanistRegular';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 27px;
+  color: #6B7779;
+}
+
+.urbanistBlack {
+  font-family: 'urbanistRegular';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27px;
+  color: #000000;
+}
+
+.urbanistWhiteXL {
+  font-family: 'urbanistRegular';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 1;
+  color: #FFFFFF;
+}
+
+.urbanistWhiteL {
+  font-family: 'urbanistRegular';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 45px;
+  color: #FFFFFF;
+}
+
+.modalBodyButton {
+  background: linear-gradient(90.13deg, #1B63DB 0.23%, #0ACC97 100.05%);
+  border-radius: 100px;
+  border: none;
+  padding: 0.5rem 4rem;
+  margin: 0 auto;
+  margin-top: 2rem;
+  transition: all 150ms ease;
+}
+
+.modalBodyButton:hover {
+  cursor: pointer;
+  background: linear-gradient(60.13deg, #1251be 0.23%, #0aa279 80.05%);
+  transition: all 150ms ease;
+}
+
+.modalBodyButton span {
+  font-family: 'urbanistRegular';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 26px;
+
+  color: #FFFFFF;
+}
