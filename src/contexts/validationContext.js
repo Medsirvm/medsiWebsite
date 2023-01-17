@@ -4,7 +4,7 @@ export const ValidationContext = createContext(null);
 
 export default function ValidationProvider({ children }) {
 
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [validation, setValidation] = useState(null);
 
   return (

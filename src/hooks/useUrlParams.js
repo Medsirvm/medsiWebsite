@@ -4,8 +4,8 @@ function useUrlParams(initialValue) {
   const [params, setParams] = useState(null);
 
   useEffect(() => {
-    if (initialValue === '') return;
-    const paramsQuery = initialValue.replace('?', '').split('&');
+    if (initialValue.search === '') return;
+    const paramsQuery = initialValue.search.replace('?', '').split('&');
     const paramsArray = paramsQuery.map((param) => {
       const splited = param.split('=');
       return [splited[0], splited[1]]
@@ -13,7 +13,13 @@ function useUrlParams(initialValue) {
     setParams(paramsArray);
   }, [initialValue])
 
-  return { params };
+  const redirectPage = () => {
+    setParams(null);
+    let path = initialValue.pathname;
+    return path;
+  }
+
+  return { params, redirectPage };
 }
 
 export default useUrlParams;

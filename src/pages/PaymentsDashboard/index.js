@@ -31,8 +31,8 @@ const PaymentsDashboard = () => {
     return null;
   }).filter(i => i !== null);
 
-  const { params } = useUrlParams(window.location.search);
-  const { open, setOpen } = useContext(ValidationContext);
+  const { params, redirectPage } = useUrlParams(window.location);
+  const { open, setOpen } = useContext(ValidationContext); 
 
   useEffect(() => {
     if (params === null) return;
@@ -42,8 +42,7 @@ const PaymentsDashboard = () => {
       folioMexpago: folio[1],
       noTransaccion: num[1],
       fecha: new Date().toLocaleDateString('sv')
-    }
-
+    } 
     axios.post("https://taqxihc1u8.execute-api.us-west-2.amazonaws.com/dev/mexpago/validate-transaction", { ...axiosData })
       .then(response => {
         const {
@@ -60,10 +59,21 @@ const PaymentsDashboard = () => {
         setNoTransaccion(noTransaccion);
         setNumAuth(numAuth);
         setOpen(true);
-        
+
       }).catch(error => console.log(error));
 
   }, [params, setOpen]);
+
+  const handleClosemodal = () => { 
+    setOpen(false);
+    setEstatus(null);
+    setFecha(null);
+    setMonto(null);
+    setNoTransaccion(null);
+    setNumAuth(null);
+    const route = redirectPage();
+    navigate(route)
+  }
 
   return (
     <Layout>
@@ -105,11 +115,11 @@ const PaymentsDashboard = () => {
         <ModalValidation
           open={open}
           fecha={fecha}
-          noTransac={noTransaccion}
+          noTransaccion={noTransaccion}
           paymentAmount={monto}
           folioPago={numAuth}
           authorized={estatus}
-          closeModal={() => setOpen(false)}
+          closeModal={() => handleClosemodal()}
         />
       </Box>
     </Layout>
