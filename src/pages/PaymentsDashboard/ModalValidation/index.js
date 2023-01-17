@@ -18,23 +18,23 @@ export default function ModalValidation({
     <div className={ui.modalValidation}>
       <span className={ui.modalBackground}></span>
       <div className={ui.modalContainer}>
-        <ContainerHead authorized={authorized} />
         <div className={ui.containerBody}>
+          <ContainerHead authorized={authorized} />
           <h1 className={ui.urbanistH1}>{formatCurrency(paymentAmount)}</h1>
           <p className={ui.urbanistH3}>Pago de Tanda Ahorro</p>
           <div style={{ marginTop: '29px', textAlign: 'center' }}>
             <p className={ui.urbanistH2}>Folio de pago</p>
             <p className={ui.urbanistBlack}>{folioPago}</p>
           </div>
-          <div style={{ marginRight: 'auto', marginTop: '29px' }}>
+          <div style={{ marginRight: 'auto', marginTop: '1rem' }}>
             <p className={ui.urbanistH2}>Numero de contrato</p>
             <p className={ui.urbanistBlack}>{noTransaccion}</p>
           </div>
-          <div style={{ marginRight: 'auto', marginTop: '29px' }}>
+          <div style={{ marginRight: 'auto', marginTop: '1rem' }}>
             <p className={ui.urbanistH2}>Fecha de pago</p>
             <p className={ui.urbanistBlack}>{fecha}</p>
           </div>
-          <div style={{ marginRight: 'auto', marginTop: '29px' }}>
+          <div style={{ marginRight: 'auto', marginTop: '1rem' }}>
             <p className={ui.urbanistH2}>Tipo de pago</p>
             <p className={ui.urbanistBlack}>Pago parcial quincenal</p>
           </div>
@@ -56,9 +56,9 @@ const ContainerHead = ({ authorized }) => {
   const HeadValidPayment = () => {
     return (
       <div className={ui.containerHead}>
-        <img style={{ marginBottom: '1rem' }} src={validIcon} alt="icon" />
+        <img src={validIcon} alt="icon" />
         <h1 className={ui.urbanistWhiteXL}>Pago completado</h1>
-        <h2 style={{ marginBottom: '1rem' }} className={ui.urbanistWhiteL}>Gracias por tu pago</h2>
+        <h2 className={ui.urbanistWhiteL}>Gracias por tu pago</h2>
       </div>
     )
   }
@@ -66,9 +66,9 @@ const ContainerHead = ({ authorized }) => {
   const HeadInvalidPayment = () => {
     return (
       <div className={ui.containerHead}>
-        <img style={{ marginBottom: '1rem' }} src={noValidIcon} alt="icon" />
+        <img src={noValidIcon} alt="icon" />
         <h1 className={ui.urbanistWhiteXL}>Pago fallido</h1>
-        <h2 style={{ marginBottom: '1rem' }} className={ui.urbanistWhiteL}>Intente después de un tiempo</h2>
+        <h2 className={ui.urbanistWhiteL}>Intente después de un tiempo</h2>
       </div>)
   }
 

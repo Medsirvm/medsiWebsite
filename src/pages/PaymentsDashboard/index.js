@@ -13,7 +13,7 @@ import useUrlParams from "../../hooks/useUrlParams";
 import axios from "axios";
 import ModalValidation from "./ModalValidation";
 import { ValidationContext } from "../../contexts/validationContext";
-import { formatDate } from "../../utils/formats"; 
+import { formatDate } from "../../utils/formats";
 
 const PaymentsDashboard = () => {
 
@@ -38,12 +38,13 @@ const PaymentsDashboard = () => {
   useEffect(() => {
     if (params === null) return;
 
-    const [folio, num] = params;
+    const [folio, num, payment, amount] = params;
     const axiosData = {
       folioMexpago: folio[1],
       noTransaccion: num[1],
       fecha: new Date().toLocaleDateString('sv')
     }
+    console.log(params);
     axios.post("https://taqxihc1u8.execute-api.us-west-2.amazonaws.com/dev/mexpago/validate-transaction", { ...axiosData })
       .then(response => {
         const {
@@ -54,13 +55,20 @@ const PaymentsDashboard = () => {
           numAuth
         } = response.data.body;
 
-        setEstatus(estatus);
-        setFecha(fecha);
-        setMonto(monto);
-        setNoTransaccion(noTransaccion);
-        setNumAuth(numAuth);
+        if (estatus) {
+          setEstatus(estatus);
+          setFecha(fecha);
+          setMonto(monto);
+          setNoTransaccion(noTransaccion);
+          setNumAuth(numAuth);
+        } else {
+          setEstatus(estatus);
+          setFecha(axiosData.fecha);
+          setMonto(amount[1]);
+          setNoTransaccion(axiosData.noTransaccion);
+          setNumAuth(axiosData.folioMexpago);
+        }
         setOpen(true);
-
       }).catch(error => console.log(error));
 
   }, [params, setOpen]);
@@ -122,7 +130,7 @@ const PaymentsDashboard = () => {
           authorized={estatus}
           closeModal={() => handleClosemodal()}
         />
-      </Box> 
+      </Box>
     </Layout>
   );
 };
