@@ -17,13 +17,21 @@ const TandasCalculator = () => {
 
     const httpRequest = async () => {
       const { email } = userInformation;
-      const httpResponse = await axios.post('https://taqxihc1u8.execute-api.us-west-2.amazonaws.com/prod/credito/consulta-tx-generico', { correo: email });
-      const { data } = httpResponse;
-      if (data.length > 0) {
+      const hasData = await axios
+        .post('https://taqxihc1u8.execute-api.us-west-2.amazonaws.com/prod/credito/consulta-tx-generico', { correo: email })
+        .then(response => {
+          const { data } = response;
+          if (data.length > 0) {
+            dispatch(setPaymentsList(data));
+            return true;
+          }
+          return false;
+        })
+        .catch(error => { return false });
+
+      if (hasData) {
         navigate(PRIVATE_ROUTES.DASHBOARD_PAYMENTS_PAY_CHART);
       }
-      const responsePaymentLinks = data.map((p, i) => i < 12 ? p : null).filter(i => i !== null)
-      dispatch(setPaymentsList(responsePaymentLinks));
     }
     httpRequest();
   }, [dispatch, userInformation, navigate]);

@@ -13,7 +13,7 @@ const ChartContainer = () => {
         borderRadius: 5,
       }}
     >
-      <div clas>
+      <div>
         <Typography
           sx={{
             fontFamily: "urbanistRegular",

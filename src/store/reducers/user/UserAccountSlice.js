@@ -52,7 +52,7 @@ export const UserAccountSlice = createSlice({
 
     // New
     setPaymentsList(state, { payload }) {
-      state.truPayments = payload;
+      state.paymentsList = payload;
     },
   },
 });

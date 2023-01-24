@@ -29,7 +29,7 @@ export default function MexPago({
         </div>
         <form action="https://dev.mexpago.com/app/pagoOnline" method="POST" >
           <input type="hidden" name="monto" value={amount} />
-          <input type="hidden" name="noTransaccion" value={"M1674170994613VFR"} />
+          <input type="hidden" name="noTransaccion" value={noTransaction} />
           <input type="hidden" name="llave" value={process.env.REACT_APP_MEXPAGO_API_KEY + '='} />
           <input type="hidden" name="fecha" value={new Date().toLocaleString('sv')} />
           <input type="hidden" name="articulos" value={JSON.stringify(articulos)} />

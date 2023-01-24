@@ -12,6 +12,7 @@ import { selectCreditLineAndPaymentAmounts } from "../../../store/reducers/user/
 import { generateTransaction } from "../../../utils/generateTransaction";
 import { paymentListError, userError } from "../../../constants/messageErrors";
 import { getScheduledPaymentDates } from '../../../utils/generatePaymentDates.js'
+import { MAIN_COLORS } from "../../../constants/colorConstants";
 
 const CanvaContainer = (props) => {
   const { userInformation } = props;
@@ -65,7 +66,7 @@ const CanvaContainer = (props) => {
         }
 
         const userResponse = await axios
-          .post(REACT_APP_CREAR_TX_GENERICO, axiosData)
+          .post(REACT_APP_CREAR_USUARIO_GENERICO, axiosData)
           .then((res) => res)
           .catch((error) => null);
 
@@ -98,16 +99,17 @@ const CanvaContainer = (props) => {
               id_pago: index,
               id_orden_pago: generateTransaction([last_name, maternal_name, first_name, index])
             }
-
             const paymentResponse = await axios
-              .post(REACT_APP_CREAR_USUARIO_GENERICO, axiosPaymentsData)
-              .then((res) => res.data === 'OK')
+              .post(REACT_APP_CREAR_TX_GENERICO, axiosPaymentsData)
+              .then((res) => res)
               .catch((error) => null);
 
+            console.log({ paymentResponse });
             nextPaymentDate = await getScheduledPaymentDates(nextPaymentDate, index);
 
             if (paymentResponse === null) throw new Error(paymentListError);
-          };
+          }; 
+          navigate(PRIVATE_ROUTES.DASHBOARD_PAYMENTS_PAY_CHART);
         }
       } catch (error) {
         window.alert(error.message)
@@ -121,21 +123,28 @@ const CanvaContainer = (props) => {
   }
 
   const {
-    boxFragment,
-    txtTermAndConditions,
     txtUserName,
-    canvaSignatureContainer,
-    imgStyle,
-    tryButton,
-    signButton,
-    verifyContinueButton
+    canvaSignatureContainer
   } = classes;
 
   return (
     <React.Fragment>
-      <Box sx={boxFragment}>
+      <Box sx={{
+        backgroundColor: MAIN_COLORS.BLUE_CONTRAST,
+        height: 480,
+        width: 955,
+        borderRadius: 7,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center"
+      }}>
         <CenteredContent direction="column">
-          <Typography sx={txtTermAndConditions} >
+          <Typography sx={{
+            fontFamily: "urbanistRegular",
+            fontSize: 20,
+            marginTop: 2,
+            marginBottom: 5,
+          }} >
             Yo <strong className={txtUserName}> {userName},</strong>{" "}
             acepto los términos y condiciones de Medsi
           </Typography>
@@ -165,17 +174,34 @@ const CanvaContainer = (props) => {
                   // height="180px"
                   // width=" 180px"
                   // style={{ marginTop: "30px" }}
-                  style={imgStyle}
+                  style={{
+
+                    height: '180px',
+                    width: '180px',
+                    marginTop: '30px'
+                  }}
                   src={imageURL}
                   alt="signature"
                   className="signature"
                 />
-                <Typography align="center" sx={tryButton} >
+                <Typography align="center" sx={{
+
+                  marginTop: 3,
+                  fontFamily: "UrbanistSemiBold",
+                  fontSize: 18,
+                  color: MAIN_COLORS.BLACK_MEDIUM,
+                }} >
                   Presiona para reintentar
                 </Typography>
               </CenteredContent>
             ) : (
-              <Typography align="center" sx={signButton} >
+              <Typography align="center" sx={{
+
+                marginTop: 22,
+                fontFamily: "UrbanistSemiBold",
+                fontSize: 18,
+                color: MAIN_COLORS.BLACK_MEDIUM,
+              }} >
                 Presiona para firmar
               </Typography>
             )}
@@ -186,7 +212,20 @@ const CanvaContainer = (props) => {
               : (
                 <Button
                   disabled={!imageURL}
-                  sx={verifyContinueButton}
+                  sx={{
+
+                    width: 380,
+                    height: 40,
+                    marginTop: 3,
+                    textTransform: "none",
+                    fontFamily: "UrbanistBold",
+                    fontSize: 18,
+                    backgroundColor: MAIN_COLORS.BLACK_MEDIUM,
+                    borderRadius: 2,
+                    "&:hover": {
+                      backgroundColor: MAIN_COLORS.BLACK_MEDIUM,
+                    },
+                  }}
                   variant="contained"
                   onClick={() => handleSignContract()}
                 >
