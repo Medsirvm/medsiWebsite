@@ -115,9 +115,10 @@ const PaymentsDashboard = () => {
             ? { ...item, estado: "pagado" }
             : item;
         });
-        const firstToPay = updatePaymentList.find((pay) => pay.estado === 'pendiente');
-        const { fecha_pago } = firstToPay;
+        const firstToPay = updatePaymentList.find((pay) => pay.estado === 'pendiente'); 
+        const { fecha_pago, id_pago } = firstToPay;
         setFirstPayment(fecha_pago);
+        dispatch(setCurrentNumberUserPayment(parseInt(id_pago)));
         dispatch(setPaymentsList(updatePaymentList));
       }
     }

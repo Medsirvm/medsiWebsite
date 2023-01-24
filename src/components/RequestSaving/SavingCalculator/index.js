@@ -23,10 +23,11 @@ import CalendarPayments from "../../CalendarPayments";
 import axios from "axios";
 
 const SavingCalculator = (props) => {
-  const { REACT_APP_CONSULTA_TX_GENERICO } = process.env;
+  // const { REACT_APP_CONSULTA_TX_GENERICO } = process.env;
   const userInformation = useSelector(selectuserInformation);
   // const paymentsListLinks = useSelector(selectSimulationPaymentsInformation);
   // console.log({ paymentsListLinks })
+  console.log({ userInformation })
   const { isSimulator } = props;
   const classes = savingCalculatorStyles();
   const dispatch = useDispatch();
@@ -109,7 +110,7 @@ const SavingCalculator = (props) => {
   }, []);
 
   useEffect(() => {
-    
+
     const httpRequest = async () => {
       const { email } = userInformation;
       await axios.post('https://taqxihc1u8.execute-api.us-west-2.amazonaws.com/prod/credito/consulta-tx-generico', { correo: email })
@@ -169,7 +170,7 @@ const SavingCalculator = (props) => {
               fontFamily: FONTS.URBANISTBOLD,
               color: MAIN_COLORS.BLACK_MEDIUM,
             }} >
-              $8000
+              $5,000
             </Typography>
           </Box>
           <Box>
