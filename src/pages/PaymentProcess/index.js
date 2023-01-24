@@ -3,7 +3,7 @@ import Layout from "../../components/Layout";
 import { useSelector } from "react-redux";
 import {
   selectCurrentNumberUserPayment,
-  selectSimulationPaymentsInformation,
+  selectPaymentList, 
   selectuserInformation,
 } from "../../store/reducers/user/UserAccountSlice";
 // import { createClientConekta, createOrderConekta } from "../../api/conekta";
@@ -14,13 +14,14 @@ const PaymentProcess = () => {
   const userInformation = useSelector(selectuserInformation);
   const { first_name, last_name, maternal_name, email, phone_number } = userInformation;
 
-  const payments = useSelector(selectSimulationPaymentsInformation);
+  const payments = useSelector(selectPaymentList);
   const numberOfPaymentToPay = useSelector(selectCurrentNumberUserPayment);
 
-  console.log({payments});
+  console.log({ payments });
   console.log({ numberOfPaymentToPay })
 
-  const paymentToPayInfo = payments[numberOfPaymentToPay];
+  const paymentToPayInfo = payments.find(item => parseInt(item.id_pago) === numberOfPaymentToPay);
+  console.log({ paymentToPayInfo })
   const { id_orden_pago, monto } = paymentToPayInfo;
   // const [checkoutId, setCheckoutId] = useState();
   // const [isReady, setIsReady] = useState(false);
