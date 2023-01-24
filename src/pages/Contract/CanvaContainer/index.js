@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CenteredContent from "../../../components/CenteredContent"; 
+import CenteredContent from "../../../components/CenteredContent";
 import { PRIVATE_ROUTES } from "../../../constants/routesConstants";
 import { CanvaContainerPageStyles } from "./CanvaContainer.styles";
 import CanvaSignatureModal from "./CanvaSignatureModal";
@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { selectCreditLineAndPaymentAmounts } from "../../../store/reducers/user/UserAccountSlice";
 import { generateTransaction } from "../../../utils/generateTransaction";
 import { paymentListError, userError } from "../../../constants/messageErrors";
+import { getScheduledPaymentDates } from '../../../utils/generatePaymentDates.js'
 
 const CanvaContainer = (props) => {
   const { userInformation } = props;
@@ -45,10 +46,7 @@ const CanvaContainer = (props) => {
           created_at
         } = userInformation;
 
-        const {
-          biWeeklyAmount,
-          creditLineAmount
-        } = simulationPaymentAmounts;
+        const { biWeeklyAmount, creditLineAmount } = simulationPaymentAmounts;
 
         const axiosData = {
           nombre: first_name,
@@ -76,20 +74,37 @@ const CanvaContainer = (props) => {
         const { status: userStatus } = userResponse;
 
         if (userStatus === 200) {
-          for (let index = 0; index < 12; index++) {
+
+          let nextPaymentDate = (() => {
+            const thisMoment = new Date().toLocaleDateString('SV');
+            const [YY, MM, DD] = thisMoment.split('-');
+            if (parseInt(DD) < 17) {
+              const month = parseInt(MM) < 10 ? '0' + parseInt(MM) : MM;
+              return `${YY}-${month}-17`;
+            } else {
+              const month = (parseInt(MM) + 1) < 10 ? '0' + (parseInt(MM) + 1) : parseInt(MM) + 1;
+              return `${YY}-${month}-02`;
+            }
+          })();
+
+          for (let index = 1; index <= 12; index++) {
             const axiosPaymentsData = {
               correo: email,
-              fecha_pago: new Date(new Date().setHours(24 * (15 * (index + 1)))).toLocaleDateString('sv'),
+              fecha_pago: nextPaymentDate,
+              // fecha_pago: new Date(new Date().setHours(24 * (15 * (index + 1)))).toLocaleDateString('sv'),
               estado: "pendiente",
               tipo_tx: "tandas_tx",
               monto: biWeeklyAmount,
-              id_pago: index + 1,
+              id_pago: index,
               id_orden_pago: generateTransaction([last_name, maternal_name, first_name, index])
             }
+
             const paymentResponse = await axios
               .post(REACT_APP_CREAR_USUARIO_GENERICO, axiosPaymentsData)
               .then((res) => res.data === 'OK')
               .catch((error) => null);
+
+            nextPaymentDate = await getScheduledPaymentDates(nextPaymentDate, index);
 
             if (paymentResponse === null) throw new Error(paymentListError);
           };
@@ -146,14 +161,14 @@ const CanvaContainer = (props) => {
             </Button> */}
             {imageURL ? (
               <CenteredContent direction="column">
-                <img 
-                // height="180px" 
-                // width=" 180px" 
-                // style={{ marginTop: "30px" }} 
-                style={imgStyle}
-                src={imageURL} 
-                alt="signature" 
-                className="signature" 
+                <img
+                  // height="180px"
+                  // width=" 180px"
+                  // style={{ marginTop: "30px" }}
+                  style={imgStyle}
+                  src={imageURL}
+                  alt="signature"
+                  className="signature"
                 />
                 <Typography align="center" sx={tryButton} >
                   Presiona para reintentar
@@ -196,4 +211,4 @@ const LoadingComponent = () => {
   )
 }
 
-export default CanvaContainer; 
+export default CanvaContainer;

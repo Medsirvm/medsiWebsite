@@ -8,7 +8,6 @@ import ChartContainer from "./ChartContainer";
 import { PaymentDashboardPageStyles, sxStyles } from "./PaymentDashboardPage.styles";
 import {
   selectCurrentNumberUserPayment,
-  // selectSimulationPaymentsInformation,
   selectuserInformation,
   setCurrentNumberUserPayment
 } from "../../store/reducers/user/UserAccountSlice";
@@ -19,7 +18,6 @@ import axios from "axios";
 import ModalValidation from "./ModalValidation";
 import { ValidationContext } from "../../contexts/validationContext";
 import { formatDate } from "../../utils/formats";
-// import DonutChart from "../../components/DonutChart";
 
 const boxStyle = { display: "flex", alignItems: "center", flexDirection: "column" };
 
@@ -29,7 +27,6 @@ const PaymentsDashboard = () => {
   const navigate = useNavigate();
   const userInformation = useSelector(selectuserInformation);
   const currentPayment = useSelector(selectCurrentNumberUserPayment);
-
 
   const [estatus, setEstatus] = useState(null);
   const [fecha, setFecha] = useState(null);
@@ -41,11 +38,7 @@ const PaymentsDashboard = () => {
 
   const { params, redirectPage } = useUrlParams(window.location);
   const { open, setOpen } = useContext(ValidationContext);
-
-  useEffect(() => {
-    console.log(paymentLinks)
-  }, [paymentLinks])
-
+  
   useEffect(() => {
     const httpRequest = async () => {
       const { email } = userInformation;
@@ -67,12 +60,10 @@ const PaymentsDashboard = () => {
     if (params === null) return;
     const httpRequest = async () => {
       const [folio, num, , amount] = params;
-      console.log({ params })
       const axiosData = { folioMexpago: folio[1], noTransaccion: num[1], fecha: new Date().toLocaleDateString('sv') }
       const estatusPago = await axios.post("https://taqxihc1u8.execute-api.us-west-2.amazonaws.com/dev/mexpago/validate-transaction", { ...axiosData })
         .then(response => {
           const { estatus, fecha, monto, noTransaccion, numAuth } = response.data.body;
-          console.log({ response: response.data.body })
           if (estatus) {
             setEstatus(estatus);
             setFecha(fecha);
@@ -93,7 +84,6 @@ const PaymentsDashboard = () => {
       if (estatusPago.estatus) {
 
         const { email } = userInformation;
-
         const axiosPostData = {
           fecha_pago: estatusPago.fecha.split(" ")[0],
           estado: 'pagado',
