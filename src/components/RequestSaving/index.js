@@ -7,7 +7,8 @@ import { requestSavingStyles } from "./requestSaving.styles";
 import SavingCalculator from "./SavingCalculator";
 
 const RequestSaving = (props) => {
-  const classes = requestSavingStyles();
+  const classes = requestSavingStyles(); 
+  
   return (
     <Box className={classes.mainContainer}>
       <Typography
@@ -24,8 +25,7 @@ const RequestSaving = (props) => {
         }}
       >
         Programa tu Tanda de ahorro
-      </Typography>
-
+      </Typography> 
       <SavingCalculator isSimulator={true} />
     </Box>
   );

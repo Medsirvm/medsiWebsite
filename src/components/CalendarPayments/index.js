@@ -1,8 +1,7 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
-import { useSelector } from "react-redux";
-import { selectCreditLineAndPaymentAmounts } from "../../store/reducers/user/UserAccountSlice";
+import { formatDate } from "../../utils/formats";
 import { calendarPaymentsStyles, sxStyles } from "./calendarPayments.styles";
 import PaymentLink from "./paymentLink";
 
@@ -10,27 +9,27 @@ const CalendarPayments = ({
   paymentLinks
 }) => {
   const classes = calendarPaymentsStyles();
-  const { creditLineAmount } = useSelector(selectCreditLineAndPaymentAmounts);
-
-  return (
+  return paymentLinks.length > 0 ? (
     <Box className={classes.mainContainer}>
       <Typography variant="h5" sx={sxStyles.h5style} >
         Calendario de Próximos Pagos
       </Typography>
       <Box display="flex" direction="column">
-        <Typography variant="body1" sx={sxStyles.bodyStyle} > Pagos </Typography>
-        <Typography variant="body1" sx={sxStyles.bodyStyle2} > Préstamo </Typography>
+        <Typography variant="body1" sx={sxStyles.bodyStyle}>Pagos</Typography>
+        <Typography variant="body1" sx={sxStyles.bodyStyle2}>Préstamo</Typography>
       </Box>
-      {paymentLinks.length > 0 &&
+      {
         paymentLinks.map((payment, index) => {
+          if (index > 3) return null;
+
           if (index === 3) {
             return (
               <PaymentLink
                 key={payment.id}
                 id={payment.id}
-                date={payment.date}
-                amount={payment.amount}
-                loan={creditLineAmount}
+                date={formatDate(payment.fecha_pago)}
+                amount={payment.monto}
+                loan={payment.monto * 10} 
               />
             );
           } else {
@@ -38,12 +37,14 @@ const CalendarPayments = ({
               <PaymentLink
                 key={payment.id}
                 id={payment.id}
-                date={payment.date}
-                amount={payment.amount}
+                date={formatDate(payment.fecha_pago)}
+                amount={payment.monto}
+                type={payment.estado}
               />
             );
           }
-        })}
+        })
+      }
       {/* {
         paymentLinks.length > 0 &&
         paymentLinks.map((payment, index, array) => {
@@ -54,7 +55,7 @@ const CalendarPayments = ({
         })
       } */}
     </Box>
-  );
+  ) : null
 };
 
 export default CalendarPayments;

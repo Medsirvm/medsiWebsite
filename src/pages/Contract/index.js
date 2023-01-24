@@ -25,13 +25,12 @@ const Contract = () => {
   const classes = contratPageStyles();
   const [open, setOpen] = useState(false);
   const [checkContractOption, setCheckContractOption] = useState(false);
-  const userInformation = useSelector(selectuserInformation);
-  const userName = `${userInformation.first_name} ${userInformation.last_name} ${userInformation.maternal_name}`
+  const userInformation = useSelector(selectuserInformation);  
   const handleOpenContractCanva = () => {
     setCheckContractOption(!checkContractOption);
     setOpen(!open);
   };
-
+  
   const checkboxContent = checkContractOption ? (
     <img
       src={checkboxChecked}
@@ -115,9 +114,9 @@ const Contract = () => {
                       contrato, así como las condiciones de pago y comisiones e
                       intereses establecidos.{" "}
                     </Typography>
-                    <div style={{marginBottom: "2rem"}}></div>
+                    <div style={{ marginBottom: "2rem" }}></div>
                     <CenteredContent direction="column">
-                      <CanvaContainer userName = { userName} />
+                      <CanvaContainer userInformation={userInformation} />
                     </CenteredContent>
                   </Container>
                 </CardContent>

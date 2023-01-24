@@ -1,5 +1,6 @@
 import { makeStyles } from "@material-ui/styles";
 import { MAIN_COLORS } from "../../../constants/colorConstants";
+import { FONTS } from "../../../constants/fontsConstants";
 
 export const savingCalculatorStyles = makeStyles({
   calculatorContainerSimulation: {
@@ -35,4 +36,28 @@ export const savingCalculatorStyles = makeStyles({
     height: 40,
     background: "linear-gradient(90.13deg, #1B63DB 0.23%, #0ACC97 100.05%)",
   },
+  txt18Semibold: {
+    fontSize: 18,
+    fontFamily: FONTS.URBANISTSEMIBOLD,
+    color: MAIN_COLORS.BLACK_MEDIUM,
+    marginTop: 3,
+  },
+  txt50Bold: {
+    fontSize: 50,
+    fontFamily: FONTS.URBANISTBOLD,
+    color: MAIN_COLORS.MAIN_BLACK,
+    marginTop: 3,
+    textAlign: "center",
+  },
+  txt20Bold: {
+    fontWeight: "bold",
+    fontSize: "22px",
+    fontFamily: FONTS.URBANISTBOLD,
+    color: MAIN_COLORS.BLACK_MEDIUM,
+  },
+  buttonContract: {
+    marginTop: 3,
+    textTransform: "none",
+    fontFamily: FONTS.URBANISTBOLD,
+  } 
 });

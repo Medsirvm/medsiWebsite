@@ -13,10 +13,15 @@ const PaymentProcess = () => {
 
   const userInformation = useSelector(selectuserInformation);
   const { first_name, last_name, maternal_name, email, phone_number } = userInformation;
+
   const payments = useSelector(selectSimulationPaymentsInformation);
   const numberOfPaymentToPay = useSelector(selectCurrentNumberUserPayment);
+
+  console.log({payments});
+  console.log({ numberOfPaymentToPay })
+
   const paymentToPayInfo = payments[numberOfPaymentToPay];
-  const { amount } = paymentToPayInfo;
+  const { id_orden_pago, monto } = paymentToPayInfo;
   // const [checkoutId, setCheckoutId] = useState();
   // const [isReady, setIsReady] = useState(false);
 
@@ -92,9 +97,10 @@ const PaymentProcess = () => {
     <Layout>
       <MexPago
         name={{ first_name, last_name, maternal_name, }}
-        amount={amount}
+        amount={monto}
         email={email}
         phone={phone_number}
+        noTransaction={id_orden_pago}
       />
       {/* <div id="conektaIframeContainer" style={{ height: "1350px" }}></div> */}
     </Layout>

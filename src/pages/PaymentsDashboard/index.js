@@ -6,7 +6,12 @@ import CalendarPayments from "../../components/CalendarPayments";
 import Layout from "../../components/Layout";
 import ChartContainer from "./ChartContainer";
 import { PaymentDashboardPageStyles, sxStyles } from "./PaymentDashboardPage.styles";
-import { selectSimulationPaymentsInformation } from "../../store/reducers/user/UserAccountSlice";
+import {
+  selectCurrentNumberUserPayment,
+  // selectSimulationPaymentsInformation,
+  selectuserInformation,
+  setCurrentNumberUserPayment
+} from "../../store/reducers/user/UserAccountSlice";
 import { useNavigate } from "react-router-dom";
 import { PRIVATE_ROUTES } from "../../constants/routesConstants";
 import useUrlParams from "../../hooks/useUrlParams";
@@ -14,62 +19,100 @@ import axios from "axios";
 import ModalValidation from "./ModalValidation";
 import { ValidationContext } from "../../contexts/validationContext";
 import { formatDate } from "../../utils/formats";
+// import DonutChart from "../../components/DonutChart";
+
+const boxStyle = { display: "flex", alignItems: "center", flexDirection: "column" };
 
 const PaymentsDashboard = () => {
 
   const classes = PaymentDashboardPageStyles();
-  const simulationPaymentLinks = useSelector(selectSimulationPaymentsInformation);
   const navigate = useNavigate();
+  const userInformation = useSelector(selectuserInformation);
+  const currentPayment = useSelector(selectCurrentNumberUserPayment);
+
 
   const [estatus, setEstatus] = useState(null);
   const [fecha, setFecha] = useState(null);
   const [monto, setMonto] = useState(null);
   const [noTransaccion, setNoTransaccion] = useState(null);
   const [numAuth, setNumAuth] = useState(null);
-
-  const [firstPayment] = simulationPaymentLinks.map((pay, index) => {
-    if (pay.status === 'pending') return pay.date;
-    return null;
-  }).filter(i => i !== null);
+  const [firstPayment, setFirstPayment] = useState(0);
+  const [paymentLinks, setPaymentLinks] = useState([]);
 
   const { params, redirectPage } = useUrlParams(window.location);
   const { open, setOpen } = useContext(ValidationContext);
 
   useEffect(() => {
-    if (params === null) return;
+    console.log(paymentLinks)
+  }, [paymentLinks])
 
-    const [folio, num, payment, amount] = params;
-    const axiosData = {
-      folioMexpago: folio[1],
-      noTransaccion: num[1],
-      fecha: new Date().toLocaleDateString('sv')
+  useEffect(() => {
+    const httpRequest = async () => {
+      const { email } = userInformation;
+      await axios.post("https://taqxihc1u8.execute-api.us-west-2.amazonaws.com/prod/credito/consulta-tx-generico", { correo: email })
+        .then((res) => {
+          const { data } = res;
+          const firstToPay = data.find((pay) => pay.estado === 'pendiente');
+          const { fecha_pago, id_pago } = firstToPay;
+          setFirstPayment(fecha_pago);
+          setPaymentLinks(data);
+          setCurrentNumberUserPayment(parseInt(id_pago));
+        })
+        .catch((error) => console.log(error));
     }
-    console.log(params);
-    axios.post("https://taqxihc1u8.execute-api.us-west-2.amazonaws.com/dev/mexpago/validate-transaction", { ...axiosData })
-      .then(response => {
-        const {
-          estatus,
-          fecha,
-          monto,
-          noTransaccion,
-          numAuth
-        } = response.data.body;
+    httpRequest();
+  }, [userInformation]);
 
-        if (estatus) {
-          setEstatus(estatus);
-          setFecha(fecha);
-          setMonto(monto);
-          setNoTransaccion(noTransaccion);
-          setNumAuth(numAuth);
-        } else {
-          setEstatus(estatus);
-          setFecha(axiosData.fecha);
-          setMonto(amount[1]);
-          setNoTransaccion(axiosData.noTransaccion);
-          setNumAuth(axiosData.folioMexpago);
+  useEffect(() => {
+    if (params === null) return;
+    const httpRequest = async () => {
+      const [folio, num, , amount] = params;
+      console.log({ params })
+      const axiosData = { folioMexpago: folio[1], noTransaccion: num[1], fecha: new Date().toLocaleDateString('sv') }
+      const estatusPago = await axios.post("https://taqxihc1u8.execute-api.us-west-2.amazonaws.com/dev/mexpago/validate-transaction", { ...axiosData })
+        .then(response => {
+          const { estatus, fecha, monto, noTransaccion, numAuth } = response.data.body;
+          console.log({ response: response.data.body })
+          if (estatus) {
+            setEstatus(estatus);
+            setFecha(fecha);
+            setMonto(monto);
+            setNoTransaccion(noTransaccion);
+            setNumAuth(numAuth);
+          } else {
+            setEstatus(estatus);
+            setFecha(axiosData.fecha);
+            setMonto(amount[1]);
+            setNoTransaccion(axiosData.noTransaccion);
+            setNumAuth(axiosData.folioMexpago);
+          }
+          setOpen(true);
+          return { estatus, fecha, monto, noTransaccion, numAuth };
+        }).catch(error => console.log(error));
+
+      if (estatusPago.estatus) {
+
+        const { email } = userInformation;
+
+        const axiosPostData = {
+          fecha_pago: estatusPago.fecha.split(" ")[0],
+          estado: 'pagado',
+          monto: estatusPago.monto,
+          id_orden_pago: num[1],
+          correo: email,
+          id_pago: currentPayment,
         }
-        setOpen(true);
-      }).catch(error => console.log(error));
+        await axios.post("https://taqxihc1u8.execute-api.us-west-2.amazonaws.com/prod/credito/actualiza-tx-generico", axiosPostData)
+          .then(res => {
+            console.log(res)
+          })
+          .catch(error => {
+            console.log(error);
+          })
+      }
+    }
+
+    httpRequest();
 
   }, [params, setOpen]);
 
@@ -90,11 +133,7 @@ const PaymentsDashboard = () => {
         <Typography variant="h5" sx={sxStyles.h5style}>Detalles de tu Tanda Ahorro</Typography>
         <ChartContainer />
         <Typography variant="h5" sx={sxStyles.h5style}>Realizar un pago</Typography>
-        <Box sx={{
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "column"
-        }}>
+        <Box sx={boxStyle}>
           <Typography variant="h5" sx={sxStyles.h5style2} >
             Debes realizar tu próxima aportación antes del{" "}
             <strong>{formatDate(firstPayment)}</strong> próximo:
@@ -120,7 +159,8 @@ const PaymentsDashboard = () => {
           Calendario de próximos pagos
         </Typography> */}
 
-        <CalendarPayments paymentLinks={simulationPaymentLinks} />
+        <CalendarPayments paymentLinks={paymentLinks} />
+        {/* <DonutChart /> */}
         <ModalValidation
           open={open}
           fecha={fecha}

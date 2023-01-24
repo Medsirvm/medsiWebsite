@@ -20,6 +20,8 @@ const initialState = {
   waitingForOtp: false,
   currentUserNumberPayment: 0,
   isAuth: false,
+  // New
+  paymentsList: [], 
 };
 
 export const UserAccountSlice = createSlice({
@@ -47,6 +49,11 @@ export const UserAccountSlice = createSlice({
     setUserAuth(state, { payload }) {
       state.isAuth = payload;
     },
+
+    // New
+    setPaymentsList(state, { payload }) {
+      state.truPayments = payload;
+    },
   },
 });
 
@@ -58,6 +65,10 @@ export const {
   setWaitingForOtp,
   setCurrentNumberUserPayment,
   setUserAuth,
+
+  // New
+  setPaymentsList,
+
 } = UserAccountSlice.actions;
 
 export default UserAccountSlice.reducer;
@@ -76,3 +87,8 @@ export const selectCurrentNumberUserPayment = (state) =>
   state.user ? state.user.currentUserNumberPayment : null;
 export const selectIsUserAuth = (state) =>
   state.user ? state.user.isAuth : false;
+  
+  // New  
+export const selectPaymentList = (state) =>
+  state.user ? state.user.paymentsList : []
+

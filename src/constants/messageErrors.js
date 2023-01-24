@@ -1,0 +1,2 @@
+export const userError = "Se ha presentado un error creando el usuario, favor de verificarlo con un Administrador";
+export const paymentListError = "Se ha presentado un error, favor de verificar con Administrador";

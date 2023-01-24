@@ -8,61 +8,72 @@ import { MAIN_COLORS } from "../../../constants/colorConstants";
 import { FONTS } from "../../../constants/fontsConstants";
 import { PRIVATE_ROUTES } from "../../../constants/routesConstants";
 import {
-  selectCreditLineAndPaymentAmounts,
+  // selectCreditLineAndPaymentAmounts,
+  // selectSimulationPaymentsInformation,
+  selectuserInformation,
   setPaymentAmounts,
-  setSimulationPayments,
+  setPaymentsList,
+  // setSimulationPayments,
 } from "../../../store/reducers/user/UserAccountSlice";
 import { formatNumber } from "../../../utils/formatFieldsUtils";
-import { getPaymentsLinks } from "../../../utils/paymentsUtils";
+// import { getPaymentsLinks } from "../../../utils/paymentsUtils";
 import { savingCalculatorStyles } from "./savingCalculator.styles";
-import moment from "moment";
+// import moment from "moment";
 import CalendarPayments from "../../CalendarPayments";
+import axios from "axios";
 
 const SavingCalculator = (props) => {
+  const { REACT_APP_CONSULTA_TX_GENERICO } = process.env;
+  const userInformation = useSelector(selectuserInformation);
+  // const paymentsListLinks = useSelector(selectSimulationPaymentsInformation);
+  // console.log({ paymentsListLinks })
   const { isSimulator } = props;
   const classes = savingCalculatorStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  function valuetext(value) {
-    return `${value}`;
-  }
+  const valuetext = (value) => `${value}`;
+  // function valuetext(value) {
+  //   return `${value}`;
+  // }
   const handleContinueToContract = () => {
     navigate(PRIVATE_ROUTES.DASHBOARD_CONTRATO_SERVICIO);
   };
   const [totalAmountForSave, setTotalAmountForSave] = useState(500);
-  const tandasInfo = useSelector(selectCreditLineAndPaymentAmounts);
-  const [simulationPaymentLinks, setSimulationPaymentLinks] = useState([]);
-  useEffect(() => {
-    const paymentLinks = async () => {
-      const today = moment();
-      const monthNumberDay = today.get("date");
-      if (monthNumberDay > 2 && monthNumberDay <= 17) {
-        //La fecha inicial es el día 17
-        const daysToAdd = 17 - parseInt(monthNumberDay);
-        // console.log(monthNumberDay);
-        const initialPaymentDate = today.add(daysToAdd, "days");
-        const paymentLinks = await getPaymentsLinks(
-          initialPaymentDate,
-          tandasInfo.biWeeklyAmount
-        );
-        dispatch(setSimulationPayments(paymentLinks));
-        setSimulationPaymentLinks(paymentLinks);
-        // console.log("paymentLinks ", paymentLinks);
-      } else {
-        //La fecha inicial es el 02
-        const totalDays = today.daysInMonth();
-        const daysToAdd = totalDays - monthNumberDay + 2;
-        const initialPaymentDate = today.add(daysToAdd, "days");
-        const paymentLinks = await getPaymentsLinks(
-          initialPaymentDate,
-          tandasInfo.biWeeklyAmount
-        );
-        dispatch(setSimulationPayments(paymentLinks));
-        setSimulationPaymentLinks(paymentLinks);
-      }
-    };
-    paymentLinks();
-  }, [tandasInfo]);
+  // const tandasInfo = useSelector(selectCreditLineAndPaymentAmounts);
+  // const [simulationPaymentLinks, setSimulationPaymentLinks] = useState([]);
+  const [paymentLinks, setPaymentLinks] = useState([]);
+
+  // useEffect(() => {
+  //   const paymentLinks = async () => {
+  //     const today = moment();
+  //     const monthNumberDay = today.get("date");
+  //     if (monthNumberDay > 2 && monthNumberDay <= 17) {
+  //       //La fecha inicial es el día 17
+  //       const daysToAdd = 17 - parseInt(monthNumberDay);
+  //       // console.log(monthNumberDay);
+  //       const initialPaymentDate = today.add(daysToAdd, "days");
+  //       const paymentLinks = await getPaymentsLinks(
+  //         initialPaymentDate,
+  //         tandasInfo.biWeeklyAmount
+  //       );
+  //       dispatch(setSimulationPayments(paymentLinks));
+  //       setSimulationPaymentLinks(paymentLinks);
+  //       // console.log("paymentLinks ", paymentLinks);
+  //     } else {
+  //       //La fecha inicial es el 02
+  //       const totalDays = today.daysInMonth();
+  //       const daysToAdd = totalDays - monthNumberDay + 2;
+  //       const initialPaymentDate = today.add(daysToAdd, "days");
+  //       const paymentLinks = await getPaymentsLinks(
+  //         initialPaymentDate,
+  //         tandasInfo.biWeeklyAmount
+  //       );
+  //       dispatch(setSimulationPayments(paymentLinks));
+  //       setSimulationPaymentLinks(paymentLinks);
+  //     }
+  //   };
+  //   paymentLinks();
+  // }, [tandasInfo]);
 
   const debounce = (func) => {
     let timer;
@@ -97,6 +108,24 @@ const SavingCalculator = (props) => {
     );
   }, []);
 
+  useEffect(() => {
+    
+    const httpRequest = async () => {
+      const { email } = userInformation;
+      await axios.post('https://taqxihc1u8.execute-api.us-west-2.amazonaws.com/prod/credito/consulta-tx-generico', { correo: email })
+        .then((response) => {
+          const { data } = response;
+          console.log({ data });
+          const responsePaymentLinks = data.map((p, i) => i < 12 ? p : null).filter(i => i !== null)
+
+          dispatch(setPaymentsList(responsePaymentLinks));
+          setPaymentLinks(responsePaymentLinks);
+        })
+        .catch((error) => console.log(error));
+    }
+    httpRequest();
+  }, [userInformation]);
+
   return (
     <React.Fragment>
       <Box
@@ -107,20 +136,21 @@ const SavingCalculator = (props) => {
         }
       >
         <Box sx={{ maxWidth: 600 }}>
-          <Typography
-            variant="subtitle2"
-            sx={{
-              fontWeight: "bold",
-              fontSize: 18,
-              fontFamily: FONTS.URBANISTSEMIBOLD,
-              color: MAIN_COLORS.BLACK_MEDIUM,
-              marginTop: 3,
-            }}
-          >
+          <Typography variant="subtitle2" sx={{
+            fontSize: 18,
+            fontFamily: FONTS.URBANISTSEMIBOLD,
+            color: MAIN_COLORS.BLACK_MEDIUM,
+            marginTop: 3,
+          }} >
             Usando la barra, selecciona el monto que quieras aportar cada
             quincena:
           </Typography>
-          <Box className={classes.sliderWrapper}>
+          <Box className={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-around",
+            marginTop: 30,
+          }}>
             <Slider
               aria-label="MedsiAmount"
               defaultValue={30}
@@ -129,59 +159,47 @@ const SavingCalculator = (props) => {
               step={100}
               min={500}
               max={5000}
-              sx={{
-                marginRight: 2,
-              }}
+              sx={{ marginRight: 2, }}
               size="50px"
               onChange={(e) => handleChange(e.target.value)}
             />
-            <Typography
-              variant="subtitle2"
-              sx={{
-                fontWeight: "bold",
-                fontSize: 22,
-                fontFamily: FONTS.URBANISTBOLD,
-                color: MAIN_COLORS.BLACK_MEDIUM,
-              }}
-            >
+            <Typography variant="subtitle2" sx={{
+              fontWeight: "bold",
+              fontSize: "22px",
+              fontFamily: FONTS.URBANISTBOLD,
+              color: MAIN_COLORS.BLACK_MEDIUM,
+            }} >
               $8000
             </Typography>
           </Box>
           <Box>
-            <Typography
-              sx={{
-                fontSize: 18,
-                fontFamily: FONTS.URBANISTSEMIBOLD,
-                color: MAIN_COLORS.BLACK_MEDIUM,
-                marginTop: 3,
-              }}
-            >
-              Si contratas hoy y realizas 4 pagos quincenales, el 2 de febrero
-              próximo recibes un crédito por:
+            <Typography sx={{
+              fontSize: 18,
+              fontFamily: FONTS.URBANISTSEMIBOLD,
+              color: MAIN_COLORS.BLACK_MEDIUM,
+              marginTop: 3,
+            }} >
+              Si contratas hoy y realizas 4 pagos quincenales, el 2 de febrero próximo recibes un crédito por:
             </Typography>
           </Box>
           <Box>
-            <Typography
-              sx={{
-                fontSize: 50,
-                fontFamily: FONTS.URBANISTBOLD,
-                color: MAIN_COLORS.MAIN_BLACK,
-                marginTop: 3,
-                textAlign: "center",
-              }}
-            >
+            <Typography sx={{
+              fontSize: 50,
+              fontFamily: FONTS.URBANISTBOLD,
+              color: MAIN_COLORS.MAIN_BLACK,
+              marginTop: 3,
+              textAlign: "center",
+            }} >
               {`$ ${formatNumber(totalAmountForSave * 10)}`}
             </Typography>
           </Box>
           <Box>
-            <Typography
-              sx={{
-                fontSize: 18,
-                fontFamily: FONTS.URBANISTSEMIBOLD,
-                color: MAIN_COLORS.BLACK_MEDIUM,
-                marginTop: 3,
-              }}
-            >
+            <Typography sx={{
+              fontSize: 18,
+              fontFamily: FONTS.URBANISTSEMIBOLD,
+              color: MAIN_COLORS.BLACK_MEDIUM,
+              marginTop: 3,
+            }} >
               Pagadero en 12 pagos quincenales de{" "}
               <strong>{` $ ${formatNumber(totalAmountForSave)}`}</strong>
             </Typography>
@@ -195,7 +213,11 @@ const SavingCalculator = (props) => {
                   textTransform: "none",
                   fontFamily: FONTS.URBANISTBOLD,
                 }}
-                className={classes.requestSaveButton}
+                className={{
+                  width: 398,
+                  height: 40,
+                  background: "linear-gradient(90.13deg, #1B63DB 0.23%, #0ACC97 100.05%)",
+                }}
                 onClick={handleContinueToContract}
               >
                 Contratar Tanda ahorro ahora
@@ -205,7 +227,7 @@ const SavingCalculator = (props) => {
         </Box>
       </Box>
       {isSimulator && (
-        <CalendarPayments paymentLinks={simulationPaymentLinks} />
+        <CalendarPayments paymentLinks={paymentLinks} />
       )}
     </React.Fragment>
   );
