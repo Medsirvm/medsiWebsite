@@ -20,13 +20,15 @@ import CanvaContainer from "./CanvaContainer";
 import Layout from "../../components/Layout";
 import { useSelector } from "react-redux";
 import { selectuserInformation } from "../../store/reducers/user/UserAccountSlice";
+import ModalWindow from "../../components/sharedComponents/ModalWindow";
+import PDFContractViewer from "./PDFContractViewer";
 
 const Contract = () => {
   const classes = contratPageStyles();
   const [open, setOpen] = useState(false);
   const [checkContractOption, setCheckContractOption] = useState(false);
   const userInformation = useSelector(selectuserInformation);
-  const userName = `${userInformation.first_name} ${userInformation.last_name} ${userInformation.maternal_name}`
+  const userName = `${userInformation.first_name} ${userInformation.last_name} ${userInformation.maternal_name}`;
   const handleOpenContractCanva = () => {
     setCheckContractOption(!checkContractOption);
     setOpen(!open);
@@ -56,8 +58,7 @@ const Contract = () => {
               minHeight: 50,
               marginTop: 5,
               paddingBottom: 2,
-              marginBottom: 5
-
+              marginBottom: 5,
             }}
           >
             <Box
@@ -111,13 +112,21 @@ const Contract = () => {
                         fontSize: 20,
                       }}
                     >
-                      Al firmar, aceptas las condiciones y los términos de este
-                      contrato, así como las condiciones de pago y comisiones e
-                      intereses establecidos.{" "}
+                      Al firmar, aceptas las{" "}
+                      <strong
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          console.log("press..");
+                        }}
+                      >
+                        condiciones y los términos
+                      </strong>{" "}
+                      de este contrato, así como las condiciones de pago y
+                      comisiones e intereses establecidos.{" "}
                     </Typography>
-                    <div style={{marginBottom: "2rem"}}></div>
+                    <div style={{ marginBottom: "2rem" }}></div>
                     <CenteredContent direction="column">
-                      <CanvaContainer userName = { userName} />
+                      <CanvaContainer userName={userName} />
                     </CenteredContent>
                   </Container>
                 </CardContent>
@@ -126,6 +135,9 @@ const Contract = () => {
           </Card>
         </CenteredContent>
       </Box>
+      <ModalWindow open={true} >
+        <PDFContractViewer/>
+      </ModalWindow>
     </Layout>
   );
 };
