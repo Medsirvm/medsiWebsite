@@ -38,6 +38,7 @@ const PaymentsDashboard = () => {
   const [noTransaccion, setNoTransaccion] = useState(null);
   const [numAuth, setNumAuth] = useState(null);
   const [firstPayment, setFirstPayment] = useState(0);
+  const [isReady, setIsReady] = useState(false);
 
   const { params, redirectPage } = useUrlParams(window.location);
   const { open, setOpen } = useContext(ValidationContext);
@@ -65,6 +66,16 @@ const PaymentsDashboard = () => {
     }
     httpRequest();
   }, [userInformation]);
+
+  useEffect(() => {
+    console.log("ENTER APORTACIONES")
+
+    const aportaciones = paymentsListRedux.filter(item => item.estado === 'pagado').length;
+
+    if (aportaciones >= 4) {
+      setIsReady(true);
+    }
+  }, [paymentsListRedux])
 
   useEffect(() => {
     if (params === null) return;
@@ -115,7 +126,7 @@ const PaymentsDashboard = () => {
             ? { ...item, estado: "pagado" }
             : item;
         });
-        const firstToPay = updatePaymentList.find((pay) => pay.estado === 'pendiente'); 
+        const firstToPay = updatePaymentList.find((pay) => pay.estado === 'pendiente');
         const { fecha_pago, id_pago } = firstToPay;
         setFirstPayment(fecha_pago);
         dispatch(setCurrentNumberUserPayment(parseInt(id_pago)));
@@ -142,34 +153,51 @@ const PaymentsDashboard = () => {
     <Layout>
       <Box className={classes.mainContainer}>
         <Typography variant="h5" sx={sxStyles.h5style}>Detalles de tu Tanda Ahorro</Typography>
-        <ChartContainer />
-        <Typography variant="h5" sx={sxStyles.h5style}>Realizar un pago</Typography>
-        <Box sx={boxStyle}>
-          <Typography variant="h5" sx={sxStyles.h5style2} >
-            Debes realizar tu próxima aportación antes del{" "}
-            <strong>{formatDate(firstPayment)}</strong> próximo:
-          </Typography>
-          <Button
-            variant="contained"
-            sx={sxStyles.buttonStyle}
-            onClick={() => navigate(PRIVATE_ROUTES.DASHBOARD_MAKE_PAYMENT)}
-          >
-            {" "} Pagar ahora
-          </Button>
-        </Box>
-        {/* <Typography
-          variant="h5"
-          sx={{
-            fontWeight: "bold",
-            marginTop: 5,
-            fontSize: 22,
-            fontFamily: FONTS.URBANISMEDIUM,
-            color: MAIN_COLORS.MAIN_PURPLE,
-          }}
-        >
-          Calendario de próximos pagos
-        </Typography> */}
-
+        <ChartContainer paymentsList={paymentsListRedux} />
+        {
+          isReady
+            ? (
+              <div style={{
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: "nowrap",
+                justifyContent: "space-between",
+                width: "100%",
+                marginTop: "2rem"
+              }}>
+                <p style={{ fontSize: '18px' }}><strong>¡Felicidades!</strong> Ya puedes recibir tu crédito <strong>Tanda Ahorro</strong></p>
+                <Button
+                  variant="contained"
+                  sx={{
+                    ...sxStyles.buttonStyle,
+                    whiteSpace: "nowrap",
+                    padding: "0 2rem",
+                    width: "auto",
+                  }}
+                >
+                  {" "} Recibir crédito Tanda Ahorro
+                </Button>
+              </div>
+            )
+            : (
+              <>
+                <Typography variant="h5" sx={sxStyles.h5style}>Realizar un pago</Typography>
+                <Box sx={boxStyle}>
+                  <Typography variant="h5" sx={sxStyles.h5style2} >
+                    Debes realizar tu próxima aportación antes del{" "}
+                    <strong>{formatDate(firstPayment)}</strong> próximo:
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    sx={sxStyles.buttonStyle}
+                    onClick={() => navigate(PRIVATE_ROUTES.DASHBOARD_MAKE_PAYMENT)}
+                  >
+                    {" "} Pagar ahora
+                  </Button>
+                </Box>
+              </>
+            )
+        }
         <CalendarPayments paymentLinks={paymentsListRedux} />
         {/* <DonutChart /> */}
         <ModalValidation

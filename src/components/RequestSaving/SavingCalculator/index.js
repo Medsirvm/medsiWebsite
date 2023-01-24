@@ -21,27 +21,19 @@ import { savingCalculatorStyles } from "./savingCalculator.styles";
 // import moment from "moment";
 import CalendarPayments from "../../CalendarPayments";
 import axios from "axios";
+import { nextCredit } from "../../../utils/nextCreditDate.js";
 
 const SavingCalculator = (props) => {
-  // const { REACT_APP_CONSULTA_TX_GENERICO } = process.env;
   const userInformation = useSelector(selectuserInformation);
-  // const paymentsListLinks = useSelector(selectSimulationPaymentsInformation);
-  // console.log({ paymentsListLinks })
-  console.log({ userInformation })
   const { isSimulator } = props;
   const classes = savingCalculatorStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const valuetext = (value) => `${value}`;
-  // function valuetext(value) {
-  //   return `${value}`;
-  // }
   const handleContinueToContract = () => {
     navigate(PRIVATE_ROUTES.DASHBOARD_CONTRATO_SERVICIO);
   };
   const [totalAmountForSave, setTotalAmountForSave] = useState(500);
-  // const tandasInfo = useSelector(selectCreditLineAndPaymentAmounts);
-  // const [simulationPaymentLinks, setSimulationPaymentLinks] = useState([]);
   const [paymentLinks, setPaymentLinks] = useState([]);
 
   // useEffect(() => {
@@ -127,6 +119,7 @@ const SavingCalculator = (props) => {
     httpRequest();
   }, [userInformation]);
 
+
   return (
     <React.Fragment>
       <Box
@@ -136,22 +129,33 @@ const SavingCalculator = (props) => {
             : classes.calculatorContainerNotSimulation
         }
       >
-        <Box sx={{ maxWidth: 600 }}>
+        <Box sx={{
+          maxWidth: 600,
+          marginTop: 3,
+          marginBottom: 3
+        }}>
           <Typography variant="subtitle2" sx={{
             fontSize: 18,
             fontFamily: FONTS.URBANISTSEMIBOLD,
             color: MAIN_COLORS.BLACK_MEDIUM,
-            marginTop: 3,
           }} >
             Usando la barra, selecciona el monto que quieras aportar cada
             quincena:
           </Typography>
-          <Box className={{
+          <Box sx={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-around",
-            marginTop: 30,
+            marginTop: 3,
           }}>
+            <Typography variant="subtitle2" sx={{
+              fontWeight: "bold",
+              fontSize: "22px",
+              fontFamily: FONTS.URBANISTBOLD,
+              color: MAIN_COLORS.BLACK_MEDIUM,
+            }} >
+              $500
+            </Typography>
             <Slider
               aria-label="MedsiAmount"
               defaultValue={30}
@@ -160,7 +164,7 @@ const SavingCalculator = (props) => {
               step={100}
               min={500}
               max={5000}
-              sx={{ marginRight: 2, }}
+              sx={{ marginRight: 2, marginLeft: 2, }}
               size="50px"
               onChange={(e) => handleChange(e.target.value)}
             />
@@ -180,7 +184,7 @@ const SavingCalculator = (props) => {
               color: MAIN_COLORS.BLACK_MEDIUM,
               marginTop: 3,
             }} >
-              Si contratas hoy y realizas 4 pagos quincenales, el 2 de febrero próximo recibes un crédito por:
+              Si contratas hoy y realizas 4 pagos quincenales, el {nextCredit()} próximo recibes un crédito por:
             </Typography>
           </Box>
           <Box>

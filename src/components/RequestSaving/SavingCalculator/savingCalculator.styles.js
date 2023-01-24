@@ -4,12 +4,10 @@ import { FONTS } from "../../../constants/fontsConstants";
 
 export const savingCalculatorStyles = makeStyles({
   calculatorContainerSimulation: {
-    width: 749,
-    height: 452,
+    width: 749, 
     background: MAIN_COLORS.WHITE_COLOR,
     boxShadow: "0px 2px 4px 2px rgba(0, 0, 0, 0.4)",
-    borderRadius: 40,
-    paddingLeft: 40,
+    borderRadius: 40, 
     display: "flex",
     justifyContent: "center",
   },
