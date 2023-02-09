@@ -1,58 +1,32 @@
-import { Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
-import { FONTS } from "../../../constants/fontsConstants";
 import retornoDinero from "../../../assets/images/retonorDinero.png";
-const ChangeOpinion = () => {
-  return (
-    <Box sx={{ paddingLeft: 15, marginBottom: 10 }}>
-      <Typography
-        sx={{
-          fontFamily: FONTS.URBANISTSEMIBOLD,
-          fontSize: 55,
-        }}
-      >
-        ¿Cambiaste de opinión? <br /> ¿Ha surgido algún imprevisto? ¡No pasa
-        nada!
-      </Typography>
+import ui from './index.module.css';
 
-      <Typography
-        sx={{
-          fontFamily: FONTS.URBANISTREGULAR,
-          fontSize: 22,
-          marginRight: 80,
-          marginTop: 2,
-        }}
-      >
+const ChangeOpinion = () => {
+
+  const {
+    changeOpinion,
+    opinionImage,
+    opinionParraf,
+    opinionSubText,
+    opinionTitle,
+    opinionTitle2,
+    subTextBox
+  } = ui;
+
+  return (
+    <Box className={changeOpinion}>
+      <p className={opinionTitle}>¿Cambiaste de opinión?<br />¿Ha surgido algún imprevisto?</p>
+      <p className={opinionTitle2}>¡No pasa nada!</p>
+      <p className={opinionParraf}>
         Si después de haber realizado tus aportaciones decides no realizar tu
-        procedimiento, te devolvemos el monto que hayas depositado hasta el
-        momento.* nada!
-      </Typography>
-      <Grid container>
-        <Grid item xs={6}>
-          <Typography
-            sx={{
-              fontFamily: FONTS.URBANISTREGULAR,
-              fontSize: 18,
-              marginTop: 2,
-            }}
-          >
-            *Menos una comisión de [$x o x%] por gastos de originación.
-          </Typography>
-        </Grid>
-        <Grid item xs={6}>
-          <Typography
-            sx={{
-              fontFamily: FONTS.URBANISTREGULAR,
-              fontSize: 22,
-              marginRight: 80,
-              marginTop: 2,
-            }}
-          >
-            <img src={retornoDinero} alt="" />
-          </Typography>
-        </Grid>
-      </Grid>
+        procedimiento, te devolvemos el monto que hayas depositado hasta momento.*
+      </p>
+      <Box className={subTextBox}>
+        <p className={opinionSubText}> *Menos una comisión de [$x o x%] por gastos de originación. </p>
+      </Box>
+      <div className={opinionImage} style={{ backgroundImage: `url(${retornoDinero})` }}></div>
     </Box>
   );
 };

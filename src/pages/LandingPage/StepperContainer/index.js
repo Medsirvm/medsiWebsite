@@ -1,6 +1,5 @@
-import { Button, Grid, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
-import { FONTS } from "../../../constants/fontsConstants";
 import StepComponent from "./StepComponent";
 //Icons
 import yourElection from "../../../assets/icons/tueligesIcon.svg";
@@ -9,7 +8,11 @@ import accessToYourCredit from "../../../assets/icons/accessToYourCreditIcon.svg
 import fixedPayments from "../../../assets/icons/fixPaymentsIcon.svg";
 import tandaAhorro from "../../../assets/icons/tandaAhorroIcon.svg";
 
-const StepperContainer = () => {
+import ui from './index.module.css';
+
+const StepperContainer = (props) => {
+
+  const { size } = props;
   const steps = [
     {
       id: 1,
@@ -47,63 +50,35 @@ const StepperContainer = () => {
         "Si has cumplido puntualmente con todos tus pagos, ¡Medsi te regala las últimas 2 parcialidades de tu crédito!",
     },
   ];
-  return (
-    <Grid container sx={{ marginTop: 10, marginBottom: 15 }}>
-      <Grid item xs={6}>
-        <Typography
-          variant="h3"
-          sx={{
-            fontFamily: FONTS.URBANISTSEMIBOLD,
-            fontSize: 60,
-            paddingLeft: 15,
-            paddingRight: 15,
-          }}
-        >
-          ¿Cómo funciona? <br /> ¡Es muy fácil!
-        </Typography>
-        <Typography
-          variant="h3"
-          sx={{
-            fontFamily: FONTS.URBANISTREGULAR,
-            fontSize: 22,
-            paddingLeft: 15,
-            paddingRight: 15,
-            marginTop: 5,
-          }}
-        >
-          Ahorrar con Tanda Ahorro es un proceso muy sencillo, sólo sigue los
-          siguientes pasos.{" "}
-        </Typography>
 
-        <Button
-          variant="contained"
-          sx={{
-            background: `linear-gradient(90.13deg, #1B63DB 0.23%, #0ACC97 100.05%)`,
-            borderRadius: 20,
-            textTransform: "none",
-            width: 358,
-            height: 40,
-            fontFamily: FONTS.URBANISTBOLD,
-            fontSize: 16,
-            marginTop: 5,
-            marginLeft: 15,
-          }}
-        >
-          Activar Tanda Ahorro ahora
-        </Button>
-      </Grid>
-      <Grid item xs={6}>
-        {steps.map((st, index) => (
-          <StepComponent
-            key={st.id}
-            stepIcon={st.icon}
-            stepTitle={st.title}
-            stepDescription={st.description}
-            needLine={index === steps.length - 1 ? false : true}
-          />
-        ))}
-      </Grid>
-    </Grid>
+  const {
+    stepperContainer,
+    stepperTitle,
+    stepperSubtitle,
+    stepperButton,
+    stepperList
+  } = ui;
+
+  return (
+    <Box className={stepperContainer}>
+      <h3 className={stepperTitle}>¿Cómo funciona?<br />¡Es muy fácil!</h3>
+      <h3 className={stepperSubtitle}>Ahorrar con Tanda Ahorro es un proceso muy sencillo, sólo sigue los siguientes pasos.</h3>
+      <Box className={stepperList}>
+        {
+          steps.map((st, index) => (
+            <StepComponent
+              key={st.id}
+              stepIcon={st.icon}
+              stepTitle={st.title}
+              stepDescription={st.description}
+              needLine={index === steps.length - 1 ? false : true}
+              size={size}
+            />
+          ))
+        }
+      </Box>
+      <button type="button" className={stepperButton}>Activar Tanda Ahorro ahora</button>
+    </Box>
   );
 };
 

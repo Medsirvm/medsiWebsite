@@ -2,11 +2,13 @@ import { makeStyles } from "@material-ui/styles";
 import landingBanner from "../../assets/images/Medsi_TandaAhorro_Banner_Landing_Page.svg";
 
 export const LandingPageStyles = makeStyles({
+  landingWrapper: {
+
+  },
   bannerImageContainer: {
-    backgroundImage: `url(${landingBanner})`,
-    backgroundSize: "center",
-    backgroundPosition: "cover",
-    //backgroundRepeat: "no-repeat",
+    backgroundImage: `url(${landingBanner})`, 
+    backgroundPosition: "center", 
+    backgroundSize: "cover",
     minHeight: 501,
     width: "100%",
   },

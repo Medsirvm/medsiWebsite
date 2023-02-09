@@ -3,22 +3,34 @@
   src: local("PoppinsBold"),
     url("./assets/fonts/Urbanist-Bold.ttf") format("truetype");
 }
+
 @font-face {
   font-family: "urbanistMedium";
   src: local("PoppinsBold"),
     url("./assets/fonts/Urbanist-Medium.ttf") format("truetype");
 }
+
 @font-face {
   font-family: "urbanistSemiBold";
   src: local("PoppinsBold"),
     url("./assets/fonts/Urbanist-SemiBold.ttf") format("truetype");
 }
+
 @font-face {
   font-family: "urbanistRegular";
   src: local("PoppinsBold"),
     url("./assets/fonts/Urbanist-Regular.ttf") format("truetype");
 }
 
-body {
+*,
+*::before,
+*::after {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;  
+}
+
+html, body {
+  font-size: 1rem;
+  overflow-x: hidden;
 }

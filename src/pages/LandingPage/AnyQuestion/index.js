@@ -1,9 +1,10 @@
-import { Grid, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
-import { FONTS } from "../../../constants/fontsConstants";
 import interrogante from "../../../assets/images/Interrogante.png";
 import Questions from "./Question";
-const AnyQuestion = () => {
+import ui from './index.module.css';
+
+const AnyQuestion = ({ children }) => {
   const description =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore";
 
@@ -55,35 +56,28 @@ const AnyQuestion = () => {
       description: description,
     },
   ];
+
+  const {
+    anyQuestionContainer,
+    sectionTitle,
+    sectionParraf,
+    anyQuestionImage,
+    sectionTitleBox,
+    anyQuestionList
+  } = ui;
+
   return (
-    <Grid container sx={{ marginLeft: 15, marginBottom: 10 }}>
-      <Grid item xs={5}>
-        <Typography sx={{ fontFamily: FONTS.URBANISTSEMIBOLD, fontSize: 55 }}>
-          ¿Tienes alguna pregunta?
-        </Typography>
-        <Typography
-          sx={{
-            fontFamily: FONTS.URBANISTREGULAR,
-            fontSize: 20,
-            marginRight: 35,
-            marginBottom:5
-          }}
-        >
-          Medsi siempre está para apoyarte. Repondemos a todas tus preguntas y
-          te ofrecemos la ayuda que necesitas.{" "}
-        </Typography>
-        <img src={interrogante} alt="interrogante" height={504} width={335} style={{marginLeft:80}} />
-      </Grid>
-      <Grid item xs={7} sx={{marginTop:15}}>
-        {questionsArray.map((qs) => (
-          <Questions
-            key={qs.id}
-            question={qs.question}
-            description={qs.description}
-          />
-        ))}
-      </Grid>
-    </Grid>
+    <Box className={anyQuestionContainer}>
+      <div className={sectionTitleBox}>
+        <p className={sectionTitle}>¿Tienes alguna pregunta?</p>
+      </div>
+      <p className={sectionParraf}>Medsi siempre está para apoyarte. Repondemos a todas tus preguntas y te ofrecemos la ayuda que necesitas.</p>
+      <div className={anyQuestionImage} style={{ backgroundImage: `url(${interrogante}` }}></div>
+      <Box className={anyQuestionList}>
+        {questionsArray.map((qs) => <Questions key={qs.id} question={qs.question} description={qs.description} />)}
+      </Box>
+      {children}
+    </Box>
   );
 };
 

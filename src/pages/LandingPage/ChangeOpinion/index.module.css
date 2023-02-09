@@ -1,0 +1,50 @@
+.changeOpinion {
+  padding: 36px 26px;
+}
+
+.opinionImage {
+  min-height: 166px;
+  max-height: 166px;
+  display: block;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.opinionParraf {
+  font-family: UrbanistRegular;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000000;
+}
+
+.opinionSubText {
+  font-family: UrbanistRegular;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #000000;
+}
+
+.opinionTitle,
+.opinionTitle2 {
+  font-family: UrbanistSemiBold;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 34px;
+  color: #000000;
+  white-space: nowrap;
+}
+
+.opinionTitle2 {
+ margin-top: 16px; 
+ margin-bottom: 32px;
+}
+
+.subTextBox {
+  padding: 17px 0px 28px 0px;
+}

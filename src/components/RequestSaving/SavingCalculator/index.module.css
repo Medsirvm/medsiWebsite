@@ -1,0 +1,73 @@
+.calculatorContainer {
+  max-width: 680px;
+  background: #FFFFFF;
+  box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.4);
+  border-radius: 40px;
+  padding: 34px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+.topParraf {
+  font-family: UrbanistSemiBold;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  color: rgba(0, 0, 0, 0.5);
+  margin-bottom: 2rem;
+}
+
+.slider {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.sliderLaterals {
+  font-family: UrbanistBold;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 27px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.middleParraf,
+.bottomParraf {
+  font-family: UrbanistSemiBold;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27px;
+  color: rgba(0, 0, 0, 0.5);
+  margin-top: 2rem;
+}
+
+.bottomParraf>strong {
+  font-family: UrbanistBold;
+  color: #000000;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.totalAmountCredit {
+  font-family: UrbanistBold;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 45px;
+  color: #000000;
+  text-align: center;
+}
+
+.tandasButton {
+  background: linear-gradient(90.13deg, #1B63DB 0.23%, #0ACC97 100.05%);
+  border-radius: 20px !important;
+  text-transform: none;
+  width: 358px;
+  height: 40px;
+  font-family: UrbanistBold !important;
+  font-size: 16px !important;
+}

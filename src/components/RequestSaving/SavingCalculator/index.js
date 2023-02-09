@@ -1,38 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Slider, Typography } from "@mui/material";
+import { Button, Slider } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { MAIN_COLORS } from "../../../constants/colorConstants";
-import { FONTS } from "../../../constants/fontsConstants";
 import { PRIVATE_ROUTES } from "../../../constants/routesConstants";
 import {
-  // selectCreditLineAndPaymentAmounts,
-  // selectSimulationPaymentsInformation,
   selectuserInformation,
   setPaymentAmounts,
-  setPaymentsList,
-  // setSimulationPayments,
+  setPaymentsList
 } from "../../../store/reducers/user/UserAccountSlice";
 import { formatNumber } from "../../../utils/formatFieldsUtils";
-// import { getPaymentsLinks } from "../../../utils/paymentsUtils";
-import { savingCalculatorStyles } from "./savingCalculator.styles";
-// import moment from "moment";
 import CalendarPayments from "../../CalendarPayments";
 import axios from "axios";
 import { nextCredit } from "../../../utils/nextCreditDate.js";
+import ui from './index.module.css';
 
 const SavingCalculator = (props) => {
   const userInformation = useSelector(selectuserInformation);
   const { isSimulator } = props;
-  const classes = savingCalculatorStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const valuetext = (value) => `${value}`;
-  const handleContinueToContract = () => {
-    navigate(PRIVATE_ROUTES.DASHBOARD_CONTRATO_SERVICIO);
-  };
+  const handleContinueToContract = () => navigate(PRIVATE_ROUTES.DASHBOARD_CONTRATO_SERVICIO);
   const [totalAmountForSave, setTotalAmountForSave] = useState(500);
   const [paymentLinks, setPaymentLinks] = useState([]);
 
@@ -119,43 +109,24 @@ const SavingCalculator = (props) => {
     httpRequest();
   }, [userInformation]);
 
+  const {
+    topParraf,
+    middleParraf,
+    bottomParraf,
+    slider,
+    sliderLaterals,
+    totalAmountCredit,
+    calculatorContainer,
+    tandasButton
+  } = ui;
 
   return (
-    <React.Fragment>
-      <Box
-        className={
-          isSimulator
-            ? classes.calculatorContainerSimulation
-            : classes.calculatorContainerNotSimulation
-        }
-      >
-        <Box sx={{
-          maxWidth: 600,
-          marginTop: 3,
-          marginBottom: 3
-        }}>
-          <Typography variant="subtitle2" sx={{
-            fontSize: 18,
-            fontFamily: FONTS.URBANISTSEMIBOLD,
-            color: MAIN_COLORS.BLACK_MEDIUM,
-          }} >
-            Usando la barra, selecciona el monto que quieras aportar cada
-            quincena:
-          </Typography>
-          <Box sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-around",
-            marginTop: 3,
-          }}>
-            <Typography variant="subtitle2" sx={{
-              fontWeight: "bold",
-              fontSize: "22px",
-              fontFamily: FONTS.URBANISTBOLD,
-              color: MAIN_COLORS.BLACK_MEDIUM,
-            }} >
-              $500
-            </Typography>
+    <>
+      <Box className={calculatorContainer}>
+        <Box>
+          <p className={topParraf}>Usando la barra, selecciona el monto que quieras aportar cada quincena:</p>
+          <Box className={slider}>
+            <span className={sliderLaterals}>$500</span>
             <Slider
               aria-label="MedsiAmount"
               defaultValue={30}
@@ -168,73 +139,30 @@ const SavingCalculator = (props) => {
               size="50px"
               onChange={(e) => handleChange(e.target.value)}
             />
-            <Typography variant="subtitle2" sx={{
-              fontWeight: "bold",
-              fontSize: "22px",
-              fontFamily: FONTS.URBANISTBOLD,
-              color: MAIN_COLORS.BLACK_MEDIUM,
-            }} >
-              $5,000
-            </Typography>
+            <span className={sliderLaterals}>$5,000</span>
           </Box>
-          <Box>
-            <Typography sx={{
-              fontSize: 18,
-              fontFamily: FONTS.URBANISTSEMIBOLD,
-              color: MAIN_COLORS.BLACK_MEDIUM,
-              marginTop: 3,
-            }} >
-              Si contratas hoy y realizas 4 pagos quincenales, el {nextCredit()} próximo recibes un crédito por:
-            </Typography>
-          </Box>
-          <Box>
-            <Typography sx={{
-              fontSize: 50,
-              fontFamily: FONTS.URBANISTBOLD,
-              color: MAIN_COLORS.MAIN_BLACK,
-              marginTop: 3,
-              textAlign: "center",
-            }} >
-              {`$ ${formatNumber(totalAmountForSave * 10)}`}
-            </Typography>
-          </Box>
-          <Box>
-            <Typography sx={{
-              fontSize: 18,
-              fontFamily: FONTS.URBANISTSEMIBOLD,
-              color: MAIN_COLORS.BLACK_MEDIUM,
-              marginTop: 3,
-            }} >
-              Pagadero en 12 pagos quincenales de{" "}
-              <strong>{` $ ${formatNumber(totalAmountForSave)}`}</strong>
-            </Typography>
-          </Box>
-          <Box display="flex" justifyContent="center" alignItems="center">
-            {isSimulator && (
-              <Button
-                variant="contained"
-                sx={{
-                  marginTop: 3,
-                  textTransform: "none",
-                  fontFamily: FONTS.URBANISTBOLD,
-                }}
-                className={{
-                  width: 398,
-                  height: 40,
-                  background: "linear-gradient(90.13deg, #1B63DB 0.23%, #0ACC97 100.05%)",
-                }}
-                onClick={handleContinueToContract}
-              >
-                Contratar Tanda ahorro ahora
-              </Button>
-            )}
-          </Box>
+          <p className={middleParraf} >
+            Si contratas hoy y realizas 4 pagos quincenales, el <strong style={{ color: "#000" }}>{nextCredit()}</strong> próximo recibes un crédito por:
+          </p>
+          <p className={totalAmountCredit}> {`$ ${formatNumber(totalAmountForSave * 10)}`} </p>
+          <p className={bottomParraf}>
+            Pagadero en 12 pagos quincenales de <strong>{`$ ${formatNumber(totalAmountForSave)}`}</strong>
+          </p>
+          {isSimulator && (
+            <Button
+              variant="contained"
+              className={tandasButton}
+              onClick={handleContinueToContract}
+            >
+              Contratar Tanda ahorro ahora
+            </Button>
+          )}
         </Box>
       </Box>
       {isSimulator && (
         <CalendarPayments paymentLinks={paymentLinks} />
       )}
-    </React.Fragment>
+    </>
   );
 };
 

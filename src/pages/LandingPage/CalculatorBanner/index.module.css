@@ -1,0 +1,39 @@
+.calculatorSection {
+  padding: 36px 24px 86px 24px;
+}
+
+.calculatorTitle {
+  font-family: UrbanistSemibold;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  text-align: center;
+  color: #000000;
+
+  margin-bottom: 29px;
+}
+
+.calculatorParraf {
+  font-family: UrbanistRegular;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  color: #000000;
+
+  margin-bottom: 38px;
+}
+
+.calculatorButton {
+  background: linear-gradient(90.13deg, #1B63DB 0.23%, #0ACC97 100.05%);
+  border-radius: 20px;
+  text-transform: none;
+  width: 358px;
+  border: 1px solid transparent;
+  color: white;
+  height: 40px;
+  font-family: UrbanistBold;
+  font-size: 16px;
+}

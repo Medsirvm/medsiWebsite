@@ -7,6 +7,7 @@ import store from "./store/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import ValidationProvider from "./contexts/validationContext";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 let persistantStore = persistStore(store);
 

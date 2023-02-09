@@ -1,0 +1,101 @@
+.landingWrapper {
+  width: 100%;
+  height: auto;
+  position: relative;
+  display: block;
+}
+
+.bannerImageContainer {
+  background-size: cover;
+  min-height: 320px;
+  max-height: 320px;
+  width: 100%;
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  background-position: center;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+}
+
+.requestSaveButton {
+  width: 100%;
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  color: white;
+  background: linear-gradient(90.13deg, #1B63DB 0.23%, #0ACC97 100.05%);
+  font-family: UrbanistBold;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  margin-top: 78px;
+}
+
+.headBanner {
+  position: relative;
+  min-height: 676px;
+  background: linear-gradient(180deg, #012758 0%, #2476BC 100%);
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+}
+
+.bannerLogoItem {
+  position: absolute;
+  left: 50%;
+  top: -17px;
+  transform: translateX(-50%);
+  min-height: 250px;
+  max-height: 250px;
+  z-index: 1080;
+  background-size: cover;
+  display: block;
+  width: 250px;
+}
+
+.bannerParrafs {
+  display: block;
+  position: absolute;
+  top: 196px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 202px;
+}
+
+.bannerParraf1 {
+  font-family: UrbanistSemiBold;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  color: #0ACC97;
+}
+
+.bannerParraf2 {
+  font-family: UrbanistBold;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 30px;
+  line-height: 36px;
+  color: #FFFFFF;
+}
+
+.bannerParraf3 {
+  font-family: UrbanistSemiBold;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  color: #A8C5F6;
+}
+
+.adviceBannerContainer {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  max-height: 354px;
+  min-height: 354px;
+  width: 100%;
+  display: block;
+}
