@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import React from "react";
-import { useNavigate } from "react-router-dom"; 
-import ImageBanner from "../../components/sharedComponents/ImageBanner"; 
+import { useNavigate } from "react-router-dom";
+import ImageBanner from "../../components/sharedComponents/ImageBanner";
 import { PUBLIC_ROUTES } from "../../constants/routesConstants";
 import AnyQuestion from "./AnyQuestion";
 // import BannerSave from "./BannerSave";
@@ -22,6 +22,7 @@ const HeadSection = (props) => {
   const {
     bannerImageContainer,
     headBanner,
+    bannerPresentation,
     bannerLogoItem,
     bannerParrafs,
     bannerParraf1,
@@ -31,14 +32,16 @@ const HeadSection = (props) => {
 
   return (
     <Box className={headBanner}>
-      <Box component={"div"} className={bannerLogoItem} sx={{ backgroundImage: `url(${BannerLogo})` }}></Box>
-      <Box component={"div"} className={bannerParrafs}>
-        <p className={bannerParraf1}>Te presentamos</p>
-        <p className={bannerParraf2}>Tanda Ahorro.</p>
-        <p className={bannerParraf3}>¡La nueva solución de Medsi que complementa tu ahorro para ayudarte a alcanzar tus metas!</p>
+      <Box component={"div"} className={bannerPresentation}>
+        <Box component={"div"} className={bannerLogoItem} sx={{ backgroundImage: `url(${BannerLogo})` }}></Box>
+        <Box component={"div"} className={bannerParrafs}>
+          <p className={bannerParraf1}>Te presentamos</p>
+          <p className={bannerParraf2}>Tanda Ahorro.</p>
+          <p className={bannerParraf3}>¡La nueva solución de Medsi que complementa tu ahorro para ayudarte a alcanzar tus metas!</p>
+        </Box>
       </Box>
       <ImageBanner bannerStyle={bannerImageContainer} size={size} />
-    </Box>
+    </Box >
   )
 }
 
@@ -63,7 +66,7 @@ const LandingPage = () => {
   return (
     <Box className={landingWrapper}>
       <HeadSection size={size} />
-      <CalculatorBanner />
+      <CalculatorBanner size={size} />
       <AdviceBanner />
       {/* <BannerSave /> */}
       <StepperContainer size={size} />
@@ -77,7 +80,7 @@ const LandingPage = () => {
           Contratar Tanda ahorro ahora
         </button>
       </AnyQuestion>
-      <Footer />
+      <Footer size={size} />
     </Box>
   )
 }

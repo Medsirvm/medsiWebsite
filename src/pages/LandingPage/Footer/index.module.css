@@ -36,7 +36,7 @@
   color: #000000;
 }
 
-.aboutAndContact>p {
+.aboutAndContact p {
   font-family: UrbanistMedium;
   font-style: normal;
   font-weight: 500;
@@ -63,4 +63,45 @@
 
 .contactList>li:not(:first-child) {
   list-style: none;
+}
+
+@media (min-width: 768px) {
+  .footerLogo>img {
+    width: 200px;
+  }
+
+  .copyrights {
+    font-size: 14px;
+    line-height: 17px;
+    margin-bottom: unset;
+  }
+
+  .aboutAndContact {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 16px;
+  }
+
+  .footerHead {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+  }
+
+  .aboutList>li,
+  .contactList>li {
+    font-size: 14px;
+    line-height: 17px;
+  }
+  .aboutAndContact p {
+    font-size: 16px;
+    line-height: 19px;
+  }
+  .aboutAndContact>div:last-child {
+    width: 152px;
+  }
+
+  .socialMediaIcons img{
+    height: 30px;
+  }
 }

@@ -63,12 +63,36 @@ const StepComponentSmall = (props) => {
   )
 }
 
+
+const StepComponentMedium = (props) => {
+
+  const { stepIcon, stepTitle, stepDescription } = props;
+  const {
+    stepComponent,
+    stepCompParrafs,
+    stepCompTitle,
+    stepCompDescription
+  } = ui;
+
+  return (
+    <Box className={stepComponent}>
+      <div>
+        <img src={stepIcon} alt={stepTitle} />
+      </div>
+      <div className={stepCompParrafs}>
+        <p className={stepCompTitle}>{stepTitle}</p>
+        <p className={stepCompDescription}>{stepDescription}</p>
+      </div>
+    </Box>
+  )
+}
+
 const StepComponent = (props) => {
 
   const { size } = props;
 
   if (size === 'xs' || size === 's') return <StepComponentSmall {...props} />
-  if (size === 'm') return <StepComponentSmall {...props} />
+  if (size === 'm') return <StepComponentMedium {...props} />
   if (size === 'lg') return <OriginalComponent {...props} />
   return <OriginalComponent {...props} />
 }

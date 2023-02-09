@@ -23,11 +23,13 @@
 
 .anyQuestionImage {
   background-position: center;
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
   min-height: 388px;
 }
 
 .sectionTitleBox {
+  margin-top: 2rem;
   padding-bottom: 28px;
 }
 
@@ -52,4 +54,37 @@
   min-height: 50px;
   align-items: center;
   padding: 19px 28px 10px 28px;
+}
+
+@media (min-width: 768px) {
+  .anyQuestionContainer {
+    padding: 16px 44px;
+  }
+
+  .anyQuestionSubcontainer {
+    display: flex;
+    flex-flow: row-reverse nowrap;
+    justify-content: space-between;
+    padding-left: 33px;
+    padding-right: 33px;
+  }
+
+  .anyQuestionSplitBox {
+    display: flex;
+    flex-flow: column;
+    width: 300px;
+  }
+
+  .anyQuestionImage {
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 247px;
+  }
+
+  .sectionTitle {
+
+    font-size: 22px;
+    line-height: 26px;
+  }
 }

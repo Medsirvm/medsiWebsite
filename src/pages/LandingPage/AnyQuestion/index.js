@@ -59,23 +59,34 @@ const AnyQuestion = ({ children }) => {
 
   const {
     anyQuestionContainer,
+    anyQuestionSubcontainer,
     sectionTitle,
     sectionParraf,
     anyQuestionImage,
     sectionTitleBox,
-    anyQuestionList
+    anyQuestionList,
+    anyQuestionSplitBox
   } = ui;
 
   return (
     <Box className={anyQuestionContainer}>
-      <div className={sectionTitleBox}>
-        <p className={sectionTitle}>¿Tienes alguna pregunta?</p>
-      </div>
-      <p className={sectionParraf}>Medsi siempre está para apoyarte. Repondemos a todas tus preguntas y te ofrecemos la ayuda que necesitas.</p>
-      <div className={anyQuestionImage} style={{ backgroundImage: `url(${interrogante}` }}></div>
+      <Box className={anyQuestionSubcontainer}>
+        <Box className={anyQuestionSplitBox}>
+          <div className={sectionTitleBox}>
+            <p className={sectionTitle}>¿Tienes alguna pregunta?</p>
+          </div>
+          <div>
+            <p className={sectionParraf}>
+              Medsi siempre está para apoyarte. Repondemos a todas tus preguntas y te ofrecemos la ayuda que necesitas.
+            </p>
+          </div>
+        </Box>
+        <div className={anyQuestionImage} style={{ backgroundImage: `url(${interrogante}` }}></div>
+      </Box>
       <Box className={anyQuestionList}>
         {questionsArray.map((qs) => <Questions key={qs.id} question={qs.question} description={qs.description} />)}
       </Box>
+
       {children}
     </Box>
   );

@@ -37,3 +37,35 @@
   font-family: UrbanistBold;
   font-size: 16px;
 }
+
+@media (min-width: 768px) {
+
+  .calculatorSection {
+    display: flex;
+    flex-flow: row nowrap;
+    padding: 45px;
+    gap: 42px;
+  }
+
+  .sectionInformation {
+    display: flex;
+    flex-direction: column;
+    margin-top: 19px;
+    max-width: 295px;
+  }
+
+  .calculatorTitle {
+    text-align: start;
+    margin-bottom: 34px;
+  }
+
+  .calculatorParraf {
+    line-height: 2;
+    text-align: start;
+    margin-bottom: 42px;
+  }
+
+  .calculatorButton {
+    width: 100%;
+  }
+}

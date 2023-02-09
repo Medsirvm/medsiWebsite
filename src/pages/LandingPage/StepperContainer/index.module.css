@@ -66,7 +66,7 @@
   font-size: 24px;
   line-height: 29px;
   color: #000000;
-  
+
   margin-top: 19px;
   margin-bottom: 13px;
 }
@@ -78,4 +78,39 @@
   font-size: 16px;
   line-height: 1.5;
   color: #000000;
+}
+
+@media (min-width: 768px) {
+  .stepperContainer {
+    padding: 58px 45px;
+    position: relative;
+    display: block;
+  }
+
+  .stepperSubtitle {
+    width: 335px;
+  }
+
+  .stepperList {
+    margin-top: 48px;
+  }
+
+  .stepperButton {
+    max-width: 280px;
+  }
+
+  .stepComponent {
+    gap: 48px;
+  }
+
+  .stepCompTitle {
+    font-size: 20px;
+    line-height: 24px;    
+    margin-top: 14px;
+    margin-bottom: 16px;
+  }
+  .stepCompDescription {
+    font-size: 14px;
+    line-height: 17px;
+  }
 }

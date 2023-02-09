@@ -7,7 +7,6 @@ import biweeklyPayment from "../../../assets/icons/biweeklyPaymentsIcon.svg";
 import accessToYourCredit from "../../../assets/icons/accessToYourCreditIcon.svg";
 import fixedPayments from "../../../assets/icons/fixPaymentsIcon.svg";
 import tandaAhorro from "../../../assets/icons/tandaAhorroIcon.svg";
-
 import ui from './index.module.css';
 
 const StepperContainer = (props) => {

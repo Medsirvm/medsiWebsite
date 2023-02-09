@@ -5,19 +5,6 @@
   display: block;
 }
 
-.bannerImageContainer {
-  background-size: cover;
-  min-height: 320px;
-  max-height: 320px;
-  width: 100%;
-  position: absolute;
-  left: 0px;
-  bottom: 0px;
-  background-position: center;
-  border-bottom-left-radius: 50px;
-  border-bottom-right-radius: 50px;
-}
-
 .requestSaveButton {
   width: 100%;
   height: 40px;
@@ -31,6 +18,21 @@
   font-size: 18px;
   line-height: 22px;
   margin-top: 78px;
+}
+
+/* Landing Header*/
+
+.bannerImageContainer {
+  background-size: cover;
+  min-height: 320px;
+  max-height: 320px;
+  width: 100%;
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  background-position: center;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
 }
 
 .headBanner {
@@ -90,6 +92,8 @@
   color: #A8C5F6;
 }
 
+/* Advice Banner Container*/
+
 .adviceBannerContainer {
   background-position: center;
   background-repeat: no-repeat;
@@ -98,4 +102,71 @@
   min-height: 354px;
   width: 100%;
   display: block;
+}
+
+
+@media (min-width: 768px) {
+  .headBanner {
+    min-height: 266px;
+  }
+
+  .bannerImageContainer {
+    background-size: contain;
+    min-height: 250px;
+    max-height: 250px;
+    right: 0px;
+    background-position: right;
+    background-repeat: no-repeat;
+  }
+
+  .bannerPresentation {
+    position: absolute;
+    min-height: 266px;
+    left: 80px;
+    top: 0px;
+    width: 191px;
+  }
+
+  .bannerLogoItem {
+    min-height: 180px;
+    max-height: 180px;
+    background-size: contain;
+    width: 180px;
+    background-repeat: no-repeat;
+  }
+
+  .bannerParrafs {
+    top: 128px;
+    min-width: 183px;
+  }
+
+  .bannerParraf1 {
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .bannerParraf2 {
+    font-size: 28px;
+    line-height: 34px;
+    white-space: nowrap;
+  }
+
+  .bannerParraf3 {
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+  .adviceBannerContainer {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    max-height: 284px;
+    min-height: 284px;
+    width: 100%;
+    display: block;
+  }
+
+  .requestSaveButton {
+    width: 340px;
+  }
 }
