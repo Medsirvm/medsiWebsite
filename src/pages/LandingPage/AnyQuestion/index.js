@@ -85,8 +85,7 @@ const AnyQuestion = ({ children }) => {
       </Box>
       <Box className={anyQuestionList}>
         {questionsArray.map((qs) => <Questions key={qs.id} question={qs.question} description={qs.description} />)}
-      </Box>
-
+      </Box> 
       {children}
     </Box>
   );

@@ -1,42 +1,39 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
-import { stepComponentStyles } from "./stepComponente.styles";
 import CenteredContent from "../../../../components/CenteredContent";
-import { FONTS } from "../../../../constants/fontsConstants";
 import ui from '../index.module.css';
 
 const OriginalComponent = (props) => {
 
   const { stepIcon, stepTitle, stepDescription, needLine } = props;
-  const classes = stepComponentStyles();
+  const {
+    stepComponent,
+    stepCompParrafs,
+    stepCompTitle,
+    stepCompDescription,
+    lineStepper,
+    lineStepperBox
+  } = ui;
 
   return (
-    <Grid container sx={{ width: "100%", }} >
-      <Grid item xs={2}>
-        <Grid item xs={12}>
+    <Box className={stepComponent} >
+      <Box>
+        <Box>
           <CenteredContent>
-            <img src={stepIcon} alt={stepTitle} />
+            <img src={stepIcon} alt={stepTitle} style={{ width: '70px', height: '70px' }} />
           </CenteredContent>
-        </Grid>
+        </Box>
         {needLine && (
-          <Grid item xs={12}>
-            <hr className={classes.lineStepper} />
-          </Grid>
+          <Box className={lineStepperBox}>
+            <hr className={lineStepper} />
+          </Box>
         )}
-      </Grid>
-      <Grid item xs={10} sx={{ padding: 2 }}>
-        <Grid item xs={12}>
-          <Typography sx={{ fontFamily: FONTS.URBANISTSEMIBOLD, fontSize: 28 }}>
-            {stepTitle}
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography sx={{ fontFamily: FONTS.URBANISTREGULAR, fontSize: 20 }}>
-            {stepDescription}
-          </Typography>
-        </Grid>
-      </Grid>
-    </Grid>
+      </Box>
+      <Box className={stepCompParrafs}>
+        <p className={stepCompTitle}>{stepTitle}</p>
+        <p className={stepCompDescription}>{stepDescription}</p>
+      </Box>
+    </Box>
   );
 };
 

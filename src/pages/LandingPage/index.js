@@ -14,6 +14,8 @@ import ui from './index.module.css';
 import useWindowSize from '../../hooks/useWindowSize';
 import BannerLogo from '../../assets/images/fig_tanda_ahorro_logo.png';
 import AdviceBannerImage from '../../assets/images/fig_advice_banner.png';
+import AdviceBannerImageLarge from '../../assets/images/fig_arte_banner_web-desk.png';
+import PlayIcon from '../../assets/images/play-icon.png';
 
 const HeadSection = (props) => {
 
@@ -27,29 +29,80 @@ const HeadSection = (props) => {
     bannerParrafs,
     bannerParraf1,
     bannerParraf2,
-    bannerParraf3
+    bannerParraf3,
+    bannerDesktop,
+    bannerPresentationDesk,
+    bannerLogoItemDesk,
+    bannerParrafsDesk
   } = ui;
+
+  const TandasHeadBanner = ({ variant }) => {
+
+    const isDesktop = (size === 'l' || size === 'xl' || size === 'xxl');
+
+    if (variant === 'desktop' && isDesktop) {
+      return (
+        <>
+          <Box component={"div"} className={bannerPresentationDesk}>
+            <Box component={"div"} className={bannerLogoItemDesk} sx={{ backgroundImage: `url(${BannerLogo})` }}></Box>
+            <Box component={"div"} className={bannerParrafsDesk}>
+              <p className={bannerParraf1}>Te presentamos</p>
+              <p className={bannerParraf2}>Tanda Ahorro.</p>
+              <p className={bannerParraf3}>¡La nueva solución de Medsi que complementa tu ahorro para ayudarte a alcanzar tus metas!</p>
+            </Box>
+          </Box>
+          <ImageBanner bannerStyle={bannerDesktop} size={size} />
+        </>
+      )
+    }
+
+    return (
+      <>
+        <Box component={"div"} className={bannerPresentation}>
+          <Box component={"div"} className={bannerLogoItem} sx={{ backgroundImage: `url(${BannerLogo})` }}></Box>
+          <Box component={"div"} className={bannerParrafs}>
+            <p className={bannerParraf1}>Te presentamos</p>
+            <p className={bannerParraf2}>Tanda Ahorro.</p>
+            <p className={bannerParraf3}>¡La nueva solución de Medsi que complementa tu ahorro para ayudarte a alcanzar tus metas!</p>
+          </Box>
+        </Box>
+        <ImageBanner bannerStyle={bannerImageContainer} size={size} />
+      </>
+    )
+  }
 
   return (
     <Box className={headBanner}>
-      <Box component={"div"} className={bannerPresentation}>
-        <Box component={"div"} className={bannerLogoItem} sx={{ backgroundImage: `url(${BannerLogo})` }}></Box>
-        <Box component={"div"} className={bannerParrafs}>
-          <p className={bannerParraf1}>Te presentamos</p>
-          <p className={bannerParraf2}>Tanda Ahorro.</p>
-          <p className={bannerParraf3}>¡La nueva solución de Medsi que complementa tu ahorro para ayudarte a alcanzar tus metas!</p>
-        </Box>
-      </Box>
-      <ImageBanner bannerStyle={bannerImageContainer} size={size} />
+      <TandasHeadBanner variant="desktop" />
     </Box >
   )
 }
 
-const AdviceBanner = () => {
+const AdviceBanner = ({ size }) => {
+
+  const {
+    adviceBannerContainer,
+    adviceBannerContent,
+    adviceBannerParraf,
+    playIcon
+  } = ui;
+
+  const isDesktop = (size === 'l' || size === 'xl' || size === 'xxl');
+  const backgroundPic = isDesktop ? AdviceBannerImageLarge : AdviceBannerImage;
+
   return (
     <div
-      className={ui.adviceBannerContainer}
-      style={{ backgroundImage: `url(${AdviceBannerImage})` }}>
+      className={adviceBannerContainer}
+      style={{ backgroundImage: `url(${backgroundPic})` }}>
+      {
+        isDesktop ? (
+          <Box className={adviceBannerContent}>
+            <p className={adviceBannerParraf}>¡Con Tanda Ahorro, Medsi complementa tu ahorro y pone en tus manos una Línea de Crédito para tus tratamientos médicos!</p>
+            <div className={playIcon} style={{ backgroundImage: `url(${PlayIcon})` }}></div>
+          </Box>
+        )
+          : null
+      }
     </div>
   )
 }
@@ -67,10 +120,10 @@ const LandingPage = () => {
     <Box className={landingWrapper}>
       <HeadSection size={size} />
       <CalculatorBanner size={size} />
-      <AdviceBanner />
+      <AdviceBanner size={size} />
       {/* <BannerSave /> */}
       <StepperContainer size={size} />
-      <ChangeOpinion />
+      <ChangeOpinion size={size}/>
       <AnyQuestion>
         <button
           type="button"

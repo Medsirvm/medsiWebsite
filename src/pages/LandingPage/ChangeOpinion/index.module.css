@@ -9,6 +9,7 @@
   width: 100%;
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
 }
 
 .opinionParraf {
@@ -88,5 +89,43 @@
   .opinionSubText {
     font-size: 10px;
     line-height: 12px;
+  }
+}
+
+
+@media (min-width: 992px) {
+
+  .changeOpinion {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+  }
+  .opinionTitle,
+  .opinionTitle2 {
+    font-size: 32px;
+    line-height: 1.25;
+  }
+
+  .opinionParraf {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+  
+  .opinionSubText {
+    font-size: 12px;
+    line-height: 1.25;
+  }
+  .splitBoxText {
+    max-width: 440px;
+  }
+
+  .opinionImage {
+    min-height: 160px;
+    max-height: 160px;
+    width: 400px;
+  }
+
+  .changeOpinionContainer {
+    position: relative;
   }
 }

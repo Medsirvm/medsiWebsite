@@ -28,6 +28,7 @@ const CalculatorBanner = ({ size }) => {
     )
   }
 
+  const isMobile = (size === 'xs' || size === 's');
 
   return (
     <Box className={calculatorSection}>
@@ -38,10 +39,10 @@ const CalculatorBanner = ({ size }) => {
           de tu aportación para que puedas financiar tus tratamientos médicos y
           los de tu familia.
         </p>
-        {size === 'xs' || size === 's' ? null : <CalculatorButton />}
+        {isMobile ? null : <CalculatorButton />}
       </Box>
       {
-        size === 'xs' || size === 's'
+        isMobile
           ? (
             <>
               <SavingCalculator isSimulator={false} />

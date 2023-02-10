@@ -91,3 +91,10 @@
     text-align: start;
   }
 }
+
+@media (min-width: 992px) {
+  .calculatorContainer {
+    padding: 38px;
+    max-width: 558px;
+  }
+}

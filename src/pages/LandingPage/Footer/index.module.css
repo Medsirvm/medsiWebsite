@@ -93,15 +93,42 @@
     font-size: 14px;
     line-height: 17px;
   }
+
   .aboutAndContact p {
     font-size: 16px;
     line-height: 19px;
   }
+
   .aboutAndContact>div:last-child {
     width: 152px;
   }
 
-  .socialMediaIcons img{
+  .socialMediaIcons img {
     height: 30px;
+  }
+}
+
+@media (min-width: 992px) {
+
+  .footerLogo>img {
+    width: 320px;
+  }
+
+  .footerSection {
+    padding: 48px 44px 102px 44px;
+    max-width: 992px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .aboutAndContact p {
+    font-size: 20px;
+    line-height: 1.25;
+  }
+
+  .aboutList>li,
+  .contactList>li {
+    font-size: 16px;
+    line-height: 1.25;
   }
 }

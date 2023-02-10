@@ -170,3 +170,106 @@
     width: 340px;
   }
 }
+
+@media (min-width: 992px) {
+
+  .headBanner {
+    border-bottom-left-radius: unset;
+    border-bottom-right-radius: unset;
+    min-height: 250px;
+    max-height: 250px;
+  }
+
+  .bannerDesktop {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: right;
+    min-height: 250px;
+  }
+
+  .bannerPresentationDesk {
+    position: absolute;
+    left: 80px;
+    display: flex;
+    flex-flow: row nowrap;
+    min-height: 250px;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .bannerLogoItemDesk {
+    width: 250px;
+    height: 250px;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  .bannerParrafsDesk {
+    position: relative;
+    max-width: 202px;
+  }
+
+  .bannerParraf1 {
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  .bannerParraf2 {
+    font-size: 30px;
+    line-height: 36px;
+    white-space: nowrap;
+    margin-bottom: 8px;
+  }
+
+  .bannerParraf3 {
+    font-size: 16px;
+    line-height: 19px;
+  }
+
+  .adviceBannerContainer {
+    background-repeat: repeat-x;
+    max-height: 280px;
+    min-height: 280px;
+    background-color: #00263A;
+  }
+
+  .adviceBannerContent {
+    display: flex;
+    width: 90%;
+    max-height: 280px;
+    min-height: 280px;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .adviceBannerParraf {
+    font-family: UrbanistSemiBold;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1.25;
+    text-align: center;
+    color: #FFFFFF;
+  }
+
+  .playIcon {
+    display: block;
+    width: 75px;
+    min-height: 75px;
+    max-height: 75px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .requestSaveButton {
+    width: 340px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+
+}

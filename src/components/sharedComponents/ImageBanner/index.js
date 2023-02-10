@@ -1,20 +1,31 @@
 import { Box } from "@mui/material";
 import React from "react";
-import landingBanner from '../../../assets/images/Medsi_TandaAhorro_Banner_Landing_Page.svg';
 import smallBanner from '../../../assets/images/fig_arte_banner_web-small.png';
 import mediumBanner from '../../../assets/images/fig_arte_banner_web.png';
-const ImageBanner = ({ bannerStyle, size, children }) => {
+const ImageBanner = (props) => {
 
+  const TandasHeadBanner = ({ bannerStyle, size, children }) => {
 
-  const backgroundBanner = () => {
-    if (size === 'xs' || size === 's') return `url(${smallBanner})`;
-    if (size === 'm') return `url(${mediumBanner})`;
-    return `url(${landingBanner})`
+    const isDesktop = (size === 'l' || size === 'xl' || size === 'xxl');
+
+    const backgroundBanner = () => {
+      if (size === 'xs' || size === 's') return `url(${smallBanner})`;
+      if (size === 'm') return `url(${mediumBanner})`;
+      return null;
+    }
+
+    if (isDesktop) {
+      return (
+        <Box>
+          <div className={bannerStyle} style={{ backgroundImage: `url(${mediumBanner})` }}></div>
+        </Box >
+      )
+    }
+
+    return <Box className={bannerStyle} sx={{ backgroundImage: backgroundBanner }} />
   }
 
-  return children
-    ? <Box className={bannerStyle} sx={{ backgroundImage: backgroundBanner }}>{children}</Box>
-    : <Box className={bannerStyle} sx={{ backgroundImage: backgroundBanner }} />
+  return <TandasHeadBanner {...props} />
 };
 
 export default ImageBanner;

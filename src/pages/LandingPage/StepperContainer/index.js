@@ -55,13 +55,33 @@ const StepperContainer = (props) => {
     stepperTitle,
     stepperSubtitle,
     stepperButton,
-    stepperList
+    stepperList,
+    stepperHIW
   } = ui;
+
+
+  const StepperButton = ({ variant }) => {
+
+    const isDesktop = (size === 'l' || size === 'xl' || size === 'xxl');
+
+    if (!isDesktop && variant === undefined) {
+      <button type="button" className={stepperButton}>Activar Tanda Ahorro ahora</button>
+    }
+
+    if (isDesktop && variant === 'desktop') {
+      return (
+        <button type="button" className={stepperButton}>Activar Tanda Ahorro ahora</button>
+      )
+    }
+  }
 
   return (
     <Box className={stepperContainer}>
-      <h3 className={stepperTitle}>¿Cómo funciona?<br />¡Es muy fácil!</h3>
-      <h3 className={stepperSubtitle}>Ahorrar con Tanda Ahorro es un proceso muy sencillo, sólo sigue los siguientes pasos.</h3>
+      <Box className={stepperHIW}>
+        <h3 className={stepperTitle}>¿Cómo funciona?<br />¡Es muy fácil!</h3>
+        <h3 className={stepperSubtitle}>Ahorrar con Tanda Ahorro es un proceso muy sencillo, sólo sigue los siguientes pasos.</h3>
+        <StepperButton variant='desktop' />
+      </Box>
       <Box className={stepperList}>
         {
           steps.map((st, index) => (
@@ -76,7 +96,7 @@ const StepperContainer = (props) => {
           ))
         }
       </Box>
-      <button type="button" className={stepperButton}>Activar Tanda Ahorro ahora</button>
+      <StepperButton />
     </Box>
   );
 };

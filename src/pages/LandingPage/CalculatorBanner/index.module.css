@@ -60,12 +60,33 @@
   }
 
   .calculatorParraf {
-    line-height: 2;
+    line-height: 1.25;
     text-align: start;
     margin-bottom: 42px;
   }
 
   .calculatorButton {
     width: 100%;
+  }
+}
+
+@media (min-width: 992px) {
+
+  .calculatorTitle {
+    font-size: 32px;
+    line-height: 1.25;
+    word-wrap: break-word;
+  }
+
+  .sectionInformation {
+    max-width: 448px;
+  }
+
+  .calculatorSection {
+    justify-content: space-evenly;
+  }
+
+  .calculatorButton {
+    width: 380px;
   }
 }
