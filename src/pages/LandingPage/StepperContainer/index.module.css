@@ -180,3 +180,11 @@
     max-width: 340px;
   }
 }
+
+@media (min-width: 1200px) {
+  .stepperContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    justify-content: space-between;
+  }
+}

@@ -33,6 +33,21 @@
   padding-bottom: 28px;
 }
 
+.requestSaveButton {
+  width: 100%;
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  color: white;
+  background: linear-gradient(90.13deg, #1B63DB 0.23%, #0ACC97 100.05%);
+  font-family: UrbanistBold;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  margin-top: 78px;
+}
+
 /* Questions Component */
 
 .questionCard {
@@ -86,6 +101,10 @@
     font-size: 22px;
     line-height: 26px;
   }
+
+  .requestSaveButton {
+    width: 340px;
+  }
 }
 
 @media (min-width: 992px) {
@@ -131,5 +150,43 @@
     max-width: 900px;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .requestSaveButton {
+    width: 340px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+}
+
+@media (min-width: 1200px) {
+
+  .anyQuestionContainer {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .anyQuestionSubcontainer {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+  }
+
+  .anyQuestionList {
+   margin-top: 5rem; 
+  }
+
+  .anyQuestionImage {
+    width: 364px;
+    height: 574px;
+    margin: 0 auto;
+  }
+
+  .requestSaveButton {
+    margin-bottom: 2rem;
   }
 }

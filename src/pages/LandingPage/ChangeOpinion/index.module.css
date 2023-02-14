@@ -100,6 +100,7 @@
     flex-flow: row nowrap;
     justify-content: space-evenly;
   }
+
   .opinionTitle,
   .opinionTitle2 {
     font-size: 32px;
@@ -110,11 +111,12 @@
     font-size: 16px;
     line-height: 1.25;
   }
-  
+
   .opinionSubText {
     font-size: 12px;
     line-height: 1.25;
   }
+
   .splitBoxText {
     max-width: 440px;
   }
@@ -127,5 +129,33 @@
 
   .changeOpinionContainer {
     position: relative;
+  }
+}
+
+@media (min-width: 1200px) {
+  .changeOpinion {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: block;
+    position: relative;
+  }
+
+  .splitBoxText {
+    max-width: 900px;
+  }
+
+  .opinionImage {
+    min-height: 310px;
+    max-height: 310px;
+    width: 600px;
+    margin-left: auto;
+    margin-top: -5rem;
+  }
+  .opinionParraf{
+    margin-top: 2rem;
+    font-size: 16px;
+  }
+  .opinionSubText {
+    font-size: 14px;
   }
 }

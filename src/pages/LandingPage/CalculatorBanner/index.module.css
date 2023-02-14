@@ -90,3 +90,12 @@
     width: 380px;
   }
 }
+
+@media (min-width: 1200px) {
+  .calculatorSection {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: space-between;
+  }
+}

@@ -1,8 +1,6 @@
 import { Box } from "@mui/material";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import ImageBanner from "../../components/sharedComponents/ImageBanner";
-import { PUBLIC_ROUTES } from "../../constants/routesConstants";
 import AnyQuestion from "./AnyQuestion";
 // import BannerSave from "./BannerSave";
 import CalculatorBanner from "./CalculatorBanner";
@@ -33,7 +31,8 @@ const HeadSection = (props) => {
     bannerDesktop,
     bannerPresentationDesk,
     bannerLogoItemDesk,
-    bannerParrafsDesk
+    bannerParrafsDesk,
+    headBannerDesk
   } = ui;
 
   const TandasHeadBanner = ({ variant }) => {
@@ -42,7 +41,7 @@ const HeadSection = (props) => {
 
     if (variant === 'desktop' && isDesktop) {
       return (
-        <>
+        <Box className={headBannerDesk}>
           <Box component={"div"} className={bannerPresentationDesk}>
             <Box component={"div"} className={bannerLogoItemDesk} sx={{ backgroundImage: `url(${BannerLogo})` }}></Box>
             <Box component={"div"} className={bannerParrafsDesk}>
@@ -52,7 +51,7 @@ const HeadSection = (props) => {
             </Box>
           </Box>
           <ImageBanner bannerStyle={bannerDesktop} size={size} />
-        </>
+        </Box>
       )
     }
 
@@ -109,11 +108,7 @@ const AdviceBanner = ({ size }) => {
 
 const LandingPage = () => {
 
-  const {
-    landingWrapper,
-    requestSaveButton
-  } = ui;
-  const navigate = useNavigate();
+  const { landingWrapper } = ui;
   const { size } = useWindowSize();
 
   return (
@@ -123,16 +118,8 @@ const LandingPage = () => {
       <AdviceBanner size={size} />
       {/* <BannerSave /> */}
       <StepperContainer size={size} />
-      <ChangeOpinion size={size}/>
-      <AnyQuestion>
-        <button
-          type="button"
-          className={requestSaveButton}
-          onClick={() => navigate(PUBLIC_ROUTES.LOGIN_PAGE)}
-        >
-          Contratar Tanda ahorro ahora
-        </button>
-      </AnyQuestion>
+      <ChangeOpinion size={size} />
+      <AnyQuestion size={size} />
       <Footer size={size} />
     </Box>
   )

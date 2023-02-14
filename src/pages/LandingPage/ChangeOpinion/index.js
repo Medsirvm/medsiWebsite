@@ -6,6 +6,7 @@ import ui from './index.module.css';
 const ChangeOpinion = (props) => {
 
   const { size } = props;
+  const isDesktop = (size === 'l' || size === 'xl' || size === 'xxl');
 
   const {
     changeOpinion,
@@ -22,8 +23,6 @@ const ChangeOpinion = (props) => {
 
   const OpinionImage = ({ variant }) => {
 
-    const isDesktop = (size === 'l' || size === 'xl' || size === 'xxl');
-
     if (
       (isDesktop && variant === 'desktop') ||
       (!isDesktop && variant === undefined)
@@ -37,11 +36,26 @@ const ChangeOpinion = (props) => {
     }
   }
 
+  const OpinionTitle = () => {
+
+    if (isDesktop) {
+      return (
+        <p className={opinionTitle}>¿Cambiaste de opinión?<br />¿Ha surgido algún imprevisto? ¡No pasa nada!</p>
+      )
+    }
+    return (
+      <>
+        <p className={opinionTitle}>¿Cambiaste de opinión?<br />¿Ha surgido algún imprevisto?</p>
+        <p className={opinionTitle2}>¡No pasa nada!</p>
+      </>
+    )
+  }
+
+
   return (
     <Box className={changeOpinion}>
       <Box className={changeOpinionContainer}>
-        <p className={opinionTitle}>¿Cambiaste de opinión?<br />¿Ha surgido algún imprevisto?</p>
-        <p className={opinionTitle2}>¡No pasa nada!</p>
+        <OpinionTitle />
         <Box className={opinionSplitBox}>
           <div className={splitBoxText}>
             <p className={opinionParraf}>
