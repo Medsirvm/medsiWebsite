@@ -65,7 +65,9 @@ const StepperContainer = (props) => {
     const isDesktop = (size === 'l' || size === 'xl' || size === 'xxl');
 
     if (!isDesktop && variant === undefined) {
-      <button type="button" className={stepperButton}>Activar Tanda Ahorro ahora</button>
+      return (
+        <button type="button" className={stepperButton}>Activar Tanda Ahorro ahora</button>
+      )
     }
 
     if (isDesktop && variant === 'desktop') {

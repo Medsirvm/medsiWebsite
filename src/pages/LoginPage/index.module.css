@@ -1,0 +1,224 @@
+.loginContainer {
+  position: relative;
+  background: #00263A;
+  height: 100vh;
+  height: 100dvh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 4rem;
+  padding-bottom: 2rem;
+}
+
+.loginFormBox {
+  width: 100%;
+  margin-top: 1rem;
+  text-align: center;
+  max-width: 480px;
+}
+
+.loginFormBox:last-child {
+  width: 100%;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+img[alt=emailField],
+img[alt=passField] {
+  min-width: 44px;
+  max-width: 44px;
+  min-height: 44px;
+  max-height: 44px;
+}
+
+.loginBox {
+  display: flex;
+  flex-direction: column;
+  max-width: 580px;
+  min-width: 100%;
+  align-items: center;
+}
+
+.loginTitle {
+  font-family: UrbanistMedium;
+  font-size: 32px;
+  color: #FFF;
+  margin-top: 1rem;
+}
+
+.loginFormTitle {
+  font-family: UrbanistRegular;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 26px;
+  text-align: center;
+  color: #FFFFFF;
+
+  margin-top: 1rem;
+}
+
+.urbanistSemiBoldCenter {
+  font-family: UrbanistSemiBold;
+  font-size: 16px;
+  color: white;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.urbanistRegularFooter {
+  font-family: UrbanistRegular;
+  font-size: 14px;
+  color: white;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.emailInputForm {
+  position: relative;
+  color: white !important;
+  width: 100%;;
+}
+
+.emailInputFormProps {
+  width: 100%;
+  height: 48px;
+  padding: 0px;
+  margin: 0px;
+  font-weight: 500;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white !important;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  flex-grow: 1;
+}
+
+.loginButtonContinue,
+.loginButtonValidate,
+.loginButtonLoading,
+.loginButtonContinue:disabled,
+.loginButtonValidate:disabled,
+.loginButtonLoading:disabled {
+  height: 48px;
+  width: 180px;
+  font-size: 18px;
+  font-family: UrbanistBold;
+  text-transform: none;
+  border-radius: 40px;
+  background: linear-gradient(270deg, #1B63DB 1.32%, #0ACC97 99.08%);
+  margin-top: 2rem;
+}
+  
+.loginFooter {
+  margin-bottom: 2rem;
+  margin-top: auto;
+}
+
+.vectorMedsiPic {
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .loginFormBox {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 1rem; 
+  }
+
+  .loginFormBox:last-child {
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 1rem; 
+  }
+
+  .emailInputForm {
+    width: 100%;
+  }
+
+  .urbanistSemiBoldCenter {
+    font-size: 18px;
+  }
+
+  .urbanistRegularFooter {
+    font-size: 16px;
+  }
+
+  .loginTitle {
+    font-size: 36px;
+  }
+
+  .loginFormTitle {
+    font-size: 22px;
+  }
+
+  img[alt=logoIsotipo] {
+    width: 120px;
+  }
+}
+
+
+@media (min-width: 992px) {
+
+  .loginFooter {
+    width: 100%;
+    justify-content: space-evenly;
+  }
+
+  .vectorMedsiPic {
+    max-width: 768px;
+  }
+
+  .emailInputForm {
+    width: 100%;
+  }
+
+  .urbanistSemiBoldCenter {
+    font-size: 16px;
+  }
+
+  .urbanistRegularFooter {
+    font-size: 16px;
+  }
+
+  .loginTitle {
+    font-size: 32px;
+  }
+
+  .loginFormTitle {
+    font-size: 18px;
+  }
+
+  img[alt=logoIsotipo] {
+    width: 120px;
+  }
+
+  .loginFormBox {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 1rem; 
+  }
+
+  .loginFormBox:last-child {
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 1rem; 
+  }
+}

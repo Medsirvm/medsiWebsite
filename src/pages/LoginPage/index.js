@@ -3,17 +3,14 @@ import {
   Button,
   Grid,
   Snackbar,
-  TextField,
-  Typography,
+  TextField
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CenteredContent from "../../components/CenteredContent";
-import { LoginPageStyles } from "./LoginPage.styles";
-import logoIsotipo from "../../assets/images/medsiIsotipoLogo.png";
+import MedsiLogo from "../../assets/images/medsiIsotipoLogo.png";
 import emailIcon from "../../assets/images/Mail.png";
+import passwordIcon from "../../assets/images/Password.png";
 import vectorMedsi from "../../assets/images/backgroundVector.png";
-import { FONTS } from "../../constants/fontsConstants";
-import { MAIN_COLORS } from "../../constants/colorConstants";
 import { getUserInformationByPhoneNumber } from "../../api/userInformation";
 import { generateOTPCode, verifyOTPCode } from "../../api/otpProcess";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,6 +27,9 @@ import { useNavigate } from "react-router-dom";
 import { PRIVATE_ROUTES } from "../../constants/routesConstants";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
+import useWindowSize from "../../hooks/useWindowSize";
+import ui from './index.module.css';
+
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -37,7 +37,6 @@ const LoginPage = () => {
   const isWaitingOTP = useSelector(selectIsWaitingForOTPCode);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otpCode, setOtpCode] = useState("");
-  const classes = LoginPageStyles();
   const [disabled, setDisabled] = useState(true);
   const otpInformation = useSelector(selectOTPInformation);
   const { correo, numero, semilla } = otpInformation;
@@ -48,6 +47,8 @@ const LoginPage = () => {
   const handleCloseSnackbarError = () => {
     setOpenSnackbarError(false);
   };
+
+  const { size } = useWindowSize();
 
   useEffect(() => {
     dispatch(setWaitingForOtp(false));
@@ -112,166 +113,33 @@ const LoginPage = () => {
       });
   };
 
-  return (
-    <Box className={classes.bannerImageContainer}>
-      <CenteredContent direction="column">
-        <img src={logoIsotipo} alt="logoIsotipo" style={{ marginTop: 70 }} />
-        <Typography
-          sx={{
-            fontFamily: FONTS.URBANISMEDIUM,
-            fontSize: 40,
-            color: MAIN_COLORS.WHITE_COLOR,
-            marginTop: 2,
-          }}
-        >
-          Iniciar Sesion
-        </Typography>
-        <Typography
-          sx={{
-            fontFamily: FONTS.URBANISTREGULAR,
-            fontSize: 22,
-            color: MAIN_COLORS.WHITE_COLOR,
-          }}
-        >
-          Escribe tu número de celular
-        </Typography>
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          sx={{ marginTop: 2 }}
-        >
-          <img src={emailIcon} alt="emailField" style={{ marginRight: 15 }} />
-          <TextField
-            id="otp-field"
-            variant="outlined"
-            sx={{
-              input: {
-                color: MAIN_COLORS.WHITE_COLOR,
-                "&::placeholder": {
-                  color: MAIN_COLORS.WHITE_COLOR,
-                },
-                "&:focus": {
-                  border: "none",
-                },
-              },
-            }}
-            value={phoneNumber}
-            onChange={(e) => handlePhoneNumberChange(e.target.value)}
-            InputProps={{
-              className: classes.input,
-              maxLength: 10,
-            }}
-            placeholder="Ingresa tu numero celular"
-          />
-        </Box>
+  const {
+    loginContainer,
+    loginTitle,
+    loginFormTitle,
+    urbanistSemiBoldCenter,
+    urbanistRegularFooter,
+    emailInputForm,
+    loginFormBox,
+    emailInputFormProps,
+    loginButtonContinue,
+    loginButtonValidate,
+    loginButtonLoading,
+    loginBox,
+    loginFooter,
+    vectorMedsiPic
+  } = ui;
 
-        {isWaitingOTP && (
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            sx={{ marginTop: 2 }}
-            flexDirection="column"
-          >
-            <TextField
-              id="otp-field"
-              variant="outlined"
-              sx={{
-                marginLeft: 7,
-                input: {
-                  color: MAIN_COLORS.WHITE_COLOR,
-                  "&::placeholder": {
-                    color: MAIN_COLORS.WHITE_COLOR,
-                  },
-                  "&:focus": {
-                    border: "none",
-                  },
-                },
-              }}
-              value={otpCode}
-              onChange={(e) => handleChangeOTPCode(e.target.value)}
-              InputProps={{
-                className: classes.input,
-              }}
-              placeholder="Ingresa el código"
-            />
-            <CountDown
-              resendOTP={generateOTPCodeProcess}
-              setExpired={setExpired}
-            />
-          </Box>
-        )}
-        {isWaitingOTP ? (
-          <Button
-            variant="contained"
-            onClick={validateOTPCode}
-            disabled={expired || !otpCode}
-            sx={{
-              background: `linear-gradient(270deg, #1B63DB 1.32%, #0ACC97 99.08%)`,
-              borderRadius: 10,
-              height: 58,
-              width: 200,
-              marginTop: 5,
-              textTransform: "none",
-              fontFamily: FONTS.URBANISTBOLD,
-              fontSize: 18,
-            }}
-          >
-            Validar Código
-          </Button>
-        ) : (
-          <div>
-            {isLoading ? (
-              <LoadingButton
-                loading
-                loadingPosition="start"
-                startIcon={<SaveIcon />}
-                variant="outlined"
-                sx={{
-                  background: `linear-gradient(270deg, #1B63DB 1.32%, #0ACC97 99.08%)`,
-                  borderRadius: 10,
-                  height: 58,
-                  width: 180,
-                  marginTop: 5,
-                  textTransform: "none",
-                  fontFamily: FONTS.URBANISTBOLD,
-                  fontSize: 18,
-                }}
-              >
-                Enviando
-              </LoadingButton>
-            ) : (
-              <Button
-                variant="contained"
-                disabled={disabled}
-                onClick={fetchUserInformation}
-                sx={{
-                  background: `linear-gradient(270deg, #1B63DB 1.32%, #0ACC97 99.08%)`,
-                  borderRadius: 10,
-                  height: 58,
-                  width: 180,
-                  marginTop: 5,
-                  textTransform: "none",
-                  fontFamily: FONTS.URBANISTBOLD,
-                  fontSize: 18,
-                  "&.Mui-disabled": {
-                    pointerEvents: "unset", // allow :hover styles to be triggered
-                    cursor: "not-allowed", // and custom cursor can be defined without :hover state
-                    color: "rgba(255, 255, 255, 0.5)",
-                    background: "rgba(255, 255, 255, 0.5)",
-                  },
-                }}
-              >
-                Continuar
-              </Button>
-            )}
-          </div>
-        )}
-
-        <img src={vectorMedsi} alt="vectorMedsi" style={{ marginTop: 100 }} />
-
-        <CenteredContent style={{ minWidth: "80%", marginTop: 120 }}>
+  const LoginTitle = () => <p className={loginTitle}>Iniciar Sesion</p>
+  const LoginLogo = () => <img src={MedsiLogo} alt="logoIsotipo" />
+  const LoginFormTitle = () => <p className={loginFormTitle}> Escribe tu número de celular </p>
+  const EmailIcon = () => (size === 'xs' || size === 's') ? null : <img src={emailIcon} alt="emailField" />
+  const PasswordIcon = () => (size === 'xs' || size === 's') ? null : <img src={passwordIcon} alt="passField" />
+  const VectorMedsi = () => <img src={vectorMedsi} className={vectorMedsiPic} alt="vectorMedsi" />
+  const LoginFooter = () => {
+    return (
+      <>
+        <Box className={loginFooter}>
           <Grid
             container
             justifyContent="center"
@@ -279,57 +147,23 @@ const LoginPage = () => {
             display="flex"
           >
             <Grid item xs={4}>
-              <Typography
-                sx={{
-                  fontFamily: FONTS.URBANISTSEMIBOLD,
-                  fontSize: 18,
-                  color: MAIN_COLORS.WHITE_COLOR,
-                }}
-                align="center"
-              >
-                CENTRO DE AYUDA
-              </Typography>
+              <p className={urbanistSemiBoldCenter}>CENTRO DE AYUDA</p>
             </Grid>
             <Grid item xs={4}>
-              <Typography
-                sx={{
-                  fontFamily: FONTS.URBANISTSEMIBOLD,
-                  fontSize: 18,
-                  color: MAIN_COLORS.WHITE_COLOR,
-                }}
-                align="center"
-              >
-                {" "}
-                TÉRMINOS Y CONDICIONES
-              </Typography>
+              <p className={urbanistSemiBoldCenter}>TÉRMINOS Y CONDICIONES</p>
             </Grid>
             <Grid item xs={4}>
-              <Typography
-                sx={{
-                  fontFamily: FONTS.URBANISTSEMIBOLD,
-                  fontSize: 18,
-                  color: MAIN_COLORS.WHITE_COLOR,
-                }}
-                align="center"
-              >
-                {" "}
-                AVISO DE PRIVACIDAD
-              </Typography>
+              <p className={urbanistSemiBoldCenter}>AVISO DE PRIVACIDAD</p>
             </Grid>
           </Grid>
-        </CenteredContent>
+        </Box>
+        <p className={urbanistRegularFooter}>©medsi 2022 Todos los derechos reservados.</p>
+      </>
+    )
+  }
 
-        <Typography
-          sx={{
-            fontFamily: FONTS.URBANISTREGULAR,
-            fontSize: 18,
-            color: MAIN_COLORS.WHITE_COLOR,
-            marginTop: 5,
-          }}
-        >
-          ©medsi 2022 Todos los derechos reservados.
-        </Typography>
-      </CenteredContent>
+  const LoginSnackBar = () => {
+    return (
       <CenteredContent>
         <Snackbar
           open={openSnackbarError}
@@ -340,6 +174,117 @@ const LoginPage = () => {
           horizontal="center"
         />
       </CenteredContent>
+    )
+  }
+
+  const ContinueButton = () => {
+    return (
+      <Button
+        variant="contained"
+        disabled={disabled}
+        onClick={fetchUserInformation}
+        className={loginButtonContinue}
+        sx={{
+          marginTop: '2rem',
+          borderRadius: '40px'
+        }}
+      >
+        Continuar
+      </Button>
+    )
+  }
+
+  const LoginLoadingButton = () => {
+    return (
+      <LoadingButton
+        loading
+        loadingPosition="start"
+        startIcon={<SaveIcon />}
+        variant="outlined"
+        className={loginButtonLoading}
+        sx={{
+          marginTop: '2rem',
+          borderRadius: '40px'
+        }}
+      >
+        Enviando
+      </LoadingButton>
+    )
+  }
+
+  const LoginValidate = () => {
+    <Button
+      variant="contained"
+      onClick={validateOTPCode}
+      disabled={expired || !otpCode}
+      className={loginButtonValidate}
+      sx={{
+        marginTop: '2rem',
+        borderRadius: '40px'
+      }}
+    >
+      Validar Código
+    </Button>
+  }
+
+  const LoginContinue = () => {
+    return (
+      isLoading
+        ? <LoginLoadingButton />
+        : <ContinueButton />
+    )
+  }
+
+  return (
+    <Box className={loginContainer}>
+      <Box className={loginBox}>
+        <LoginLogo />
+        <LoginTitle />
+        <LoginFormTitle />
+        <Box className={loginFormBox}>
+          <EmailIcon />
+          <TextField
+            id="otp-field"
+            variant="outlined"
+            className={emailInputForm}
+            value={phoneNumber}
+            onChange={(e) => handlePhoneNumberChange(e.target.value)}
+            InputProps={{ className: emailInputFormProps, maxLength: 10, }}
+            placeholder="Ingresa tu numero celular"
+          />
+        </Box>
+
+        {isWaitingOTP && (
+          <Box className={loginFormBox}>
+            <Box className={loginFormBox}>
+              <PasswordIcon />
+              <TextField
+                id="otp-field"
+                variant="outlined"
+                className={emailInputForm}
+                value={otpCode}
+                onChange={(e) => handleChangeOTPCode(e.target.value)}
+                InputProps={{ className: emailInputFormProps }}
+                placeholder="Ingresa el código"
+              />
+            </Box>
+            <CountDown
+              resendOTP={generateOTPCodeProcess}
+              setExpired={setExpired}
+            />
+          </Box>
+        )}
+
+        {
+          isWaitingOTP
+            ? <LoginValidate />
+            : <LoginContinue />
+        }
+
+      </Box>
+      <VectorMedsi />
+      <LoginFooter />
+      <LoginSnackBar />
     </Box>
   );
 };

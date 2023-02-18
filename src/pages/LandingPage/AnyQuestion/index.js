@@ -113,7 +113,7 @@ const AnyQuestion = (props) => {
         </button>
       )
     }
-    if (!isDesktop) {
+    if (!isDesktop && variant === undefined) {
       return (
         <button
           type="button"
