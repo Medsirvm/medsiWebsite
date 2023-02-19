@@ -48,7 +48,7 @@ const CountDown = (props) => {
             fontFamily: FONTS.URBANISTSEMIBOLD,
             color: MAIN_COLORS.WHITE_COLOR,
             fontSize: 16,
-            marginTop: 2,
+            marginTop: "1rem",
             cursor: "pointer",
           }}
         >
@@ -61,7 +61,7 @@ const CountDown = (props) => {
             fontFamily: FONTS.URBANISTSEMIBOLD,
             color: MAIN_COLORS.WHITE_COLOR,
             fontSize: 16,
-            marginTop: 2,
+            marginTop: "1rem",
             cursor: "pointer",
           }}
           variant="subtitle2"

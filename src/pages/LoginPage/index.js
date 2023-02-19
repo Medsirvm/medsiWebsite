@@ -126,6 +126,7 @@ const LoginPage = () => {
     loginButtonValidate,
     loginButtonLoading,
     loginBox,
+    loginFormBoxCountDown,
     loginFooter,
     vectorMedsiPic
   } = ui;
@@ -185,7 +186,7 @@ const LoginPage = () => {
         onClick={fetchUserInformation}
         className={loginButtonContinue}
         sx={{
-          marginTop: '2rem',
+          marginTop: '1rem',
           borderRadius: '40px'
         }}
       >
@@ -203,7 +204,7 @@ const LoginPage = () => {
         variant="outlined"
         className={loginButtonLoading}
         sx={{
-          marginTop: '2rem',
+          marginTop: '1rem',
           borderRadius: '40px'
         }}
       >
@@ -213,25 +214,31 @@ const LoginPage = () => {
   }
 
   const LoginValidate = () => {
-    <Button
-      variant="contained"
-      onClick={validateOTPCode}
-      disabled={expired || !otpCode}
-      className={loginButtonValidate}
-      sx={{
-        marginTop: '2rem',
-        borderRadius: '40px'
-      }}
-    >
-      Validar Código
-    </Button>
+    return (
+      <Button
+        variant="contained"
+        onClick={validateOTPCode}
+        disabled={expired || !otpCode}
+        className={loginButtonValidate}
+        sx={{
+          marginTop: '1rem',
+          borderRadius: '40px'
+        }}
+      >
+        Validar Código
+      </Button>
+    )
   }
 
   const LoginContinue = () => {
     return (
-      isLoading
-        ? <LoginLoadingButton />
-        : <ContinueButton />
+      <div>
+        {
+          isLoading
+            ? <LoginLoadingButton />
+            : <ContinueButton />
+        }
+      </div>
     )
   }
 
@@ -255,7 +262,7 @@ const LoginPage = () => {
         </Box>
 
         {isWaitingOTP && (
-          <Box className={loginFormBox}>
+          <Box className={loginFormBoxCountDown}>
             <Box className={loginFormBox}>
               <PasswordIcon />
               <TextField

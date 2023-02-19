@@ -15,7 +15,8 @@
   padding-bottom: 2rem;
 }
 
-.loginFormBox {
+.loginFormBox,
+.loginFormBoxCountDown {
   width: 100%;
   margin-top: 1rem;
   text-align: center;
@@ -26,6 +27,10 @@
   width: 100%;
   margin-top: 1rem;
   text-align: center;
+}
+
+.loginFormBoxCountDown {
+  flex-direction: column;
 }
 
 img[alt=emailField],
@@ -84,7 +89,8 @@ img[alt=passField] {
 .emailInputForm {
   position: relative;
   color: white !important;
-  width: 100%;;
+  width: 100%;
+  ;
 }
 
 .emailInputFormProps {
@@ -116,26 +122,33 @@ img[alt=passField] {
   text-transform: none;
   border-radius: 40px;
   background: linear-gradient(270deg, #1B63DB 1.32%, #0ACC97 99.08%);
-  margin-top: 2rem;
+  margin-top: 1rem;
+  display: flex;
 }
-  
+
 .loginFooter {
-  margin-bottom: 2rem;
-  margin-top: auto;
+  max-height: 68px;
+  min-height: 68px;
 }
 
 .vectorMedsiPic {
-  margin-top: auto;
-  margin-bottom: auto;
   width: 100%;
+  margin: auto;
 }
 
 @media (min-width: 768px) {
-  .loginFormBox {
+
+  .loginFormBox,
+  .loginFormBoxCountDown {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    gap: 1rem; 
+    gap: 1rem;
+  }
+
+  .loginFormBoxCountDown {
+    flex-direction: column;
+    gap: unset;
   }
 
   .loginFormBox:last-child {
@@ -143,7 +156,7 @@ img[alt=passField] {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    gap: 1rem; 
+    gap: 1rem;
   }
 
   .emailInputForm {
@@ -207,11 +220,17 @@ img[alt=passField] {
     width: 120px;
   }
 
-  .loginFormBox {
+  .loginFormBox,
+  .loginFormBoxCountDown {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    gap: 1rem; 
+    gap: 1rem;
+  }
+
+  .loginFormBoxCountDown {
+    flex-direction: column;
+    gap: unset;
   }
 
   .loginFormBox:last-child {
@@ -219,6 +238,6 @@ img[alt=passField] {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    gap: 1rem; 
+    gap: 1rem;
   }
 }
