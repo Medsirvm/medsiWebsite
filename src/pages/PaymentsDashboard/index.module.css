@@ -1,0 +1,10 @@
+.mainContainer {
+  position: relative; 
+}
+
+.containerParraf {
+  font-family: UrbanistRegular;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+}

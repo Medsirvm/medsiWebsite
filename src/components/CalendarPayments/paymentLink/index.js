@@ -1,60 +1,77 @@
-import { Box, Typography } from "@mui/material";
 import React from "react";
-import { paymentLinkStyles } from "./paymentLink.styles";
-import paymentLink from "../../../assets/icons/paymentLink.svg";
-import { FONTS } from "../../../constants/fontsConstants";
+import PaymentLinkIcon from "../../../assets/icons/paymentLink.svg";
 import { MAIN_COLORS } from "../../../constants/colorConstants";
 import { formatNumber } from "../../../utils/formatFieldsUtils";
+
+import ui from '../index.module.css';
 
 const PaymentLink = ({
   date,
   amount,
   loan,
-  type = null
+  type = null,
+  index
 }) => {
 
-  const classes = paymentLinkStyles();
-
   const backgroundColorType = () => {
-    if (type === 'pagado') return "rgba(10, 204, 151, 0.5)";
-    if (type === 'pendiente') return "#00263a";
-    if (type === 'retrazado') return "#1b63db";
+    if (type === 'pagado') return "rgba(10, 204, 151, 0.5);";
+    if (type === 'pendiente') return "#C4C4C4";
+    if (type === 'retrazado') return "rgba(204, 33, 10, 0.5)";
   }
 
   const textColorType = () => {
-    if (type === 'pagado') return MAIN_COLORS.BLACK_MEDIUM;
-    if (type === 'pendiente') return MAIN_COLORS.WHITE_COLOR;
-    if (type === 'retrazado') return MAIN_COLORS.WHITE_COLOR;
-    return MAIN_COLORS.BLACK_MEDIUM;
+    if (type === 'pagado') return "#000000";//MAIN_COLORS.BLACK_MEDIUM;
+    if (type === 'pendiente') return "#000000";//MAIN_COLORS.BLACK_MEDIUM;
+    if (type === 'retrazado') return "#000000";//MAIN_COLORS.BLACK_MEDIUM;
+    return "#000000";//MAIN_COLORS.BLACK_MEDIUM;
+  }
+
+  const {
+    paymentLink,
+    paymentIcon,
+    paymentDate,
+    paymentLoan,
+    paymentParraf,
+    paymentAmount,
+    firstPayment
+  } = ui;
+
+  const PaymentLoan = () => {
+
+    return loan ? (
+      <div className={paymentLoan}>
+        <p className={paymentParraf} style={{ color: textColorType(), }} >
+          {`$ ${formatNumber(loan)}`}
+        </p>
+      </div>
+    ) :
+      <div className={paymentLoan}> </div>
   }
 
   return (
-    <Box
-      className={classes.contentWrapper}
-      sx={{ background: loan ? MAIN_COLORS.BLUE_CONTRAST : backgroundColorType, boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.5)", }}
+    <div className={`${paymentLink} ${index === 0 ? firstPayment : null}`}
+      style={{
+        background: loan
+          ? MAIN_COLORS.BLUE_CONTRAST
+          : backgroundColorType(),
+        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.5)"
+      }}
     >
-      {/* Icon container */}
-      <Box className={classes.iconContainer}>
-        <img src={paymentLink} alt="paymentLinkicn" />
-      </Box>
-      <Box className={classes.dateContainer}>
-        <Typography sx={{ fontSize: 18, fontFamily: FONTS.URBANISTBOLD, color: textColorType, }} >
+      <div className={paymentIcon}>
+        <img src={PaymentLinkIcon} alt="paymentLinkicn" />
+      </div>
+      <div className={paymentDate}>
+        <p className={paymentParraf} style={{ color: textColorType(), }} >
           {date}
-        </Typography>
-      </Box>
-      <Box className={classes.paymentContainer}>
-        <Typography sx={{ fontSize: 18, fontFamily: FONTS.URBANISTBOLD, color: textColorType, }} >
+        </p>
+      </div>
+      <div className={paymentAmount}>
+        <p className={paymentParraf} style={{ color: textColorType(), }} >
           {`$ ${formatNumber(amount)}`}
-        </Typography>
-      </Box>
-      {loan && (
-        <Box className={classes.loanContainer}>
-          <Typography sx={{ fontSize: 18, fontFamily: FONTS.URBANISTBOLD, color: textColorType, }} >
-            {`$ ${formatNumber(loan)}`}
-          </Typography>
-        </Box>
-      )}
-    </Box>
+        </p>
+      </div>
+      <PaymentLoan />
+    </div>
   );
 };
 

@@ -5,8 +5,8 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import { CanvaSignatureStyles } from "./CanvaSignature.styles";
 import ReactSignatureCanvas from "react-signature-canvas";
-import { Button, Snackbar } from "@mui/material";
-import { MAIN_COLORS } from "../../../../constants/colorConstants";
+import { Snackbar } from "@mui/material";
+import ui from './index.module.css';
 
 export default function CanvaSignatureModal(props) {
   const { open, handleClose, onSaveSignature } = props;
@@ -31,6 +31,14 @@ export default function CanvaSignatureModal(props) {
   };
 
   const classes = CanvaSignatureStyles();
+
+  const {
+    canvaModalMainContainer,
+    canvaModalButton,
+    canvaModalButtonCancel,
+    canvaContainerBox
+  } = ui;
+
   return (
     <div>
       <Modal
@@ -43,65 +51,20 @@ export default function CanvaSignatureModal(props) {
         BackdropProps={{
           timeout: 500,
         }}
-        sx={{ left: '320px' }}
       >
         <Fade in={open}>
-          <Box className={classes.mainContainer}>
+          <div className={canvaModalMainContainer}>
             <ReactSignatureCanvas
               penColor="black"
-              canvasProps={{ className: classes.canvaContainer }}
+              canvasProps={{ className: canvaContainerBox }}
               ref={sigCanvas}
             />
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              sx={{
-                paddingLeft: 15,
-                paddingRight: 15,
-              }}
-            >
-              <Button
-                variant="contained"
-                color="error"
-                sx={{
-                  width: 150,
-                  height: 40,
-                  borderRadius: 10,
-                  marginRight: 3,
-                }}
-                onClick={handleClose}
-              >
-                Cancelar
-              </Button>
-              <Button
-                variant="contained"
-                sx={{
-                  width: 180,
-                  height: 40,
-                  borderRadius: 10,
-                  marginRight: 3,
-                  backgroundColor: MAIN_COLORS.MAIN_PURPLE,
-                }}
-                onClick={SaveSignature}
-              >
-                Firmar
-              </Button>
-              <Button
-                variant="contained"
-                sx={{
-                  width: 180,
-                  height: 40,
-                  borderRadius: 10,
-                  marginRight: 3,
-                  backgroundColor: MAIN_COLORS.BLUE_MEDIUM,
-                }}
-                onClick={ClearSignFromCanva}
-              >
-                Limpiar
-              </Button>
-            </Box>
-          </Box>
+            <div style={{ display: "flex", justifyContent: "space-evenly", alignItems: "center" }} >
+              <button type="button" className={canvaModalButtonCancel} onClick={handleClose}>Cancelar</button>
+              <button type="button" className={canvaModalButton} onClick={SaveSignature}>Firmar</button>
+              <button type="button" className={canvaModalButton} onClick={ClearSignFromCanva}>Limpiar</button>
+            </div>
+          </div>
         </Fade>
       </Modal>
       <Snackbar

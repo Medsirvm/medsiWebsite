@@ -12,6 +12,57 @@
   animation-iteration-count: infinite;
   animation-timing-function: linear;
   margin-top: 24px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.canvaContainer {
+  background: #BBC2E3;
+  height: auto;
+  width: calc(100% + 32px);
+  border-radius: 20px;
+}
+
+.canvaSignatureContainer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 152px;
+  cursor: pointer;
+  background: #FFFFFF;
+  box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.4);
+  border-radius: 20px;
+}
+
+.containerBox {
+  position: relative;
+  padding: 2rem 1rem;
+}
+
+.signatureContainerBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.canvaContainerButton {
+  width: 100%;
+  height: 40px;
+  min-height: 40px;
+  margin-top: 24px;
+  color: #00000042;
+  color: white;
+  box-shadow: none;
+  background: rgba(0, 0, 0, 0.5); 
+  font-size: 18px;
+  font-family: UrbanistBold;
+  border-radius: 10px;
+  border: none;
 }
 
 @keyframes loop {

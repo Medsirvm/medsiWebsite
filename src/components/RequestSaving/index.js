@@ -1,33 +1,17 @@
-import { Typography } from "@mui/material";
-import { Box } from "@mui/system";
-import React from "react";
-import { MAIN_COLORS } from "../../constants/colorConstants";
-import { FONTS } from "../../constants/fontsConstants";
-import { requestSavingStyles } from "./requestSaving.styles";
 import SavingCalculator from "./SavingCalculator";
+import ContainerTitle from "../ContainerTitle";
+import ui from './index.module.css';
 
 const RequestSaving = (props) => {
-  const classes = requestSavingStyles(); 
-  
+  const { mainContainer } = ui;
+
   return (
-    <Box className={classes.mainContainer}>
-      <Typography
-        variant="h5"
-        sx={{
-          fontWeight: "bold",
-          marginLeft: 3,
-          marginTop: 2,
-          marginBottom: 5,
-          marginRight: 'auto',
-          fontSize: 24,
-          fontFamily: FONTS.URBANISMEDIUM,
-          color: MAIN_COLORS.MAIN_PURPLE,
-        }}
-      >
+    <div className={mainContainer}>
+      <ContainerTitle>
         Programa tu Tanda de ahorro
-      </Typography> 
+      </ContainerTitle>
       <SavingCalculator isSimulator={true} />
-    </Box>
+    </div>
   );
 };
 

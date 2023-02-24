@@ -11,8 +11,8 @@ import { useSelector } from "react-redux";
 import { selectCreditLineAndPaymentAmounts } from "../../../store/reducers/user/UserAccountSlice";
 import { generateTransaction } from "../../../utils/generateTransaction";
 import { paymentListError, userError } from "../../../constants/messageErrors";
-import { getScheduledPaymentDates } from '../../../utils/generatePaymentDates.js'
-import { MAIN_COLORS } from "../../../constants/colorConstants";
+import { getScheduledPaymentDates } from '../../../utils/generatePaymentDates.js';
+import Parraf from "../../../components/Parraf";
 
 const CanvaContainer = (props) => {
   const { userInformation } = props;
@@ -108,7 +108,7 @@ const CanvaContainer = (props) => {
             nextPaymentDate = await getScheduledPaymentDates(nextPaymentDate, index);
 
             if (paymentResponse === null) throw new Error(paymentListError);
-          }; 
+          };
           navigate(PRIVATE_ROUTES.DASHBOARD_PAYMENTS_PAY_CHART);
         }
       } catch (error) {
@@ -124,129 +124,72 @@ const CanvaContainer = (props) => {
 
   const {
     txtUserName,
-    canvaSignatureContainer
   } = classes;
 
-  return (
-    <React.Fragment>
-      <Box sx={{
-        backgroundColor: MAIN_COLORS.BLUE_CONTRAST,
-        height: 480,
-        width: 955,
-        borderRadius: 7,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center"
-      }}>
-        <CenteredContent direction="column">
-          <Typography sx={{
-            fontFamily: "urbanistRegular",
-            fontSize: 20,
-            marginTop: 2,
-            marginBottom: 5,
-          }} >
-            Yo <strong className={txtUserName}> {userName},</strong>{" "}
-            acepto los términos y condiciones de Medsi
-          </Typography>
-          <Box
-            className={canvaSignatureContainer}
-            onClick={handleOpenSignatureModal}
-          >
-            {/* <Button
-              variant="contained"
-              sx={{
-                backgroundColor: MAIN_COLORS.DARK_BLUE,
-                borderRadius: 10,
-                textTransform: "none",
-                width: 102,
-                height: 38,
-                marginLeft: 29,
-                marginTop: 2,
-                fontFamily: "UrbanistBold",
-              }}
-              onClick={handleRemoveImage}
-            >
-              Borrar
-            </Button> */}
-            {imageURL ? (
-              <CenteredContent direction="column">
-                <img
-                  // height="180px"
-                  // width=" 180px"
-                  // style={{ marginTop: "30px" }}
-                  style={{
+  const {
+    canvaSignatureContainer,
+    canvaContainer,
+    containerBox,
+    canvaContainerButton,
+    signatureContainerBox
+  } = ui;
 
-                    height: '180px',
-                    width: '180px',
-                    marginTop: '30px'
-                  }}
+  return (
+    <>
+      <div className={canvaContainer}>
+        <div className={containerBox}>
+          <Parraf type="SemiBold" size={18} bottom={1} color="#00000080">
+            Yo <strong className={txtUserName}> {userName},</strong> acepto los términos y condiciones de Medsi
+          </Parraf>
+          <Box className={canvaSignatureContainer} onClick={handleOpenSignatureModal} >
+            {imageURL ? (
+              <div className={signatureContainerBox}>
+                <img
+                  style={{ height: '180px', width: '180px'}}
                   src={imageURL}
                   alt="signature"
                   className="signature"
                 />
-                <Typography align="center" sx={{
-
-                  marginTop: 3,
-                  fontFamily: "UrbanistSemiBold",
-                  fontSize: 18,
-                  color: MAIN_COLORS.BLACK_MEDIUM,
-                }} >
+                <Parraf type="SemiBold" size={18} color="#00000080">
                   Presiona para reintentar
-                </Typography>
-              </CenteredContent>
+                </Parraf>
+              </div>
             ) : (
-              <Typography align="center" sx={{
-
-                marginTop: 22,
-                fontFamily: "UrbanistSemiBold",
-                fontSize: 18,
-                color: MAIN_COLORS.BLACK_MEDIUM,
-              }} >
+              <Parraf type="SemiBold" size={18} color="#00000080">
                 Presiona para firmar
-              </Typography>
+              </Parraf>
             )}
           </Box>
           {
             loading
               ? <LoadingComponent />
               : (
-                <Button
+                <button
+                  type="button"
                   disabled={!imageURL}
-                  sx={{
-
-                    width: 380,
-                    height: 40,
-                    marginTop: 3,
-                    textTransform: "none",
-                    fontFamily: "UrbanistBold",
-                    fontSize: 18,
-                    backgroundColor: MAIN_COLORS.BLACK_MEDIUM,
-                    borderRadius: 2,
-                    "&:hover": {
-                      backgroundColor: MAIN_COLORS.BLACK_MEDIUM,
-                    },
-                  }}
-                  variant="contained"
+                  className={canvaContainerButton}
                   onClick={() => handleSignContract()}
                 >
                   {isValid ? "Continuar" : "Verificar"}
-                </Button>
+                </button>
               )
           }
-        </CenteredContent>
-      </Box>
+        </div>
+      </div>
       <CanvaSignatureModal
         open={openSignatureModal}
         handleClose={handleCloseSignatureModal}
         onSaveSignature={handleSaveSignatureImage}
       />
-    </React.Fragment>
+    </>
   );
 };
 
 const LoadingComponent = () => {
+
+  const { loadingCircle } = ui;
   return (
-    <div className={ui.loadingCircle}> </div>
+    <div className={loadingCircle}> </div>
   )
 }
 

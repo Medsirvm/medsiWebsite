@@ -1,8 +1,12 @@
 import { Box, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import DoughnutChart from "../../../components/charts/DoughnutChart";
+import EChartsTest from "../../../components/charts/DoughnutChart/ECharts";
+import GradientButton from "../../../components/GradientButton";
 import { MAIN_COLORS } from "../../../constants/colorConstants";
-const ChartContainer = ({ paymentsList }) => {
+import ui from './index.module.css';
+
+export default function ChartContainer({ paymentsList }) {
 
   const [pagados, setPagados] = useState(0);
 
@@ -25,35 +29,36 @@ const ChartContainer = ({ paymentsList }) => {
     if (pagados >= 4) return "¡Ya llevas 4 quincenas aportadas! Felicidades, ya puedes recibir tu crédito Tanda Ahorro";
   }
 
+  const {
+    chartContainer,
+    chartContainerHead,
+    chartContainerBody,
+    chartContainerFooter,
+    bodyParrafBox
+  } = ui;
+
   return (
-    <Box
-      sx={{
-        width: 749,
-        height: 452,
-        backgroundColor: MAIN_COLORS.WHITE_COLOR,
-        boxShadow: `0px 2px 4px 2px rgba(0, 0, 0, 0.4)`,
-        borderRadius: 5,
-      }}
-    >
-      <div>
-        <Typography
-          sx={{
-            fontFamily: "urbanistRegular",
-            fontSize: 18,
-            marginBottom: 5,
-            paddingLeft: 10,
-            paddingRight: 10,
-            paddingTop: 2,
-          }}
-        >
+    <div className={chartContainer} >
+      <div className={chartContainerHead}>
+        <p>
           {graphicHeaderText()}
-        </Typography>
-        <div>
-          <DoughnutChart />
+        </p>
+      </div>
+      <div className={chartContainerBody}>
+        {/* <DoughnutChart /> */}
+        <EChartsTest />
+        <div className={bodyParrafBox}>
+          <p>
+            Con tu pago oportuno, recibes tu crédito Tanda Ahorro por <strong>$5,000</strong> el:
+          </p>
+          <p style={{ textAlign: 'center', fontFamily: 'UrbanistBold' }}><strong>2 de Abril, 2023</strong></p>
         </div>
       </div>
-    </Box>
+      <div className={chartContainerFooter}>
+        <GradientButton>
+          Cancelar tu Tanda Ahorro
+        </GradientButton>
+      </div>
+    </div>
   );
 };
-
-export default ChartContainer;

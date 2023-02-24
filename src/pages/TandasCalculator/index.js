@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Layout from "../../components/Layout";
+import Layout from "../../Layouts";
 import RequestSaving from "../../components/RequestSaving";
 import { PRIVATE_ROUTES } from "../../constants/routesConstants";
 import { selectuserInformation, setPaymentsList } from "../../store/reducers/user/UserAccountSlice";

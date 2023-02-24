@@ -1,6 +1,8 @@
 import { formatCurrency } from "../../utils/formats";
 import ui from './index.module.css';
 // import { generateTransaction } from '../../utils/generateTransaction';
+import GradientButton from '../../components/GradientButton';
+import Parraf from '../../components/Parraf';
 
 export default function MexPago({
   name = {},
@@ -19,13 +21,24 @@ export default function MexPago({
     celular: phone.replace('+52', '')
   }
 
+  const {
+    paymentContainer,
+    containerBox,
+    boxContent,
+    mexPagoContainer
+  } = ui;
+
+
   return (
-    <section className={ui.paymentSectionView}>
-      <div className={ui.mxPayBoxData} >
-        <div>
-          <p>Ya casi, valida tus datos para terminar tu compra.</p>
-          <p><strong>¡Paga utilizando MexPago!</strong></p>
-          <p>Monto a pagar: <strong style={{ fontSize: "20px" }}>{formatCurrency(amount)}</strong></p>
+    <section className={paymentContainer}>
+      <div className={mexPagoContainer}>
+        <img src="https://dev.mexpago.com/img/mexpago-154x32-1.png" alt="mex_pago" />
+      </div>
+      <div className={containerBox} >
+        <div className={boxContent}>
+          <Parraf type="Medium" size={16} color="#00000080">Ya casi, valida tus datos para terminar tu compra.</Parraf>
+          <Parraf type="Medium" size={16} color="#000"><strong>¡Paga utilizando MexPago!</strong></Parraf>
+          <Parraf type="Medium" size={16} color="#00000080">Monto a pagar: <strong style={{ color: "#000", fontSize: "20px" }}>{formatCurrency(amount)}</strong></Parraf>
         </div>
         <form action="https://dev.mexpago.com/app/pagoOnline" method="POST" >
           <input type="hidden" name="monto" value={amount} />
@@ -38,14 +51,10 @@ export default function MexPago({
           <input type="hidden" name="infoComercio" value="false" />
           <input type="hidden" name="lenguaje" value="es" />
           <br />
-          <button type="submit" className={ui.submitPayment} >
+          <GradientButton>
             Proceder con el pago
-          </button>
+          </GradientButton>
         </form>
-      </div>
-
-      <div style={{ marginLeft: 'auto' }}>
-        <img src="https://dev.mexpago.com/img/mexpago-154x32-1.png" alt="mex_pago" />
       </div>
     </section>
   )

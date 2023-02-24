@@ -3,7 +3,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import CenteredContent from "../../CenteredContent";
 import { useSelector } from "react-redux";
-import { selectPaymentList, selectSimulationPaymentsInformation } from "../../../store/reducers/user/UserAccountSlice";
+import { selectPaymentList } from "../../../store/reducers/user/UserAccountSlice";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -36,7 +36,6 @@ const DoughnutChart = () => {
   useEffect(() => {
 
     const setLengths = () => {
-      console.log({ paymentsList })
       const pendings = paymentsList.filter((i) => i.estado === "pendiente").length;
       const payed = paymentsList.filter((i) => i.estado === "pagado").length;
       const lates = paymentsList.filter((i) => i.estado === "retrazado").length;

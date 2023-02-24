@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Slider } from "@mui/material";
-import { Box } from "@mui/system";
+import { Slider } from "@mui/material"; 
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +14,9 @@ import CalendarPayments from "../../CalendarPayments";
 import axios from "axios";
 import { nextCredit } from "../../../utils/nextCreditDate.js";
 import ui from './index.module.css';
+import GradientButton from "../../GradientButton";
+import LineBreak from "../../LineBreak";
+import Parraf from "../../Parraf";
 
 const SavingCalculator = (props) => {
   const userInformation = useSelector(selectuserInformation);
@@ -24,39 +26,7 @@ const SavingCalculator = (props) => {
   const valuetext = (value) => `${value}`;
   const handleContinueToContract = () => navigate(PRIVATE_ROUTES.DASHBOARD_CONTRATO_SERVICIO);
   const [totalAmountForSave, setTotalAmountForSave] = useState(500);
-  const [paymentLinks, setPaymentLinks] = useState([]);
-
-  // useEffect(() => {
-  //   const paymentLinks = async () => {
-  //     const today = moment();
-  //     const monthNumberDay = today.get("date");
-  //     if (monthNumberDay > 2 && monthNumberDay <= 17) {
-  //       //La fecha inicial es el día 17
-  //       const daysToAdd = 17 - parseInt(monthNumberDay);
-  //       // console.log(monthNumberDay);
-  //       const initialPaymentDate = today.add(daysToAdd, "days");
-  //       const paymentLinks = await getPaymentsLinks(
-  //         initialPaymentDate,
-  //         tandasInfo.biWeeklyAmount
-  //       );
-  //       dispatch(setSimulationPayments(paymentLinks));
-  //       setSimulationPaymentLinks(paymentLinks);
-  //       // console.log("paymentLinks ", paymentLinks);
-  //     } else {
-  //       //La fecha inicial es el 02
-  //       const totalDays = today.daysInMonth();
-  //       const daysToAdd = totalDays - monthNumberDay + 2;
-  //       const initialPaymentDate = today.add(daysToAdd, "days");
-  //       const paymentLinks = await getPaymentsLinks(
-  //         initialPaymentDate,
-  //         tandasInfo.biWeeklyAmount
-  //       );
-  //       dispatch(setSimulationPayments(paymentLinks));
-  //       setSimulationPaymentLinks(paymentLinks);
-  //     }
-  //   };
-  //   paymentLinks();
-  // }, [tandasInfo]);
+  const [paymentLinks, setPaymentLinks] = useState([]); 
 
   const debounce = (func) => {
     let timer;
@@ -110,58 +80,52 @@ const SavingCalculator = (props) => {
   }, [userInformation]);
 
   const {
-    topParraf,
-    middleParraf,
-    bottomParraf,
     slider,
     sliderLaterals,
-    totalAmountCredit,
     calculatorContainer,
-    tandasButton
   } = ui;
+
+  const SliderComponent = () => {
+    return (
+      <div className={slider}>
+        <span className={sliderLaterals}>$500</span>
+        <Slider
+          aria-label="MedsiAmount"
+          defaultValue={30}
+          getAriaValueText={valuetext}
+          valueLabelDisplay="on"
+          step={100}
+          min={500}
+          max={5000}
+          sx={{ marginRight: 2, marginLeft: 2, }}
+          size="50px"
+          onChange={(e) => handleChange(e.target.value)}
+        />
+        <span className={sliderLaterals}>$5,000</span>
+      </div>
+    )
+  }
 
   return (
     <>
-      <Box className={calculatorContainer}>
-        <Box>
-          <p className={topParraf}>Usando la barra, selecciona el monto que quieras aportar cada quincena:</p>
-          <Box className={slider}>
-            <span className={sliderLaterals}>$500</span>
-            <Slider
-              aria-label="MedsiAmount"
-              defaultValue={30}
-              getAriaValueText={valuetext}
-              valueLabelDisplay="on"
-              step={100}
-              min={500}
-              max={5000}
-              sx={{ marginRight: 2, marginLeft: 2, }}
-              size="50px"
-              onChange={(e) => handleChange(e.target.value)}
-            />
-            <span className={sliderLaterals}>$5,000</span>
-          </Box>
-          <p className={middleParraf} >
-            Si contratas hoy y realizas 4 pagos quincenales, el <strong style={{ color: "#000" }}>{nextCredit()}</strong> próximo recibes un crédito por:
-          </p>
-          <p className={totalAmountCredit}> {`$ ${formatNumber(totalAmountForSave * 10)}`} </p>
-          <p className={bottomParraf}>
-            Pagadero en 12 pagos quincenales de <strong>{`$ ${formatNumber(totalAmountForSave)}`}</strong>
-          </p>
-          {isSimulator && (
-            <Button
-              variant="contained"
-              className={tandasButton}
-              onClick={handleContinueToContract}
-            >
-              Contratar Tanda ahorro ahora
-            </Button>
-          )}
-        </Box>
-      </Box>
-      {isSimulator && (
-        <CalendarPayments paymentLinks={paymentLinks} />
-      )}
+      <div className={calculatorContainer}>
+        <Parraf bottom={2} size={18} type={"SemiBold"} color="#00000080">
+          Usando la barra, selecciona el monto que quieras aportar cada quincena:
+        </Parraf>
+        <SliderComponent />
+        <Parraf top={2} size={18} type="Semibold" color="#00000080">
+          Si contratas hoy y realizas 4 pagos quincenales, el <strong style={{ color: "#000" }}>{nextCredit()}</strong> próximo recibes un crédito por:
+        </Parraf>
+        <Parraf size={30} type="Bold"> {`$ ${formatNumber(totalAmountForSave * 10)}`} </Parraf>
+        <Parraf top={2} size={18} type="SemiBold" color="#00000080">
+          Pagadero en 12 pagos quincenales de <strong style={{ fontFamily: 'UrbanistBold', fontSize: '30px', color: "#000" }}>{`$ ${formatNumber(totalAmountForSave)}`}</strong>
+        </Parraf>
+        <LineBreak />
+        <GradientButton simulator={isSimulator} handleClick={() => handleContinueToContract()}>
+          Contratar Tanda ahorro ahora
+        </GradientButton>
+      </div>
+      <CalendarPayments simulator={isSimulator} paymentLinks={paymentLinks} />
     </>
   );
 };

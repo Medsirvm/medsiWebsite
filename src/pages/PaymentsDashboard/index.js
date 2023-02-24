@@ -1,11 +1,9 @@
-import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CalendarPayments from "../../components/CalendarPayments";
-import Layout from "../../components/Layout";
+import Layout from "../../Layouts";
 import ChartContainer from "./ChartContainer";
-import { PaymentDashboardPageStyles, sxStyles } from "./PaymentDashboardPage.styles";
 import {
   selectCurrentNumberUserPayment,
   selectPaymentList,
@@ -20,12 +18,16 @@ import axios from "axios";
 import ModalValidation from "./ModalValidation";
 import { ValidationContext } from "../../contexts/validationContext";
 import { formatDate } from "../../utils/formats";
+import ui from './index.module.css';
+import GradientButton from "../../components/GradientButton";
+import ContainerTitle from "../../components/ContainerTitle";
+import SectionContainer from "../../components/SectionContainer";
+import LineBreak from "../../components/LineBreak";
 
 const boxStyle = { display: "flex", alignItems: "center", flexDirection: "column" };
 
 const PaymentsDashboard = () => {
 
-  const classes = PaymentDashboardPageStyles();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userInformation = useSelector(selectuserInformation);
@@ -149,57 +151,54 @@ const PaymentsDashboard = () => {
     navigate(route)
   }
 
+  const {
+    mainContainer,
+    containerParraf
+  } = ui;
+
   return (
     <Layout>
-      <Box className={classes.mainContainer}>
-        <Typography variant="h5" sx={sxStyles.h5style}>Detalles de tu Tanda Ahorro</Typography>
-        <ChartContainer paymentsList={paymentsListRedux} />
-        {
-          isReady
-            ? (
-              <div style={{
-                display: 'flex',
-                flexDirection: 'row',
-                flexWrap: "nowrap",
-                justifyContent: "space-between",
-                width: "100%",
-                marginTop: "2rem"
-              }}>
-                <p style={{ fontSize: '18px' }}><strong>¡Felicidades!</strong> Ya puedes recibir tu crédito <strong>Tanda Ahorro</strong></p>
-                <Button
-                  variant="contained"
-                  sx={{
-                    ...sxStyles.buttonStyle,
-                    whiteSpace: "nowrap",
-                    padding: "0 2rem",
-                    width: "auto",
-                  }}
-                >
-                  {" "} Recibir crédito Tanda Ahorro
-                </Button>
-              </div>
-            )
-            : (
-              <>
-                <Typography variant="h5" sx={sxStyles.h5style}>Realizar un pago</Typography>
-                <Box sx={boxStyle}>
-                  <Typography variant="h5" sx={sxStyles.h5style2} >
-                    Debes realizar tu próxima aportación antes del{" "}
-                    <strong>{formatDate(firstPayment)}</strong> próximo:
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    sx={sxStyles.buttonStyle}
-                    onClick={() => navigate(PRIVATE_ROUTES.DASHBOARD_MAKE_PAYMENT)}
-                  >
-                    {" "} Pagar ahora
-                  </Button>
-                </Box>
-              </>
-            )
-        }
-        <CalendarPayments paymentLinks={paymentsListRedux} />
-        {/* <DonutChart /> */}
+      <section className={mainContainer}>
+        <SectionContainer>
+          <ContainerTitle>Detalles de tu Tanda Ahorro</ContainerTitle>
+          <ChartContainer paymentsList={paymentsListRedux} />
+        </SectionContainer>
+        <SectionContainer>
+          {
+            isReady
+              ? (
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  flexWrap: "nowrap",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  marginTop: "2rem"
+                }}>
+                  <p className={containerParraf}><strong>¡Felicidades!</strong> Ya puedes recibir tu crédito <strong>Tanda Ahorro</strong></p>
+
+                  <GradientButton>
+                    Recibir crédito Tanda Ahorro
+                  </GradientButton>
+                </div>
+              )
+              : (
+                <>
+                  <ContainerTitle>Realizar un pago</ContainerTitle>
+                  <p className={containerParraf}>
+                    Debes realizar tu próxima aportación antes del <strong>{formatDate(firstPayment)}</strong> próximo:
+                  </p>
+                  <LineBreak />
+                  <GradientButton handleClick={() => navigate(PRIVATE_ROUTES.DASHBOARD_MAKE_PAYMENT)}>
+                    Pagar ahora
+                  </GradientButton>
+                </>
+              )
+          }
+        </SectionContainer>
+        <SectionContainer>
+          <CalendarPayments paymentLinks={paymentsListRedux} />
+        </SectionContainer>
         <ModalValidation
           open={open}
           fecha={fecha}
@@ -209,7 +208,7 @@ const PaymentsDashboard = () => {
           authorized={estatus}
           closeModal={() => handleClosemodal()}
         />
-      </Box>
+      </section>
     </Layout>
   );
 };

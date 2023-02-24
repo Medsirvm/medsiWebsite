@@ -1,16 +1,20 @@
-.paymentSectionView {
+.paymentContainer {
   margin: 1.5rem;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: nowrap;
 }
 
-.mxPayBoxData {
+.containerBox {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   align-items: flex-start;
   width: 100%;
+}
+
+.mexPagoContainer {
+  margin: 0 auto;
 }
 
 .titleBox {
@@ -38,6 +42,11 @@
   text-overflow: ellipsis;
 }
 
+.boxContent {
+  display: flex;
+  flex-direction: column;
+}
+
 .checkBox {
   display: flex;
   flex-direction: row;
@@ -50,7 +59,7 @@
   cursor: pointer;
 }
 
-.mxPayBoxData form {
+.containerBox form {
   width: 100%;
   display: block;
   margin: 0;

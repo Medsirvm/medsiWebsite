@@ -1,0 +1,30 @@
+.chartContainer {
+  width: 100%;
+  max-width: 749px;
+  background: #FFF;
+  box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.4);
+  border-radius: 1.25rem;
+}
+
+.chartContainerHead {
+  padding: 26px 26px 0 26px;
+}
+
+.chartContainerHead p,
+.bodyParrafBox p {
+  font-family: UrbanistRegular;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.chartContainerBody {
+  padding: 0px 26px;
+}
+
+.chartContainerFooter {
+  padding: 0 26px 26px 26px;
+}
+.bodyParrafBox {
+  padding: 2rem 0px 1.5rem 0px;
+}

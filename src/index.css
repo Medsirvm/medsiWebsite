@@ -27,10 +27,66 @@
 *::after {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;  
+  box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   font-size: 1rem;
   overflow-x: hidden;
+}
+
+button.gradientButton {
+  background: linear-gradient(90.13deg, #1B63DB 0.23%, #0ACC97 100.05%);
+  border-radius: 20px;
+  border: transparent;
+  min-height: 40px;
+  width: 100%;
+}
+
+button.gradientButton:hover {
+  cursor: pointer;
+}
+
+button.gradientButton>span {
+  font-family: UrbanistBold;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.25;
+  color: #FFFFFF;
+}
+
+div.containerTitle {
+  margin-bottom: 1rem;
+}
+
+div.containerTitle h5 {
+  font-family: UrbanistBold;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.25;
+  color: #3552CC;
+}
+
+.sectionContainer {
+  position: relative;
+  padding: 1rem 26px;
+}
+
+button.Header_backButton {
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+button.Header_backButton span{
+  font-size: 14px;
+  font-family: UrbanistMedium;
+  font-style: normal;
+  line-height: 1.25;
+
 }
