@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { formatDate } from "../../utils/formats";
 import ContainerTitle from "../ContainerTitle";
 import PaymentLink from "./paymentLink";
@@ -6,18 +6,13 @@ import ui from './index.module.css';
 
 const CalendarPayments = ({
   paymentLinks,
-  simulator = false
 }) => {
-
-  useEffect(() => {
-    console.log({ simulator });
-  }, [simulator])
 
   const {
     paymentsCalendar
   } = ui;
-
-  return (paymentLinks.length > 0 && simulator === true) ? (
+  
+  return (paymentLinks.length > 0) ? (
     <>
       <ContainerTitle>
         Calendario de Próximos Pagos

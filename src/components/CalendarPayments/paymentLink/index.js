@@ -14,7 +14,7 @@ const PaymentLink = ({
 }) => {
 
   const backgroundColorType = () => {
-    if (type === 'pagado') return "rgba(10, 204, 151, 0.5);";
+    if (type === 'pagado') return "rgba(10, 204, 151, 0.5)";
     if (type === 'pendiente') return "#C4C4C4";
     if (type === 'retrazado') return "rgba(204, 33, 10, 0.5)";
   }
@@ -40,7 +40,7 @@ const PaymentLink = ({
 
     return loan ? (
       <div className={paymentLoan}>
-        <p className={paymentParraf} style={{ color: textColorType(), }} >
+        <p className={paymentParraf} style={{ color: textColorType(), whiteSpace: 'nowrap'}} >
           {`$ ${formatNumber(loan)}`}
         </p>
       </div>
@@ -48,12 +48,18 @@ const PaymentLink = ({
       <div className={paymentLoan}> </div>
   }
 
+  console.log({
+    date,
+    amount,
+    loan,
+    type,
+    index
+  })
+
   return (
     <div className={`${paymentLink} ${index === 0 ? firstPayment : null}`}
       style={{
-        background: loan
-          ? MAIN_COLORS.BLUE_CONTRAST
-          : backgroundColorType(),
+        background: loan === undefined ? backgroundColorType() : MAIN_COLORS.BLUE_CONTRAST,
         boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.5)"
       }}
     >
@@ -66,7 +72,7 @@ const PaymentLink = ({
         </p>
       </div>
       <div className={paymentAmount}>
-        <p className={paymentParraf} style={{ color: textColorType(), }} >
+        <p className={paymentParraf} style={{ color: textColorType(), whiteSpace: "nowrap"}} >
           {`$ ${formatNumber(amount)}`}
         </p>
       </div>

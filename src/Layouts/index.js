@@ -7,7 +7,7 @@ import ui from './index.module.css';
 import Main from "./Main";
 import Header from "./Header";
 
-export default function Layout({ children }) {
+export default function Layout({  children }) {
 
   const [open, setOpen] = useState(false);
   const userInformation = useSelector(selectuserInformation);
@@ -29,7 +29,7 @@ export default function Layout({ children }) {
         <Header
           size={size}
           userName={userName}
-          handleOpen={(e) => setOpen(e)}
+          handleOpen={(e) => setOpen(e)} 
         />
         {children}
       </Main>

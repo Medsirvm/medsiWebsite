@@ -75,7 +75,7 @@ export default function ChartContainer({ paymentsList, size }) {
       </div>
       <div className={chartContainerBody}>
         {/* <DoughnutChart /> */}
-        <EChartsTest />
+        <EChartsTest paymentsList={paymentsList.slice(0, 4)}/>
         <ContainerBodyBox />
       </div>
       {

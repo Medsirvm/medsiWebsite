@@ -5,3 +5,12 @@
   background-repeat: no-repeat;
   max-height: 160px;
 }
+
+.imageBannerDesktop {
+  position: relative;
+  min-height: 250px;
+  max-height: 250px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-x: right;
+}

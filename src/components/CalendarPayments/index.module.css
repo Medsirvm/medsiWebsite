@@ -13,6 +13,7 @@
 .paymentsCalendar {
   margin-top: 3rem;
   padding-bottom: 3rem;
+  max-width: 768px;
 }
 
 .firstPayment .paymentAmount::before {

@@ -5,9 +5,9 @@
   background: #3552CC;
   z-index: 1090;
   display: block;
-  left: -100vw;
+  left: -1000vw;
   top: 0;
-  transition: left 150ms ease-in;
+  transition: left 350ms ease-in;
 }
 
 .asideMenuContainer {
@@ -202,7 +202,7 @@
 
 .isOpenedMenu {
   left: 0;
-  transition: left 150ms ease-in;
+  transition: left 350ms ease-in;
 }
 
 @media screen and (min-width: 768px) {

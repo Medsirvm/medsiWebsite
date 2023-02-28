@@ -24,6 +24,19 @@
   padding-top: 1rem;
 }
 
+.congratsContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 2rem;
+  max-width: 768px;
+  align-items: center;
+}
+
+.congratsContainer>button {
+  margin-top: 1rem;
+}
+
 @media screen and (min-width: 768px) {
   .makePaymentContainer {
     position: relative;
@@ -43,6 +56,17 @@
   .containerParraf {
     font-size: 18px;
   }
+
+  .congratsContainer {
+
+    flex-flow: row nowrap;
+    justify-content: space-between;
+  }
+
+  .congratsContainer>button {
+    margin-top: unset;
+  }
+
 }
 
 @media screen and (min-width: 1200px) {

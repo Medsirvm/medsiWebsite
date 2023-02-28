@@ -41,6 +41,7 @@ button.gradientButton {
   border-radius: 20px;
   border: transparent;
   min-height: 40px;
+  max-height: 40px; 
   width: 100%;
 }
 
@@ -55,6 +56,7 @@ button.gradientButton>span {
   font-size: 18px;
   line-height: 1.25;
   color: #FFFFFF;
+  white-space: nowrap;
 }
 
 div.containerTitle {

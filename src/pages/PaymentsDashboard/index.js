@@ -72,7 +72,7 @@ const PaymentsDashboard = () => {
     console.log("ENTER APORTACIONES")
 
     const aportaciones = paymentsListRedux.filter(item => item.estado === 'pagado').length;
-
+    console.log({ aportaciones: paymentsListRedux })
     if (aportaciones >= 4) {
       setIsReady(true);
     }
@@ -155,7 +155,8 @@ const PaymentsDashboard = () => {
     containerParraf,
     chartContainerBox,
     makePaymentContainer,
-    makePaymentBox
+    makePaymentBox,
+    congratsContainer
   } = ui;
 
   return (
@@ -171,14 +172,7 @@ const PaymentsDashboard = () => {
           {
             isReady
               ? (
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  flexWrap: "nowrap",
-                  justifyContent: "space-between",
-                  width: "100%",
-                  marginTop: "2rem"
-                }}>
+                <div className={congratsContainer}>
                   <p className={containerParraf}><strong>¡Felicidades!</strong> Ya puedes recibir tu crédito <strong>Tanda Ahorro</strong></p>
 
                   <GradientButton>

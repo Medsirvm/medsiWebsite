@@ -50,7 +50,7 @@ const HeadSection = (props) => {
               <p className={bannerParraf3}>¡La nueva solución de Medsi que complementa tu ahorro para ayudarte a alcanzar tus metas!</p>
             </Box>
           </Box>
-          <ImageBanner bannerStyle={bannerDesktop} size={size} />
+          <ImageBanner bannerStyle={bannerDesktop} size={size} isLanding={true}/>
         </Box>
       )
     }
@@ -65,7 +65,7 @@ const HeadSection = (props) => {
             <p className={bannerParraf3}>¡La nueva solución de Medsi que complementa tu ahorro para ayudarte a alcanzar tus metas!</p>
           </Box>
         </Box>
-        <ImageBanner bannerStyle={bannerImageContainer} size={size} />
+        <ImageBanner bannerStyle={bannerImageContainer} size={size} isLanding={true}/>
       </>
     )
   }
