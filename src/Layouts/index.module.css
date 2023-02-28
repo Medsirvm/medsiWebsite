@@ -2,6 +2,21 @@
   height: 100%;
   width: 100%;
   min-height: 100vh;
-  min-height: 10dvh; 
+  min-height: 100dvh;
+  max-height: 100vh;
+  max-height: 100dvh;
+}
 
+@media (min-width: 992px) {
+  .layoutWrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow: hidden;
+  }
+  .layoutWrapper>main {
+    width: 100%;
+    height: auto;
+    overflow-y: auto;
+  }
 }

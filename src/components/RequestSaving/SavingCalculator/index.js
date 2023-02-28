@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Slider } from "@mui/material"; 
+import { Slider } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -26,7 +26,7 @@ const SavingCalculator = (props) => {
   const valuetext = (value) => `${value}`;
   const handleContinueToContract = () => navigate(PRIVATE_ROUTES.DASHBOARD_CONTRATO_SERVICIO);
   const [totalAmountForSave, setTotalAmountForSave] = useState(500);
-  const [paymentLinks, setPaymentLinks] = useState([]); 
+  const [paymentLinks, setPaymentLinks] = useState([]);
 
   const debounce = (func) => {
     let timer;
@@ -85,34 +85,28 @@ const SavingCalculator = (props) => {
     calculatorContainer,
   } = ui;
 
-  const SliderComponent = () => {
-    return (
-      <div className={slider}>
-        <span className={sliderLaterals}>$500</span>
-        <Slider
-          aria-label="MedsiAmount"
-          defaultValue={30}
-          getAriaValueText={valuetext}
-          valueLabelDisplay="on"
-          step={100}
-          min={500}
-          max={5000}
-          sx={{ marginRight: 2, marginLeft: 2, }}
-          size="50px"
-          onChange={(e) => handleChange(e.target.value)}
-        />
-        <span className={sliderLaterals}>$5,000</span>
-      </div>
-    )
-  }
-
   return (
     <>
       <div className={calculatorContainer}>
         <Parraf bottom={2} size={18} type={"SemiBold"} color="#00000080">
           Usando la barra, selecciona el monto que quieras aportar cada quincena:
         </Parraf>
-        <SliderComponent />
+        <div className={slider}>
+          <span className={sliderLaterals}>$500</span>
+          <Slider
+            aria-label="MedsiAmount"
+            defaultValue={30}
+            getAriaValueText={valuetext}
+            valueLabelDisplay="on"
+            step={100}
+            min={500}
+            max={5000}
+            sx={{ marginRight: 2, marginLeft: 2, }}
+            size="50px"
+            onChange={(e) => handleChange(e.target.value)}
+          />
+          <span className={sliderLaterals}>$5,000</span>
+        </div>
         <Parraf top={2} size={18} type="Semibold" color="#00000080">
           Si contratas hoy y realizas 4 pagos quincenales, el <strong style={{ color: "#000" }}>{nextCredit()}</strong> próximo recibes un crédito por:
         </Parraf>

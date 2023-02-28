@@ -1,4 +1,3 @@
-import { Box } from "@mui/system";
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CalendarPayments from "../../components/CalendarPayments";
@@ -23,8 +22,7 @@ import GradientButton from "../../components/GradientButton";
 import ContainerTitle from "../../components/ContainerTitle";
 import SectionContainer from "../../components/SectionContainer";
 import LineBreak from "../../components/LineBreak";
-
-const boxStyle = { display: "flex", alignItems: "center", flexDirection: "column" };
+import useWindowSize from "../../hooks/useWindowSize";
 
 const PaymentsDashboard = () => {
 
@@ -44,6 +42,7 @@ const PaymentsDashboard = () => {
 
   const { params, redirectPage } = useUrlParams(window.location);
   const { open, setOpen } = useContext(ValidationContext);
+  const { size } = useWindowSize();
 
   useEffect(() => {
     const httpRequest = async () => {
@@ -153,7 +152,10 @@ const PaymentsDashboard = () => {
 
   const {
     mainContainer,
-    containerParraf
+    containerParraf,
+    chartContainerBox,
+    makePaymentContainer,
+    makePaymentBox
   } = ui;
 
   return (
@@ -161,7 +163,9 @@ const PaymentsDashboard = () => {
       <section className={mainContainer}>
         <SectionContainer>
           <ContainerTitle>Detalles de tu Tanda Ahorro</ContainerTitle>
-          <ChartContainer paymentsList={paymentsListRedux} />
+          <div className={chartContainerBox}>
+            <ChartContainer paymentsList={paymentsListRedux} size={size} />
+          </div>
         </SectionContainer>
         <SectionContainer>
           {
@@ -183,16 +187,18 @@ const PaymentsDashboard = () => {
                 </div>
               )
               : (
-                <>
-                  <ContainerTitle>Realizar un pago</ContainerTitle>
-                  <p className={containerParraf}>
-                    Debes realizar tu próxima aportación antes del <strong>{formatDate(firstPayment)}</strong> próximo:
-                  </p>
-                  <LineBreak />
+                <div className={makePaymentContainer}>
+                  <div className={makePaymentBox}>
+                    <ContainerTitle>Realizar un pago</ContainerTitle>
+                    <p className={containerParraf}>
+                      Debes realizar tu próxima aportación antes del <strong>{formatDate(firstPayment)}</strong> próximo:
+                    </p>
+                    <LineBreak />
+                  </div>
                   <GradientButton handleClick={() => navigate(PRIVATE_ROUTES.DASHBOARD_MAKE_PAYMENT)}>
                     Pagar ahora
                   </GradientButton>
-                </>
+                </div>
               )
           }
         </SectionContainer>

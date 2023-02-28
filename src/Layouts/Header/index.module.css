@@ -61,3 +61,37 @@
   background-repeat: no-repeat;
   background-position-x: -170px;
 }
+
+.welcomeLargeContainer {
+  position: relative;
+}
+
+.textWrapper{
+  position: relative;
+}
+
+.bannerImageContainer {
+  position: relative;
+}
+
+@media screen and (min-width: 768px) {
+  .welcomeBanner {
+    min-height: 157px;
+    max-height: 157px;
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat no-repeat;
+    background-position-x: unset;
+  }
+}
+
+@media screen and (min-width: 1350px) {
+  .welcomeBanner {
+    min-height: 180px;
+    max-height: 180px;
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat no-repeat;
+    background-position-x: unset;
+  }
+}

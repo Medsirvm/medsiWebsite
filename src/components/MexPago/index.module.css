@@ -1,5 +1,5 @@
 .paymentContainer {
-  margin: 1.5rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -83,4 +83,38 @@
   cursor: pointer;
   background: rgb(55 84 204);
   transition: all 150ms ease;
+}
+
+@media screen and (min-width: 768px) {
+
+  .paymentContainer {
+    padding: 44px 69px;
+  }
+  .containerBox {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .containerBox>form {
+    max-width: 280px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+
+  .paymentContainer {
+    padding: 44px 69px;
+  }
+  .containerBox {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .containerBox>form {
+    max-width: 280px;
+  }
 }

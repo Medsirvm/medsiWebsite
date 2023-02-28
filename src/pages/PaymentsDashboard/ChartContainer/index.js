@@ -1,14 +1,14 @@
-import { Box, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import DoughnutChart from "../../../components/charts/DoughnutChart";
+import React, { useEffect, useState } from "react"; 
 import EChartsTest from "../../../components/charts/DoughnutChart/ECharts";
-import GradientButton from "../../../components/GradientButton";
-import { MAIN_COLORS } from "../../../constants/colorConstants";
+import GradientButton from "../../../components/GradientButton"; 
 import ui from './index.module.css';
 
-export default function ChartContainer({ paymentsList }) {
+export default function ChartContainer({ paymentsList, size }) {
 
   const [pagados, setPagados] = useState(0);
+
+  const isDesktop = (size === 'l' || size === 'xl' | size === 'xxl');
+  const isTablet = size === 'm';
 
   useEffect(() => {
 
@@ -34,8 +34,37 @@ export default function ChartContainer({ paymentsList }) {
     chartContainerHead,
     chartContainerBody,
     chartContainerFooter,
-    bodyParrafBox
+    bodyParrafBox,
+    bodyParrafSubBox
   } = ui;
+
+  const ChartContainerFooter = () => {
+    return <div className={chartContainerFooter}>
+      <GradientButton>
+        Cancelar tu Tanda Ahorro
+      </GradientButton>
+    </div>
+  }
+
+  const ContainerBodyBox = () => {
+
+    return (!isTablet && !isDesktop)
+      ? (<div className={bodyParrafBox}>
+        <p>Con tu pago oportuno, recibes tu crédito Tanda Ahorro por <strong>$5,000</strong> el:</p>
+        <p style={{ textAlign: 'center', fontFamily: 'UrbanistBold' }}><strong>2 de Abril, 2023</strong></p>
+      </div>)
+      : (
+        <div className={bodyParrafBox}>
+          <div className={bodyParrafSubBox}>
+            <p>Con tu pago oportuno, recibes tu crédito Tanda Ahorro por <strong>$5,000</strong> el:</p>
+            <p style={{ textAlign: 'center', fontFamily: 'UrbanistBold' }}><strong>2 de Abril, 2023</strong></p>
+          </div>
+          <GradientButton>
+            Cancelar tu Tanda Ahorro
+          </GradientButton>
+        </div>
+      )
+  }
 
   return (
     <div className={chartContainer} >
@@ -47,18 +76,13 @@ export default function ChartContainer({ paymentsList }) {
       <div className={chartContainerBody}>
         {/* <DoughnutChart /> */}
         <EChartsTest />
-        <div className={bodyParrafBox}>
-          <p>
-            Con tu pago oportuno, recibes tu crédito Tanda Ahorro por <strong>$5,000</strong> el:
-          </p>
-          <p style={{ textAlign: 'center', fontFamily: 'UrbanistBold' }}><strong>2 de Abril, 2023</strong></p>
-        </div>
+        <ContainerBodyBox />
       </div>
-      <div className={chartContainerFooter}>
-        <GradientButton>
-          Cancelar tu Tanda Ahorro
-        </GradientButton>
-      </div>
+      {
+        (isDesktop || isTablet)
+          ? null
+          : <ChartContainerFooter />
+      }
     </div>
   );
 };

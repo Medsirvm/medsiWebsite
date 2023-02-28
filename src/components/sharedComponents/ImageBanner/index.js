@@ -1,31 +1,29 @@
-import { Box } from "@mui/material";
+
 import React from "react";
 import smallBanner from '../../../assets/images/fig_arte_banner_web-small.png';
 import mediumBanner from '../../../assets/images/fig_arte_banner_web.png';
-const ImageBanner = (props) => {
+import largeBanner from '../../../assets/images/fig_arte_banner_web-large.png';
+import ui from './index.module.css';
 
-  const TandasHeadBanner = ({ bannerStyle, size, children }) => {
+const ImageBanner = ({
+  size,
+  bannerStyle
+}) => {
 
-    const isDesktop = (size === 'l' || size === 'xl' || size === 'xxl');
 
-    const backgroundBanner = () => {
-      if (size === 'xs' || size === 's') return `url(${smallBanner})`;
-      if (size === 'm') return `url(${mediumBanner})`;
-      return null;
-    }
+  const { imageBannerContainer } = ui;
 
-    if (isDesktop) {
-      return (
-        <Box>
-          <div className={bannerStyle} style={{ backgroundImage: `url(${mediumBanner})` }}></div>
-        </Box >
-      )
-    }
+  const isDesktop = (size === 'l' || size === 'xl' || size === 'xxl');
 
-    return <Box className={bannerStyle} sx={{ backgroundImage: backgroundBanner }} />
+  const backgroundBanner = () => {
+    if (size === 'xs' || size === 's') return `url(${smallBanner})`;
+    if (size === 'm') return `url(${mediumBanner})`;
+    return null;
   }
+  return isDesktop
+    ? <div className={imageBannerContainer} style={{ backgroundImage: `url(${largeBanner})` }}></div>
+    : <div className={bannerStyle} style={{ backgroundImage: `url(${backgroundBanner})` }} />
 
-  return <TandasHeadBanner {...props} />
 };
 
 export default ImageBanner;

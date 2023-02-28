@@ -1,4 +1,10 @@
 .mainContainer {
   position: relative;
   padding: 16px 26px;
-} 
+}
+
+@media screen and (min-width: 992px) {
+  .mainContainer {
+    padding: 16px 44px;
+  }
+}

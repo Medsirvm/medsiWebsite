@@ -1,5 +1,6 @@
  .sectionContainer {
    padding: 1rem 26px;
+   max-width: 996px;
  }
 
  .containerCard {
@@ -23,4 +24,10 @@
 
  .headerTitle {
   flex-grow: 1;
+ }
+
+ @media screen and (min-width: 992px) {
+  .sectionContainer {
+    padding: 1rem 44px;
+  }
  }

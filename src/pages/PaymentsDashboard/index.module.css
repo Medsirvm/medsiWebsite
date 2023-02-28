@@ -1,5 +1,5 @@
 .mainContainer {
-  position: relative; 
+  position: relative;
 }
 
 .containerParraf {
@@ -7,4 +7,57 @@
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
+}
+
+.makePaymentContainer {
+  position: relative;
+}
+
+.makePaymentBox {
+  position: relative;
+}
+
+.chartContainerBox {
+  position: relative;
+  max-width: 539px;
+  margin: 0 auto;
+  padding-top: 1rem;
+}
+
+@media screen and (min-width: 768px) {
+  .makePaymentContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .makePaymentBox {
+    position: relative;
+  }
+
+  .makePaymentContainer>button {
+    width: 173px !important;
+    height: 40px !important;
+  }
+
+  .containerParraf {
+    font-size: 18px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .chartContainerBox {
+    max-width: 768px;
+    margin: unset;
+    margin-right: auto;
+  }
+
+  .makePaymentContainer {
+    max-width: 817px;
+    justify-content: space-between;
+  }
+
+  .containerParraf {
+    font-size: 18px;
+  }
 }

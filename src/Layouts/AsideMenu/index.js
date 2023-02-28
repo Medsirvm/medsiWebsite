@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import MenuMedsiLogo from '../assets/images/fig_burger_menu_logo.png'
 import { Link, useNavigate } from "react-router-dom";
 import ui from './index.module.css';
+import MedsiLogo from '../assets/images/medsi.png';
 
 export default function AsideMenu({
   type,
@@ -11,6 +12,9 @@ export default function AsideMenu({
 }) {
 
   const navigate = useNavigate();
+
+  const portableDeviceSizes = ["xs", "s", "m"];
+  const isPortableDevice = portableDeviceSizes.includes(type);
 
   const listItems = [
     {
@@ -69,43 +73,86 @@ export default function AsideMenu({
     asideMenuTopNav,
     asideMenuLeftNav,
     username,
-    profile
+    profile,
+    asideMenuWrapperDesk,
+    wrapperDeskHead,
+    headMedsiLogo,
+    wrapperDeskBody,
+    leftNavContainer,
+    asideLink,
+    isOpenedMenu
   } = ui;
 
-  return open ? (
-    <div className={asideMenuWrapper}>
-      <div className={asideMenuContainer}>
-        <nav className={asideMenuTopNav}>
-          <img src={MenuMedsiLogo} alt="medsi-logo" />
-          <button type="button" className={menuButton} onClick={() => { handleOpen(false) }}>
-            <i className="material-icons-outlined">menu_open</i>
-          </button>
-        </nav>
-        <nav className={asideMenuLeftNav}>
-          <h1 className={username}>{userName}</h1>
-          <p className={profile}>Perfil</p>
-          <ul className={menuList}>
-            {
-              listItems.map((item, index) => {
-                const { icon, label } = item;
-                return (
-                  <li
-                    key={index}
-                    className={`${menuListItem} ${index === selectedIndex ? selectedItem : null}`}
-                    onClick={(e) => handleListItemClick(e, index)}
-                  >
-                    <Link className={menuListLabel}>
-                      <i className="material-icons-outlined">{icon}</i>
-                      {label}
-                    </Link>
-                  </li>
+  if (isPortableDevice) {
+    return (
+      <div className={open ? `${asideMenuWrapper} ${isOpenedMenu}` : asideMenuWrapper}>
+        <div className={asideMenuContainer}>
+          <nav className={asideMenuTopNav}>
+            <img src={MenuMedsiLogo} alt="medsi-logo" />
+            <button type="button" className={menuButton} onClick={() => { handleOpen(false) }}>
+              <i className="material-icons-outlined">menu_open</i>
+            </button>
+          </nav>
+          <nav className={asideMenuLeftNav}>
+            <h1 className={username}>{userName}</h1>
+            <p className={profile}>Perfil</p>
+            <ul className={menuList}>
+              {
+                listItems.map((item, index) => {
+                  const { icon, label } = item;
+                  return (
+                    <li
+                      key={index}
+                      className={`${menuListItem} ${index === selectedIndex ? selectedItem : null}`}
+                      onClick={(e) => handleListItemClick(e, index)}
+                    >
+                      <Link className={menuListLabel}>
+                        <i className="material-icons-outlined">{icon}</i>
+                        {label}
+                      </Link>
+                    </li>
+                  )
+                }
                 )
               }
-              )
-            }
-          </ul>
-        </nav>
+            </ul>
+          </nav>
+        </div>
       </div>
-    </div >
-  ) : null;
+    )
+  } else {
+    return (
+      <div className={asideMenuWrapperDesk}>
+        <div className={wrapperDeskHead}>
+          <div className={headMedsiLogo}>
+            <img alt="logo" src={MedsiLogo} />
+          </div>
+        </div>
+        <div className={wrapperDeskBody}>
+          <nav className={asideMenuLeftNav}>
+            <ul className={leftNavContainer}>
+              {
+                listItems.map((item, index) => {
+                  const { icon, label } = item;
+                  return (
+                    <li
+                      key={index}
+                      className={`${menuListItem} ${index === selectedIndex ? selectedItem : null}`}
+                      onClick={(e) => handleListItemClick(e, index)}
+                    >
+                      <Link className={asideLink} onClick={() => { handleListItemClick(index) }}>
+                        <i className="material-icons-outlined">{icon}</i>
+                        <span>{label}</span>
+                      </Link>
+                    </li>
+                  )
+                }
+                )
+              }
+            </ul>
+          </nav>
+        </div >
+      </div >
+    )
+  }
 }

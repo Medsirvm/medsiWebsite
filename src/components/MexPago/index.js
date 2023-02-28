@@ -1,8 +1,8 @@
 import { formatCurrency } from "../../utils/formats";
 import ui from './index.module.css';
-// import { generateTransaction } from '../../utils/generateTransaction';
-import GradientButton from '../../components/GradientButton';
+// import { generateTransaction } from '../../utils/generateTransaction'; 
 import Parraf from '../../components/Parraf';
+import useWindowSize from "../../hooks/useWindowSize";
 
 export default function MexPago({
   name = {},
@@ -28,6 +28,11 @@ export default function MexPago({
     mexPagoContainer
   } = ui;
 
+  const { size } = useWindowSize();
+
+  const isTabletOrDesktop = (size !== 'xs' || size !== 's');
+
+  const parrafSize = () => isTabletOrDesktop ? 18 : 16;
 
   return (
     <section className={paymentContainer}>
@@ -36,9 +41,9 @@ export default function MexPago({
       </div>
       <div className={containerBox} >
         <div className={boxContent}>
-          <Parraf type="Medium" size={16} color="#00000080">Ya casi, valida tus datos para terminar tu compra.</Parraf>
-          <Parraf type="Medium" size={16} color="#000"><strong>¡Paga utilizando MexPago!</strong></Parraf>
-          <Parraf type="Medium" size={16} color="#00000080">Monto a pagar: <strong style={{ color: "#000", fontSize: "20px" }}>{formatCurrency(amount)}</strong></Parraf>
+          <Parraf type="Medium" size={parrafSize()} color="#00000080">Ya casi, valida tus datos para terminar tu compra.</Parraf>
+          <Parraf type="Medium" size={parrafSize()} color="#000"><strong>¡Paga utilizando MexPago!</strong></Parraf>
+          <Parraf type="Medium" size={parrafSize()} color="#00000080">Monto a pagar: <strong style={{ color: "#000", fontSize: "20px" }}>{formatCurrency(amount)}</strong></Parraf>
         </div>
         <form action="https://dev.mexpago.com/app/pagoOnline" method="POST" >
           <input type="hidden" name="monto" value={amount} />
@@ -51,9 +56,9 @@ export default function MexPago({
           <input type="hidden" name="infoComercio" value="false" />
           <input type="hidden" name="lenguaje" value="es" />
           <br />
-          <GradientButton>
-            Proceder con el pago
-          </GradientButton>
+          <button type="submit" className="gradientButton">
+            <span>Proceder con el pago</span>
+          </button>
         </form>
       </div>
     </section>

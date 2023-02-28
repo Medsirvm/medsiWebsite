@@ -15,6 +15,18 @@ export default function Header({
   const isLarge = (size === 'l' || size === 'xl' || size === 'xxl');
   const navigate = useNavigate();
 
+  const {
+    headerWrapper,
+    welcomeSmallContainer,
+    navLogoBox,
+    navToolsBox,
+    welcomeLargeContainer,
+    textWrapper,
+    bannerImageContainer,
+    welcomeUser,
+    username,
+    welcomeBanner
+  } = ui;
 
   const SmallContent = () => {
 
@@ -60,7 +72,7 @@ export default function Header({
       <>
         <div className={welcomeSmallContainer}>
           <nav>
-            <button className="Header_backButton" type="button" onClick={()=> navigate(-1)}>
+            <button className="Header_backButton" type="button" onClick={() => navigate(-1)}>
               <i className="material-icons-outlined">arrow_back</i>
               <span>Regresar</span>
             </button>
@@ -83,24 +95,11 @@ export default function Header({
             <WelcomeMessage userName={userName} />
           </div>
         </div>
-        <ImageBanner bannerStyle={bannerImageContainer} />
+        <ImageBanner size={size} bannerStyle={bannerImageContainer} />
       </>
     ) : null
   }
-
-  const {
-    headerWrapper,
-    welcomeSmallContainer,
-    navLogoBox,
-    navToolsBox,
-    welcomeLargeContainer,
-    textWrapper,
-    bannerImageContainer,
-    welcomeUser,
-    username,
-    welcomeBanner
-  } = ui;
-
+ 
   return (
     <header className={headerWrapper}>
       <SmallContent />

@@ -5,8 +5,9 @@
   background: #3552CC;
   z-index: 1090;
   display: block;
-  left: 0;
+  left: -100vw;
   top: 0;
+  transition: left 150ms ease-in;
 }
 
 .asideMenuContainer {
@@ -103,7 +104,7 @@
   font-weight: 400;
   font-size: 18px;
   line-height: 1.25;
-  color: #FFFFFF;
+  color: #3552CC;
   text-decoration: none;
 
   background: transparent;
@@ -119,7 +120,104 @@
 
 .menuListItem:hover,
 .selectedItem {
-  background: rgba(255, 255, 255, 0.3);
+  background: #FFF;
   transition: all 150ms linear;
   cursor: pointer;
+  color: #3552CC;
+}
+
+.menuListItem:hover,
+.selectedItem>a>* {
+  color: #3552CC !important;
+}
+
+.asideMenuWrapperDesk {
+  min-width: 280px;
+  max-width: 280px;
+  height: 100dvh;
+  height: 100vh;
+  background: linear-gradient(180deg, #3552CC 0%, rgba(196, 196, 196, 0) 100%);
+}
+
+.wrapperDeskHead {
+  position: relative;
+  max-height: 258px;
+  min-height: 258px;
+}
+
+.headMedsiLogo {
+  padding: 40px 50px;
+}
+
+.wrapperDeskBody {
+  position: relative;
+}
+
+.asideMenuLeftNav {
+  position: relative;
+}
+
+.leftNavContainer {
+  position: relative;
+}
+
+.leftNavContainer>li {
+  max-height: 58px;
+  min-height: 58px;
+  position: relative;
+}
+
+.asideLink {
+  width: 100%;
+  height: 58px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.asideLink {
+  width: 100%;
+  height: 58px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  text-decoration: none;
+  font-family: UrbanistSemiBold;
+  font-size: 18px;
+  gap: 20px;
+}
+
+.asideLink>i {
+  margin-left: 3rem;
+  width: 2rem;
+  height: 2rem;
+  font-size: 2rem;
+  color: #3552CC;
+}
+
+.asideLink>* {
+  color: #3552CC;
+  text-decoration: none;
+}
+
+.isOpenedMenu {
+  left: 0;
+  transition: left 150ms ease-in;
+}
+
+@media screen and (min-width: 768px) {
+
+  .menuListLabel>a>* {
+    color: #FFF;
+  }
+
+  .selectedItem>a::before {
+    content: '';
+    width: 6px;
+    height: 58px;
+    background: #3955cd;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    position: absolute;
+  }
 }

@@ -25,6 +25,35 @@
 .chartContainerFooter {
   padding: 0 26px 26px 26px;
 }
+
 .bodyParrafBox {
   padding: 2rem 0px 1.5rem 0px;
+}
+
+.bodyParrafSubBox {
+  position: inherit;
+}
+
+@media screen and (min-width: 768px) {
+  .bodyParrafBox {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+  }
+
+  .bodyParrafBox>button {
+    width: 250px !important;
+    height: 40px !important;
+  }
+
+  .bodyParrafBox>button>span {
+    font-size: 16px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .chartContainerHead p,
+  .bodyParrafBox p {
+    font-size: 18px;
+  }
 }

@@ -1,0 +1,7 @@
+.imageBannerContainer {
+  width: 100%;
+  min-height: 160px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  max-height: 160px;
+}

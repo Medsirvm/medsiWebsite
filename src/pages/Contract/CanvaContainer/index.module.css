@@ -52,9 +52,14 @@
 
 .canvaContainerButton {
   width: 100%;
+  max-width: 350px;
   height: 40px;
   min-height: 40px;
+  max-height: 40px;
+  display: block;
   margin-top: 24px;
+  margin-left: auto;
+  margin-right: auto;
   color: #00000042;
   color: white;
   box-shadow: none;

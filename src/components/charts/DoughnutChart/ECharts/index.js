@@ -21,10 +21,10 @@ export default function EChartsTest() {
           show: false
         },
         data: [
-          { value: 25, name: '1/4' },
-          { value: 25, name: '2/4' },
-          { value: 25, name: '3/4' },
-          { value: 25, name: '4/4' }
+          { value: 25, name: '1/4', itemStyle: { color: "#00263C", borderColor: "#FFF", borderWidth: 2, borderRadius: 6 } },
+          { value: 25, name: '2/4', itemStyle: { color: "#00263C", borderColor: "#FFF", borderWidth: 2, borderRadius: 6 } },
+          { value: 25, name: '3/4', itemStyle: { color: "#00263C", borderColor: "#FFF", borderWidth: 2, borderRadius: 6 } },
+          { value: 25, name: '4/4', itemStyle: { color: "#00263C", borderColor: "#FFF", borderWidth: 2, borderRadius: 6 } },
         ]
       }
     ]
