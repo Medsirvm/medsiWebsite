@@ -4,9 +4,9 @@
  }
 
  .containerCard {
-   margin-top: 1rem; 
+   margin-top: 1rem;
    box-shadow: unset !important;
-   border-radius: 10px !important; 
+   border-radius: 10px !important;
  }
 
  .cardHeader {
@@ -23,11 +23,60 @@
  }
 
  .headerTitle {
-  flex-grow: 1;
+   flex-grow: 1;
  }
 
+ .contractBox {
+   display: flex;
+   flex-flow: row nowrap;
+   align-items: center;
+   justify-content: flex-start;
+   gap: 0.75rem;
+ }
+
+ .contractTerms {
+   font-size: 16px;
+   font-family: UrbanistMedium;
+   line-height: 1.25;
+   font-style: normal;
+   font-weight: 400;
+   cursor: pointer;
+ }
+
+ .contractTerms>strong {
+   text-decoration: underline;
+   color: #3552CC
+ }
+
+
+ /* Modal Contract */
+
+ .modalFancyBoxContract {
+   display: block;
+   position: absolute;
+   z-index: 1090;
+   left: 0;
+   top: 0;
+   bottom: 0;
+   right: 0;
+   background: #00000050;
+   padding: 3rem;
+ }
+
+ .fancyBoxContractContainer {
+   position: relative;
+   width: 90%;
+   height: 100%;
+   border-radius: 10px;
+   background: white;
+   padding: 3rem;
+   overflow-y: auto;
+   margin: 0 auto;
+ }
+
+
  @media screen and (min-width: 992px) {
-  .sectionContainer {
-    padding: 1rem 44px;
-  }
+   .sectionContainer {
+     padding: 1rem 44px;
+   }
  }
