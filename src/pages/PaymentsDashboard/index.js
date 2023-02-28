@@ -197,7 +197,7 @@ const PaymentsDashboard = () => {
           }
         </SectionContainer>
         <SectionContainer>
-          <CalendarPayments paymentLinks={paymentsListRedux} />
+          <CalendarPayments paymentLinks={paymentsListRedux} isSimulator={true} />
         </SectionContainer>
         <ModalValidation
           open={open}

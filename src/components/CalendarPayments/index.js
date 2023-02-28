@@ -6,13 +6,14 @@ import ui from './index.module.css';
 
 const CalendarPayments = ({
   paymentLinks,
+  isSimulator 
 }) => {
 
   const {
     paymentsCalendar
   } = ui;
   
-  return (paymentLinks.length > 0) ? (
+  return ((paymentLinks.length > 0 && isSimulator)) ? (
     <>
       <ContainerTitle>
         Calendario de Próximos Pagos
