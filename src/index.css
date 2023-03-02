@@ -41,7 +41,7 @@ button.gradientButton {
   border-radius: 20px;
   border: transparent;
   min-height: 40px;
-  max-height: 40px; 
+  max-height: 40px;
   width: 100%;
 }
 
@@ -100,9 +100,37 @@ span.closeBackground {
   left: 0;
   top: 0;
   right: 0;
-  bottom: 0; 
+  bottom: 0;
   background: transparent;
   display: block;
+}
+
+button.modalButton {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  min-height: 40px;
+  padding: 0 2rem;
+  border-radius: 10px;
+  border: none;
+  background: #3552CC;
+  transition: all 150ms ease;
+}
+
+button.modalButton:hover {
+  background: #2941a5;
+  transition: all 150ms ease;
+}
+
+button.modalButton>span {
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.disabledCanva {
+  text-decoration: unset;
 }
 
 @media screen and (min-width: 768px) {

@@ -15,7 +15,7 @@ import { getScheduledPaymentDates } from '../../../utils/generatePaymentDates.js
 import Parraf from "../../../components/Parraf";
 
 const CanvaContainer = (props) => {
-  const { userInformation } = props;
+  const { userInformation, buttonDisabled } = props;
   const { first_name: fName, last_name: lName, maternal_name: mName } = userInformation;
   const { REACT_APP_CREAR_TX_GENERICO, REACT_APP_CREAR_USUARIO_GENERICO } = process.env;
   const classes = CanvaContainerPageStyles();
@@ -145,7 +145,7 @@ const CanvaContainer = (props) => {
             {imageURL ? (
               <div className={signatureContainerBox}>
                 <img
-                  style={{ height: '180px', width: '180px'}}
+                  style={{ height: '180px', width: '180px' }}
                   src={imageURL}
                   alt="signature"
                   className="signature"
@@ -166,7 +166,7 @@ const CanvaContainer = (props) => {
               : (
                 <button
                   type="button"
-                  disabled={!imageURL}
+                  disabled={!imageURL || buttonDisabled}
                   className={canvaContainerButton}
                   onClick={() => handleSignContract()}
                 >
