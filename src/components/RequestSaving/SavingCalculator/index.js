@@ -12,7 +12,7 @@ import {
 import { formatNumber } from "../../../utils/formatFieldsUtils";
 import CalendarPayments from "../../CalendarPayments";
 import axios from "axios";
-import { nextCredit } from "../../../utils/nextCreditDate.js";
+import { calcularProximosPagos } from "../../../utils/nextCreditDate.js";
 import ui from './index.module.css';
 import GradientButton from "../../GradientButton";
 import LineBreak from "../../LineBreak";
@@ -26,7 +26,15 @@ const SavingCalculator = (props) => {
   const valuetext = (value) => `${value}`;
   const handleContinueToContract = () => navigate(PRIVATE_ROUTES.DASHBOARD_CONTRATO_SERVICIO);
   const [totalAmountForSave, setTotalAmountForSave] = useState(500);
+  const [disbursmentDay, setDisbursmentDay] = useState("")
   const [paymentLinks, setPaymentLinks] = useState([]);
+
+  useEffect(() => {
+    const {ultimoPago} = calcularProximosPagos()
+    setDisbursmentDay(ultimoPago)
+    console.log(ultimoPago);
+  }, [])
+  
 
   const debounce = (func) => {
     let timer;
@@ -108,7 +116,7 @@ const SavingCalculator = (props) => {
           <span className={sliderLaterals}>$5,000</span>
         </div>
         <Parraf top={2} size={18} type="Semibold" color="#00000080">
-          Si contratas hoy y realizas 4 pagos quincenales, el <strong style={{ color: "#000" }}>{nextCredit()}</strong> próximo recibes un crédito por:
+          Si contratas hoy y realizas 4 pagos quincenales, el <strong style={{ color: "#000" }}>{disbursmentDay}</strong> próximo recibes un crédito por:
         </Parraf>
         <Parraf size={30} type="Bold"> {`$ ${formatNumber(totalAmountForSave * 10)}`} </Parraf>
         <Parraf top={2} size={18} type="SemiBold" color="#00000080">

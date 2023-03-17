@@ -1,37 +1,43 @@
-import moment from "moment";
+function obtenerFechaPagoInicial() {
+  const hoy = new Date();
+  const diaActual = hoy.getDate();
 
-export const nextCredit = () => {
-  const STRING_MONTHS = [
-    "Enero",
-    "Febrero",
-    "Marzo",
-    "Abril",
-    "Mayo",
-    "Junio",
-    "Julio",
-    "Agosto",
-    "Septiembre",
-    "Octubre",
-    "Noviembre",
-    "Diciembre",
-  ];
-  const shortDate = moment();
-  const todayDate = shortDate.date();
-  const MM = shortDate.month();
-  const YY = shortDate.year();
-  let nextCredit = "";
-  if (todayDate === 1) {
-    nextCredit = moment(`${YY}-${MM + 1}-02`);
-  }
-  else if (todayDate >= 2 && todayDate < 17) {
-    nextCredit = moment(`${YY}-${MM + 1}-17`);
+  let fechaPagoInicial;
+
+  if (diaActual >= 1 && diaActual <= 2) {
+    fechaPagoInicial = new Date(hoy.getFullYear(), hoy.getMonth(), 2);
   } else {
-    nextCredit = moment(`${YY}-${MM + 1}-02`).add(2, 'month');
-    nextCredit = nextCredit.add(15, 'd');
+    fechaPagoInicial = new Date(hoy.getFullYear(), hoy.getMonth(), 17);
   }
-  nextCredit = nextCredit.format('YYYY-MM-DD');
 
-  const [nYear, nMonth, nDay] = nextCredit.split('-');
-  
-  return `${parseInt(nDay)} de ${STRING_MONTHS[parseInt(nMonth) - 1]}`
+  return fechaPagoInicial;
 }
+
+export function calcularProximosPagos() {
+  const pagos = [];
+  let fechaPagoInicial = obtenerFechaPagoInicial()
+  let fechaPago = new Date(fechaPagoInicial);
+  
+  for (let i = 0; i < 5; i++) {
+    if (i === 0) {
+      // El primer pago es la fecha de pago inicial
+      pagos.push(new Date(fechaPago));
+    } else {
+      // Para los siguientes pagos, se usa la regla correspondiente según el día del mes
+      if (fechaPago.getDate() <= 1) {
+        fechaPago.setDate(2);
+      } else if (fechaPago.getDate() <= 16) {
+        fechaPago.setDate(17);
+      } else {
+        fechaPago.setMonth(fechaPago.getMonth() + 1);
+        fechaPago.setDate(2);
+      }
+      pagos.push(new Date(fechaPago));
+    }
+  }
+
+  const ultimoPago = pagos[3];
+  const ultimoPagoFormateado = ultimoPago.toLocaleDateString('es-MX', { day: 'numeric', month: 'long' });
+  return { pagos, ultimoPago: ultimoPagoFormateado };
+}
+
