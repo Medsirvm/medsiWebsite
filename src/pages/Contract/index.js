@@ -18,12 +18,14 @@ import ui from './index.module.css';
 import Parraf from '../../components/Parraf';
 import LineBreak from '../../components/LineBreak';
 import ContainerTitle from '../../components/ContainerTitle';
-import ContractFile from "./ContractFile/index3.js";
+import ContractFile from "./ContractFile/index2.js";
+import ContractFile2 from "./ContractFile/index3.js";
 import { PDFViewer } from '@react-pdf/renderer';
 
-const ModalContractFancyBox = ({ 
-  fancyOpen, 
-  handleFancyOpen
+const ModalContractFancyBox = ({
+  fancyOpen,
+  handleFancyOpen,
+  typeContract = false
 }) => {
 
   const { modalFancyBoxContract, fancyBoxContractContainer } = ui;
@@ -33,21 +35,26 @@ const ModalContractFancyBox = ({
   const currentPayment = useSelector(selectCurrentNumberUserPayment);
   const paymentsListRedux = useSelector(selectPaymentList);
 
+  // useEffect(() => {
+  //   console.log({
+  //     userInformation,
+  //     userPaymentInformation,
+  //     paymentList,
+  //     currentPayment,
+  //     paymentsListRedux
+  //   })
+  // }, [
+  //   userInformation,
+  //   userPaymentInformation,
+  //   paymentList,
+  //   currentPayment,
+  //   paymentsListRedux
+  // ])
+
+
   useEffect(() => {
-    console.log({
-      userInformation,
-      userPaymentInformation,
-      paymentList,
-      currentPayment,
-      paymentsListRedux
-    })
-  }, [
-    userInformation,
-    userPaymentInformation,
-    paymentList,
-    currentPayment,
-    paymentsListRedux
-  ])
+    console.log({ typeContract })
+  }, [typeContract])
 
   return fancyOpen ? (
     <div style={{ display: "block" }} className={modalFancyBoxContract}>
@@ -55,7 +62,11 @@ const ModalContractFancyBox = ({
       <div className={fancyBoxContractContainer}>
         {/* <ContractFile /> */}
         <PDFViewer>
-          <ContractFile user={userInformation} paymentInfo={userPaymentInformation} />
+          {
+            typeContract
+              ? <ContractFile2 user={userInformation} paymentInfo={userPaymentInformation} />
+              : <ContractFile user={userInformation} paymentInfo={userPaymentInformation} />
+          }
         </PDFViewer>
         <button type="button" className="modalButton" onClick={() => { handleFancyOpen() }}>
           <span>Cerrar</span>
@@ -73,21 +84,25 @@ const Contract = () => {
   const [creditoContrato, setCreditoContrato] = useState(false);
   const [fancyOpen, setFancyOpen] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [typeContract, setTypeContract] = useState(false);
 
   useEffect(() => {
+
     const updateButtonState = () => {
+
+      if (tandasContrato) { 
+        setTypeContract(false);
+      }
+      if (creditoContrato) { 
+        setTypeContract(true);
+      }
+
       if (tandasContrato === true && creditoContrato === true) {
         setButtonDisabled(false)
       } else {
         setButtonDisabled(true);
       }
-      console.log({
-        tandasContrato,
-        creditoContrato,
-        buttonDisabled
-      })
     }
-
     updateButtonState();
 
   }, [tandasContrato, creditoContrato, buttonDisabled])
@@ -214,7 +229,7 @@ const Contract = () => {
             </div>
           </Card>
         </div>
-        <ModalContractFancyBox fancyOpen={fancyOpen} handleFancyOpen={() => { handleFancyBox() }} />
+        <ModalContractFancyBox fancyOpen={fancyOpen} typeContract={typeContract} handleFancyOpen={() => { handleFancyBox() }} />
       </section>
     </Layout>
   );
