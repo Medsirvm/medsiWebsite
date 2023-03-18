@@ -8,6 +8,7 @@ import {
   selectuserInformation,
   setPaymentAmounts,
   setPaymentsList,
+  setSimulationPayments,
 } from "../../../store/reducers/user/UserAccountSlice";
 import { formatNumber } from "../../../utils/formatFieldsUtils";
 import CalendarPayments from "../../CalendarPayments";
@@ -56,6 +57,8 @@ const SavingCalculator = (props) => {
         creditLineAmount: amount * 10,
       })
     );
+    const {pagosList} = calcularProximosPagos(amount)
+    dispatch(setSimulationPayments(pagosList))
   };
 
   const handleChange = useCallback(debounce(handleTotalAmountForSave), []);

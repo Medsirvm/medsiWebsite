@@ -19,7 +19,7 @@ export function calcularProximosPagos(monto) {
   let fechaPagoInicial = obtenerFechaPagoInicial()
   let fechaPago = new Date(fechaPagoInicial);
   
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i <= 12; i++) {
     if (i === 0) {
       // El primer pago es la fecha de pago inicial
       pagos.push(new Date(fechaPago));
@@ -35,10 +35,10 @@ export function calcularProximosPagos(monto) {
       }
       pagos.push(new Date(fechaPago));
       pagosList.push({
-        id:i+1,
-        fecha_pago:new Date(fechaPago),
-        monto: monto,
-        estado:"simulador"               
+        id:i,
+        date:new Date(fechaPago).toLocaleDateString('es-MX', {month: '2-digit', day: '2-digit', year: 'numeric'}),
+        amount: monto,
+        status:"pendiente"               
       })
 
     }

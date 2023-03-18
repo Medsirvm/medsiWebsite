@@ -1,9 +1,4 @@
-import {
-  Card,
-  CardContent,
-  Collapse,
-  IconButton,
-} from "@mui/material";
+import { Card, CardContent, Collapse, IconButton } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -13,27 +8,30 @@ import checkboxChecked from "../../assets/icons/checkedCheckbox.svg";
 import CanvaContainer from "./CanvaContainer";
 import Layout from "../../Layouts";
 import { useSelector } from "react-redux";
-import { selectCurrentNumberUserPayment, selectPaymentList, selectCreditLineAndPaymentAmounts, selectuserInformation } from "../../store/reducers/user/UserAccountSlice";
-import ui from './index.module.css';
-import Parraf from '../../components/Parraf';
-import LineBreak from '../../components/LineBreak';
-import ContainerTitle from '../../components/ContainerTitle';
+import {
+  selectCreditLineAndPaymentAmounts,
+  selectSimulationPaymentsInformation,
+  selectuserInformation,
+} from "../../store/reducers/user/UserAccountSlice";
+import ui from "./index.module.css";
+import Parraf from "../../components/Parraf";
+import LineBreak from "../../components/LineBreak";
+import ContainerTitle from "../../components/ContainerTitle";
 import ContractFile from "./ContractFile/index2.js";
 import ContractFile2 from "./ContractFile/index3.js";
-import { PDFViewer } from '@react-pdf/renderer';
+import { PDFViewer } from "@react-pdf/renderer";
 
 const ModalContractFancyBox = ({
   fancyOpen,
   handleFancyOpen,
-  typeContract = false
+  typeContract = false,
 }) => {
-
   const { modalFancyBoxContract, fancyBoxContractContainer } = ui;
   const userInformation = useSelector(selectuserInformation);
   const userPaymentInformation = useSelector(selectCreditLineAndPaymentAmounts);
-  const paymentList = useSelector(selectPaymentList);
-  const currentPayment = useSelector(selectCurrentNumberUserPayment);
-  const paymentsListRedux = useSelector(selectPaymentList);
+  const paymentList = useSelector(selectSimulationPaymentsInformation);
+  // const paymentsListRedux = useSelector(selectPaymentList);
+  // const currentPayment = useSelector(selectCurrentNumberUserPayment);
 
   // useEffect(() => {
   //   console.log({
@@ -51,30 +49,48 @@ const ModalContractFancyBox = ({
   //   paymentsListRedux
   // ])
 
-
   useEffect(() => {
-    console.log({ typeContract })
-  }, [typeContract])
+    console.log({ typeContract });
+  }, [typeContract]);
 
   return fancyOpen ? (
     <div style={{ display: "block" }} className={modalFancyBoxContract}>
-      <span className="closeBackground" onClick={() => handleFancyOpen()}></span>
+      <span
+        className="closeBackground"
+        onClick={() => handleFancyOpen()}
+      ></span>
       <div className={fancyBoxContractContainer}>
-        {/* <ContractFile /> */}
+        {/* <ContractFile
+          user={userInformation}
+          paymentInfo={userPaymentInformation}
+        /> */}
         <PDFViewer>
-          {
-            typeContract
-              ? <ContractFile2 user={userInformation} paymentInfo={userPaymentInformation} />
-              : <ContractFile user={userInformation} paymentInfo={userPaymentInformation} />
-          }
+          {typeContract ? (
+            <ContractFile2
+              user={userInformation}
+              paymentInfo={userPaymentInformation}
+            />
+          ) : (
+            <ContractFile
+              user={userInformation}
+              paymentInfo={userPaymentInformation}
+              paymentsList={paymentList}
+            />
+          )}
         </PDFViewer>
-        <button type="button" className="modalButton" onClick={() => { handleFancyOpen() }}>
+        <button
+          type="button"
+          className="modalButton"
+          onClick={() => {
+            handleFancyOpen();
+          }}
+        >
           <span>Cerrar</span>
         </button>
       </div>
     </div>
   ) : null;
-}
+};
 
 const Contract = () => {
   const [open, setOpen] = useState(false);
@@ -87,25 +103,22 @@ const Contract = () => {
   const [typeContract, setTypeContract] = useState(false);
 
   useEffect(() => {
-
     const updateButtonState = () => {
-
-      if (tandasContrato) { 
+      if (tandasContrato) {
         setTypeContract(false);
       }
-      if (creditoContrato) { 
+      if (creditoContrato) {
         setTypeContract(true);
       }
 
       if (tandasContrato === true && creditoContrato === true) {
-        setButtonDisabled(false)
+        setButtonDisabled(false);
       } else {
         setButtonDisabled(true);
       }
-    }
+    };
     updateButtonState();
-
-  }, [tandasContrato, creditoContrato, buttonDisabled])
+  }, [tandasContrato, creditoContrato, buttonDisabled]);
 
   const handleOpenContractCanva = () => {
     setCheckContractOption(!checkContractOption);
@@ -116,14 +129,14 @@ const Contract = () => {
     <img
       src={checkboxChecked}
       alt="openCheckboxIcn"
-      style={{ width: "18px", height: '18px', marginBottom: 'auto' }}
+      style={{ width: "18px", height: "18px", marginBottom: "auto" }}
       onClick={handleOpenContractCanva}
     />
   ) : (
     <img
       src={checkboxNotChecked}
       alt="notOpenCheckboxIcn"
-      style={{ width: "18px", height: '18px', marginBottom: 'auto' }}
+      style={{ width: "18px", height: "18px", marginBottom: "auto" }}
       onClick={handleOpenContractCanva}
     />
   );
@@ -135,7 +148,7 @@ const Contract = () => {
     headerCheckbox,
     headerTitle,
     contractBox,
-    contractTerms
+    contractTerms,
   } = ui;
 
   const CardHeader = () => {
@@ -143,29 +156,34 @@ const Contract = () => {
       <div className={cardHeader} onClick={() => handleOpenContractCanva()}>
         <div className={headerCheckbox}>{checkboxContent}</div>
         <div className={headerTitle}>
-          <Parraf type='SemiBold' size={14}> Firmar el contrato </Parraf>
-          <Parraf type='Regular' size={12}>(Da click en esta barra para firmar contrato)</Parraf>
+          <Parraf type="SemiBold" size={14}>
+            {" "}
+            Firmar el contrato{" "}
+          </Parraf>
+          <Parraf type="Regular" size={12}>
+            (Da click en esta barra para firmar contrato)
+          </Parraf>
         </div>
-        <IconButton aria-label="expand" size="small" >
+        <IconButton aria-label="expand" size="small">
           {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
         </IconButton>
       </div>
-    )
-  }
+    );
+  };
 
   const handleClickTandasContract = () => {
     setTandasContrato(!tandasContrato);
     setFancyOpen(true);
-  }
+  };
 
   const handleClickCreditContract = () => {
     setCreditoContrato(!creditoContrato);
     setFancyOpen(true);
-  }
+  };
 
   const handleFancyBox = () => {
     setFancyOpen(false);
-  }
+  };
 
   return (
     <Layout>
@@ -180,48 +198,110 @@ const Contract = () => {
                     <ContainerTitle>
                       Firma el contrato de préstamos Tanda Ahorro
                     </ContainerTitle>
-                    <Parraf type="Medium" size={16} color="#3552CC">Para activar tu Tanda Ahorro deberás firmar ambos contratos, una vez firmados podrás obtener todos los beneficios que tenemos para tí!</Parraf>
+                    <Parraf type="Medium" size={16} color="#3552CC">
+                      Para activar tu Tanda Ahorro deberás firmar ambos
+                      contratos, una vez firmados podrás obtener todos los
+                      beneficios que tenemos para tí!
+                    </Parraf>
                     <LineBreak space={1} />
                     <div>
-                      <Parraf type="SemiBold" size={22} color="rgba(0,0,0,0.5)">1. Contrato de Depósito Medsi</Parraf>
-                      <LineBreak space={1} />
-                      <Parraf type="SemiBold" size={16} color='#00000080'>
-                        Al firmar, aceptas las condiciones y los términos de este contrato, así como las condiciones de pago y comisiones e intereses
-                        establecidos. (Tenga en cuenta: El contrato está sujeto a cambios según la revisión y la aprobación final de Medsi y los
-                        detalles se le comunicarán para su confirmación antes del desembolso).
+                      <Parraf type="SemiBold" size={22} color="rgba(0,0,0,0.5)">
+                        1. Contrato de Depósito Medsi
                       </Parraf>
                       <LineBreak space={1} />
-                      <div className={contractBox} onClick={() => { handleClickTandasContract() }}>
-                        {
-                          tandasContrato
-                            ? <i className="material-icons-outlined" style={{ color: 'white', background: '#3552cc', borderRadius: '6px' }}>check_box</i>
-                            : <i className="material-icons-outlined">check_box_outline_blank</i>
-                        }
-                        <p className={contractTerms}>Acepto los <strong>Términos y Condiciones de Tanda Ahorros</strong></p>
+                      <Parraf type="SemiBold" size={16} color="#00000080">
+                        Al firmar, aceptas las condiciones y los términos de
+                        este contrato, así como las condiciones de pago y
+                        comisiones e intereses establecidos. (Tenga en cuenta:
+                        El contrato está sujeto a cambios según la revisión y la
+                        aprobación final de Medsi y los detalles se le
+                        comunicarán para su confirmación antes del desembolso).
+                      </Parraf>
+                      <LineBreak space={1} />
+                      <div
+                        className={contractBox}
+                        onClick={() => {
+                          handleClickTandasContract();
+                        }}
+                      >
+                        {tandasContrato ? (
+                          <i
+                            className="material-icons-outlined"
+                            style={{
+                              color: "white",
+                              background: "#3552cc",
+                              borderRadius: "6px",
+                            }}
+                          >
+                            check_box
+                          </i>
+                        ) : (
+                          <i className="material-icons-outlined">
+                            check_box_outline_blank
+                          </i>
+                        )}
+                        <p className={contractTerms}>
+                          Acepto los{" "}
+                          <strong>
+                            Términos y Condiciones de Tanda Ahorros
+                          </strong>
+                        </p>
                       </div>
                     </div>
                     <LineBreak space={1} />
                     <div>
-                      <Parraf type="SemiBold" size={22} color="rgba(0,0,0,0.5)">2. Contrato de Crédito (Tandas)</Parraf>
-                      <LineBreak space={1} />
-                      <Parraf type="SemiBold" size={16} color='#00000080'>
-                        Al firmar, aceptas las condiciones y los términos de este contrato, así como las condiciones de pago y comisiones e intereses
-                        establecidos. (Tenga en cuenta: El contrato está sujeto a cambios según la revisión y la aprobación final de Medsi y los
-                        detalles se le comunicarán para su confirmación antes del desembolso).
+                      <Parraf type="SemiBold" size={22} color="rgba(0,0,0,0.5)">
+                        2. Contrato de Crédito (Tandas)
                       </Parraf>
                       <LineBreak space={1} />
-                      <div className={contractBox} onClick={() => { handleClickCreditContract() }}>
-                        {
-                          creditoContrato
-                            ? <i className="material-icons-outlined" style={{ color: 'white', background: '#3552cc', borderRadius: '6px' }}>check_box</i>
-                            : <i className="material-icons-outlined">check_box_outline_blank</i>
-                        }
-                        <p className={contractTerms}>Acepto los <strong>Términos y Condiciones de solicitud de crédito</strong></p>
+                      <Parraf type="SemiBold" size={16} color="#00000080">
+                        Al firmar, aceptas las condiciones y los términos de
+                        este contrato, así como las condiciones de pago y
+                        comisiones e intereses establecidos. (Tenga en cuenta:
+                        El contrato está sujeto a cambios según la revisión y la
+                        aprobación final de Medsi y los detalles se le
+                        comunicarán para su confirmación antes del desembolso).
+                      </Parraf>
+                      <LineBreak space={1} />
+                      <div
+                        className={contractBox}
+                        onClick={() => {
+                          handleClickCreditContract();
+                        }}
+                      >
+                        {creditoContrato ? (
+                          <i
+                            className="material-icons-outlined"
+                            style={{
+                              color: "white",
+                              background: "#3552cc",
+                              borderRadius: "6px",
+                            }}
+                          >
+                            check_box
+                          </i>
+                        ) : (
+                          <i className="material-icons-outlined">
+                            check_box_outline_blank
+                          </i>
+                        )}
+                        <p className={contractTerms}>
+                          Acepto los{" "}
+                          <strong>
+                            Términos y Condiciones de solicitud de crédito
+                          </strong>
+                        </p>
                       </div>
                     </div>
                     <LineBreak space={1} />
-                    <CenteredContent direction="column" className="disabledCanva">
-                      <CanvaContainer userInformation={userInformation} buttonDisabled={buttonDisabled} />
+                    <CenteredContent
+                      direction="column"
+                      className="disabledCanva"
+                    >
+                      <CanvaContainer
+                        userInformation={userInformation}
+                        buttonDisabled={buttonDisabled}
+                      />
                     </CenteredContent>
                   </div>
                 </CardContent>
@@ -229,7 +309,13 @@ const Contract = () => {
             </div>
           </Card>
         </div>
-        <ModalContractFancyBox fancyOpen={fancyOpen} typeContract={typeContract} handleFancyOpen={() => { handleFancyBox() }} />
+        <ModalContractFancyBox
+          fancyOpen={fancyOpen}
+          typeContract={typeContract}
+          handleFancyOpen={() => {
+            handleFancyBox();
+          }}
+        />
       </section>
     </Layout>
   );

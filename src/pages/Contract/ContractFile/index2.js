@@ -1,8 +1,15 @@
 import { Page, Text, View, Document, StyleSheet, Image, } from '@react-pdf/renderer';
-import Signature from "./sign.png";
+import { formatCurrency, formatNumberToText } from '../../../utils/formats';
 
-export default function ContractFile({ user, paymentInfo }) {
 
+
+export default function ContractFile({ user, paymentInfo, paymentsList }) {
+
+  const firstFourPayments = paymentsList.slice(0, 4)
+  const {
+    biWeeklyAmount: weekly,
+  } = paymentInfo;
+  
 
   const styles = StyleSheet.create({
     page: {
@@ -150,26 +157,16 @@ export default function ContractFile({ user, paymentInfo }) {
           <View style={tcell}><Text style={td}>Monto</Text></View>
           <View style={tcell}><Text style={td}>Fecha</Text></View>
         </View>
-        <View style={trow}>
-          <View style={tcellfirst}><Text style={td}>[*]</Text></View>
-          <View style={tcelllast}><Text style={td}>[*]</Text></View>
-        </View>
-        <View style={trow}>
-          <View style={tcellfirst}><Text style={td}>[*]</Text></View>
-          <View style={tcelllast}><Text style={td}>[*]</Text></View>
-        </View>
-        <View style={trow}>
-          <View style={tcellfirst}><Text style={td}>[*]</Text></View>
-          <View style={tcelllast}><Text style={td}>[*]</Text></View>
-        </View>
-        <View style={trow}>
-          <View style={tcellfirst}><Text style={td}>[*]</Text></View>
-          <View style={tcelllast}><Text style={td}>[*]</Text></View>
-        </View>
-        <View style={trow}>
-          <View style={tcellfirst}><Text style={td}>[*]</Text></View>
-          <View style={tcelllast}><Text style={td}>[*]</Text></View>
-        </View>
+        {
+          firstFourPayments.length > 0 && (
+            firstFourPayments.map(item => (
+            <View style={trow} key={item.id}>
+              <View style={tcellfirst}><Text style={td}>{formatCurrency(item.amount)}</Text></View>
+              <View style={tcelllast}><Text style={td}>{item.date}</Text></View>
+            </View>
+            ))
+          )
+        }
       </View>
     )
   }
@@ -181,8 +178,6 @@ export default function ContractFile({ user, paymentInfo }) {
     rfc,
     curp,
     email,
-    phone_number,
-    /*Direccion*/
     city,
     colony,
     municipality,
@@ -195,10 +190,7 @@ export default function ContractFile({ user, paymentInfo }) {
 
   const address = [street, inside_no, outside_no, colony, cp, city, municipality, state,].join(', ');
 
-  const {
-    biWeeklyAmount: weekly,
-    creditLineAmount: creditLine
-  } = paymentInfo;
+
 
 
   const EmailAdressContainer = () => {
@@ -213,7 +205,7 @@ export default function ContractFile({ user, paymentInfo }) {
           <View style={{ display: 'flex', flexFlow: 'row wrap', width: '6cm', maxWidth: '6cm', marginLeft: '10px' }}><Text style={subNumber}>Domicilio: </Text><Text style={parraf}>{address}</Text></View>
         </View>
         <View style={{ display: 'flex', flexDirection: 'row', padding: '2px 8px' }}>
-          <View style={{ display: 'flex', flexFlow: 'row wrap', width: '6cm', maxWidth: '6cm' }}><Text style={subNumber}>Correo electrónico: </Text><Text style={parraf}>[*]</Text></View>
+          <View style={{ display: 'flex', flexFlow: 'row wrap', width: '6cm', maxWidth: '6cm' }}><Text style={subNumber}>Correo electrónico: </Text><Text style={parraf}>contacto@medsi.mx</Text></View>
           <View style={{ display: 'flex', flexFlow: 'row wrap', width: '6cm', maxWidth: '6cm', marginLeft: '10px' }}><Text style={subNumber}>Correo electrónico: </Text><Text style={parraf}>{email}</Text></View>
         </View>
       </View>
@@ -230,7 +222,12 @@ export default function ContractFile({ user, paymentInfo }) {
         <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', maxWidth: '12cm' }}>
           <View style={{ borderBottom: '1px solid #000', width: '5.5cm', margin: '0 auto' }}></View>
           <View style={{ borderBottom: '1px solid #000', width: '5.5cm', margin: '0 auto' }}>
-            <Image source={"https://tanda-ahorro.s3.us-west-2.amazonaws.com/FirmaPepeCabrerajpg.jpg"} />
+             <Image
+                source={{
+                  uri: "https://tanda-ahorro.s3.us-west-2.amazonaws.com/FirmaPepeCabrerajpg.jpg",
+                  headers: { Pragma: 'no-cache', 'Cache-Control': 'no-cache' },
+                }}
+              />
           </View>
         </View>
         <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', maxWidth: '12cm' }}>
@@ -238,7 +235,7 @@ export default function ContractFile({ user, paymentInfo }) {
           <View style={{ width: '5.5cm', display: 'block', margin: '0 auto' }}>
             <Text style={{ ...subNumber, textAlign: 'center', marginTop: '4px' }}>MUNBRUNN, S.A. DE C.V.</Text>
             <Text style={{ ...parraf, textAlign: 'center' }}>representada por el señor</Text>
-            <Text style={{ ...parraf, textAlign: 'center' }}>[*]</Text>
+            <Text style={{ ...parraf, textAlign: 'center' }}>JOSÉ MAGDALENO CABRERA GONZÁLEZ</Text>
           </View>
         </View>
       </View>
@@ -248,10 +245,10 @@ export default function ContractFile({ user, paymentInfo }) {
   return (
     <Document>
       <Page size="A4" style={page}>
-        <H1>CONTRATO DE DEPÓSITO (EL “<Underline>CONTRATO</Underline>”) QUE CELEBRAN, POR UNA PARTE, EL SEÑOR <UpperBold><Underline>{[first_name, last_name, maternal_name].join(' ')}</Underline></UpperBold>,
+        <H1>CONTRATO DE DEPÓSITO (EL “<Underline>CONTRATO</Underline>”) QUE CELEBRAN, POR UNA PARTE, EL SEÑOR <UpperBold><Underline>{[first_name.toUpperCase(), last_name.toUpperCase(), maternal_name.toUpperCase()].join(' ')}</Underline></UpperBold>,
           POR SU PROPIO DERECHO, A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ COMO EL “<Underline>DEPOSITANTE</Underline>”,
           Y POR LA OTRA PARTE, LA SOCIEDAD DENOMINADA MUNBRUNN, S.A. DE C.V., REPRESENTADA EN ESTE ACTO
-          POR EL SEÑOR <UpperBold><Underline>{[first_name, last_name, maternal_name].join(' ')}</Underline></UpperBold>, A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ COMO EL “<Underline>DEPOSITARIO</Underline>” Y CONJUNTAMENTE
+          POR EL SEÑOR <UpperBold><Underline>JORGE MAGDALENO CABRERA GONZÁLEZ</Underline></UpperBold>, A QUIEN EN LO SUCESIVO SE LE DENOMINARÁ COMO EL “<Underline>DEPOSITARIO</Underline>” Y CONJUNTAMENTE
           CON EL DEPOSITANTE, LAS “<Underline>PARTES</Underline>”, AL TENOR DE LOS SIGUIENTES ANTECEDENTES, DECLARACIONES Y CLÁUSULAS.
         </H1>
         <View>
@@ -259,7 +256,7 @@ export default function ContractFile({ user, paymentInfo }) {
           <RomanOne>
             Con esta misma fecha, el Depositante celebró cierto Contrato de Apertura de Crédito en calidad de acreditado
             con el Depositario como acreditante, mediante el cual, el Depositario otorga un crédito en cuenta corriente
-            por la cantidad de $[{creditLine}].00 M.N. ([{creditLine}] pesos 00/100, Moneda Nacional) (en lo sucesivo, el “Contrato de Crédito”).
+            por la cantidad de {formatCurrency((weekly*4))} M.N. ({formatNumberToText((weekly*4))} pesos 00/100, Moneda Nacional) (en lo sucesivo, el “Contrato de Crédito”).
           </RomanOne>
           <LineBreak />
           <RomanTwo> Todos los derechos y obligaciones de las Partes establecidos en el Contrato de Crédito, se encuentran sujetos a la condición suspensiva de que el Depositante cumpla con las obligaciones derivadas del presente Contrato de Depósito. </RomanTwo>
@@ -269,7 +266,7 @@ export default function ContractFile({ user, paymentInfo }) {
           <View>
             <RomanOne> Declara el <Bold>Depositante</Bold>, por su propio derecho, que: </RomanOne>
             <SubOne> Es una persona física, mayor de edad, de nacionalidad mexicana, con capacidad legal suficiente para celebrar el presente Contrato. </SubOne>
-            <SubTwo> Se encuentra registrado como contribuyente ante la Secretaría de Hacienda y Crédito Público, con la Clave de Registro Federal de Contribuyentes <Bold><Underline>{rfc}</Underline></Bold> y se identifica con la credencial para votar número [*], expedida por el Instituto Nacional Electoral. </SubTwo>
+            <SubTwo> Se encuentra registrado como contribuyente ante la Secretaría de Hacienda y Crédito Público, con la Clave de Registro Federal de Contribuyentes <Bold><Underline>{rfc}</Underline></Bold> y se identifica con la clave única de contribuyente <Bold><Underline>{curp}</Underline></Bold>  . </SubTwo>
             <SubThree> Es su voluntad otorgar en Depósito al Depositario las cantidades en numerario a que se refiere la Cláusula Primera del presente Contrato. </SubThree>
           </View>
           <LineBreak />
@@ -288,7 +285,8 @@ export default function ContractFile({ user, paymentInfo }) {
         </View>
         <View>
           <Center>CLÁUSULAS</Center>
-          <Text style={parraf}><Bold>Primera. Objeto. </Bold>Mediante el presente Contrato, el Depositante se obliga a entregar al Depositario, en calidad de Depósito, la cantidad total de $[{creditLine}].00 M.N. ([{creditLine}] pesos 00/100 Moneda Nacional) (la “Cantidad en Depósito”). A su vez, el Depositario se obliga a la custodia y conservación de la Cantidad en Depósito.</Text>
+          <Text style={parraf}>Las Partes acuerdan que el Depositante deberá entregar la Cantidad en Depósito en las fechas y cantidades siguientes: </Text>
+          <Text style={parraf}><Bold>Primera. Objeto. </Bold>Mediante el presente Contrato, el Depositante se obliga a entregar al Depositario, en calidad de Depósito, la cantidad total de {formatCurrency((weekly*4))} M.N. ({formatNumberToText(weekly*4)} pesos 00/100 Moneda Nacional) (la “Cantidad en Depósito”). A su vez, el Depositario se obliga a la custodia y conservación de la Cantidad en Depósito.</Text>
           <LineBreak />
           <Text style={parraf}>Las Partes acuerdan que el Depositante deberá entregar la Cantidad en Depósito en las fechas y cantidades siguientes: </Text>
           <LineBreak />
@@ -298,11 +296,11 @@ export default function ContractFile({ user, paymentInfo }) {
 
 
           <LineBreak />
-          <Text style={parraf}>El Depositante deberá entregar todas las cantidades que integren la Cantidad en Depósito mediante transferencia bancaria de fondos inmediatamente disponibles a la cuenta No. [*], CLABE [*] que el Depositario mantiene abierta en Banco [*].</Text>
+          <Text style={parraf}>El Depositante deberá entregar todas las cantidades que integren la Cantidad en Depósito mediante transferencia bancaria de fondos inmediatamente disponibles a la cuenta No. 0118858527, CLABE 012180001188585273 que el Depositario mantiene abierta en Banco BBVA .</Text>
           <LineBreak />
           <Text style={parraf}><Bold>Segunda. Contraprestación. </Bold>Ambas Partes convienen que el Depósito, objeto del presente Contrato, será a título gratuito, por lo que el Depositario no obtendrá remuneración alguna en el desempeño de su cargo.</Text>
           <LineBreak />
-          <Text style={parraf}>Sin embargo, convienen que en caso de que el Depositante no cumpla con su obligación de depositar la Cantidad en Depósito en las cantidades y fechas establecidas en la Cláusula anterior y, por consecuencia no se cumpla con la condición suspensiva establecida en el Contrato de Crédito, el Depositario devolverá al Depositante las cantidades efectivamente entregadas en depósito descontando el [*]% ([*] por ciento) de dichas cantidades, que el Depositario tomará para cubrir los gastos de administración, guarda y custodia de las cantidades depositadas.</Text>
+          <Text style={parraf}>Sin embargo, convienen que en caso de que el Depositante no cumpla con su obligación de depositar la Cantidad en Depósito en las cantidades y fechas establecidas en la Cláusula anterior y, por consecuencia no se cumpla con la condición suspensiva establecida en el Contrato de Crédito, el Depositario devolverá al Depositante las cantidades efectivamente entregadas en depósito descontando el 3.9% (tres punto nueve por ciento) de dichas cantidades, que el Depositario tomará para cubrir los gastos de administración, guarda y custodia de las cantidades depositadas.</Text>
           <LineBreak />
           <Text style={parraf}><Bold>Tercera. Guarda y custodia. </Bold>El Depositario se obliga a guardar, conservar y administrar la cantidad entregada en Depósito.</Text>
           <Parraf>Sin embargo, de acuerdo con el Contrato de Crédito a que se refiere el Antecedente I del presente Contrato, y con fundamento en el Artículo 338 del Código de Comercio, las Partes convienen que en la fecha en la que el Depositante liquide en su totalidad la Cantidad en Depósito, de acuerdo con el Contrato de Crédito, el Depositario deberá liberar la Cantidad en Depósito, con la finalidad de pagar parte de los intereses del crédito anticipadamente.</Parraf>
