@@ -18,16 +18,36 @@ import ui from './index.module.css';
 import Parraf from '../../components/Parraf';
 import LineBreak from '../../components/LineBreak';
 import ContainerTitle from '../../components/ContainerTitle';
-import ContractFile from "./ContractFile/index2.js";
+import ContractFile from "./ContractFile/index3.js";
 import { PDFViewer } from '@react-pdf/renderer';
 
-const ModalContractFancyBox = ({ fancyOpen, handleFancyOpen }) => {
+const ModalContractFancyBox = ({ 
+  fancyOpen, 
+  handleFancyOpen
+}) => {
 
   const { modalFancyBoxContract, fancyBoxContractContainer } = ui;
   const userInformation = useSelector(selectuserInformation);
   const userPaymentInformation = useSelector(selectCreditLineAndPaymentAmounts);
   const paymentList = useSelector(selectPaymentList);
   const currentPayment = useSelector(selectCurrentNumberUserPayment);
+  const paymentsListRedux = useSelector(selectPaymentList);
+
+  useEffect(() => {
+    console.log({
+      userInformation,
+      userPaymentInformation,
+      paymentList,
+      currentPayment,
+      paymentsListRedux
+    })
+  }, [
+    userInformation,
+    userPaymentInformation,
+    paymentList,
+    currentPayment,
+    paymentsListRedux
+  ])
 
   return fancyOpen ? (
     <div style={{ display: "block" }} className={modalFancyBoxContract}>
