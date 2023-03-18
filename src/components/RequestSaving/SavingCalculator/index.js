@@ -7,13 +7,13 @@ import { PRIVATE_ROUTES } from "../../../constants/routesConstants";
 import {
   selectuserInformation,
   setPaymentAmounts,
-  setPaymentsList
+  setPaymentsList,
 } from "../../../store/reducers/user/UserAccountSlice";
 import { formatNumber } from "../../../utils/formatFieldsUtils";
 import CalendarPayments from "../../CalendarPayments";
 import axios from "axios";
 import { calcularProximosPagos } from "../../../utils/nextCreditDate.js";
-import ui from './index.module.css';
+import ui from "./index.module.css";
 import GradientButton from "../../GradientButton";
 import LineBreak from "../../LineBreak";
 import Parraf from "../../Parraf";
@@ -24,17 +24,17 @@ const SavingCalculator = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const valuetext = (value) => `${value}`;
-  const handleContinueToContract = () => navigate(PRIVATE_ROUTES.DASHBOARD_CONTRATO_SERVICIO);
+  const handleContinueToContract = () =>
+    navigate(PRIVATE_ROUTES.DASHBOARD_CONTRATO_SERVICIO);
   const [totalAmountForSave, setTotalAmountForSave] = useState(500);
-  const [disbursmentDay, setDisbursmentDay] = useState("")
+  const [disbursmentDay, setDisbursmentDay] = useState("");
   const [paymentLinks, setPaymentLinks] = useState([]);
 
   useEffect(() => {
-    const {ultimoPago} = calcularProximosPagos()
-    setDisbursmentDay(ultimoPago)
-    console.log(ultimoPago);
-  }, [])
-  
+    const { ultimoPago, pagosList } = calcularProximosPagos();
+    setDisbursmentDay(ultimoPago);
+    console.log(ultimoPago, pagosList);
+  }, []);
 
   const debounce = (func) => {
     let timer;
@@ -70,34 +70,36 @@ const SavingCalculator = (props) => {
   }, []);
 
   useEffect(() => {
-
     const httpRequest = async () => {
       const { email } = userInformation;
-      await axios.post('https://taqxihc1u8.execute-api.us-west-2.amazonaws.com/prod/credito/consulta-tx-generico', { correo: email })
+      await axios
+        .post(
+          "https://taqxihc1u8.execute-api.us-west-2.amazonaws.com/prod/credito/consulta-tx-generico",
+          { correo: email }
+        )
         .then((response) => {
           const { data } = response;
           console.log({ data });
-          const responsePaymentLinks = data.map((p, i) => i < 12 ? p : null).filter(i => i !== null)
+          const responsePaymentLinks = data
+            .map((p, i) => (i < 12 ? p : null))
+            .filter((i) => i !== null);
 
           dispatch(setPaymentsList(responsePaymentLinks));
           setPaymentLinks(responsePaymentLinks);
         })
         .catch((error) => console.log(error));
-    }
+    };
     httpRequest();
   }, [userInformation]);
 
-  const {
-    slider,
-    sliderLaterals,
-    calculatorContainer,
-  } = ui;
+  const { slider, sliderLaterals, calculatorContainer } = ui;
 
   return (
     <>
       <div className={calculatorContainer}>
         <Parraf bottom={2} size={18} type={"SemiBold"} color="#00000080">
-          Usando la barra, selecciona el monto que quieras aportar cada quincena:
+          Usando la barra, selecciona el monto que quieras aportar cada
+          quincena:
         </Parraf>
         <div className={slider}>
           <span className={sliderLaterals}>$500</span>
@@ -109,21 +111,36 @@ const SavingCalculator = (props) => {
             step={100}
             min={500}
             max={5000}
-            sx={{ marginRight: 2, marginLeft: 2, }}
+            sx={{ marginRight: 2, marginLeft: 2 }}
             size="50px"
             onChange={(e) => handleChange(e.target.value)}
           />
           <span className={sliderLaterals}>$5,000</span>
         </div>
         <Parraf top={2} size={18} type="Semibold" color="#00000080">
-          Si contratas hoy y realizas 4 pagos quincenales, el <strong style={{ color: "#000" }}>{disbursmentDay}</strong> próximo recibes un crédito por:
+          Si contratas hoy y realizas 4 pagos quincenales, el{" "}
+          <strong style={{ color: "#000" }}>{disbursmentDay}</strong> próximo
+          recibes un crédito por:
         </Parraf>
-        <Parraf size={30} type="Bold"> {`$ ${formatNumber(totalAmountForSave * 10)}`} </Parraf>
+        <Parraf size={30} type="Bold">
+          {" "}
+          {`$ ${formatNumber(totalAmountForSave * 10)}`}{" "}
+        </Parraf>
         <Parraf top={2} size={18} type="SemiBold" color="#00000080">
-          Pagadero en 12 pagos quincenales de <strong style={{ fontFamily: 'UrbanistBold', fontSize: '30px', color: "#000" }}>{`$ ${formatNumber(totalAmountForSave)}`}</strong>
+          Pagadero en 12 pagos quincenales de{" "}
+          <strong
+            style={{
+              fontFamily: "UrbanistBold",
+              fontSize: "30px",
+              color: "#000",
+            }}
+          >{`$ ${formatNumber(totalAmountForSave)}`}</strong>
         </Parraf>
         <LineBreak />
-        <GradientButton simulator={isSimulator} handleClick={() => handleContinueToContract()}>
+        <GradientButton
+          simulator={isSimulator}
+          handleClick={() => handleContinueToContract()}
+        >
           Contratar Tanda ahorro ahora
         </GradientButton>
       </div>

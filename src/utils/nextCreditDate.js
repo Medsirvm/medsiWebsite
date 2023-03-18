@@ -13,12 +13,13 @@ function obtenerFechaPagoInicial() {
   return fechaPagoInicial;
 }
 
-export function calcularProximosPagos() {
+export function calcularProximosPagos(monto) {
   const pagos = [];
+  let pagosList = []
   let fechaPagoInicial = obtenerFechaPagoInicial()
   let fechaPago = new Date(fechaPagoInicial);
   
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 12; i++) {
     if (i === 0) {
       // El primer pago es la fecha de pago inicial
       pagos.push(new Date(fechaPago));
@@ -33,11 +34,18 @@ export function calcularProximosPagos() {
         fechaPago.setDate(2);
       }
       pagos.push(new Date(fechaPago));
+      pagosList.push({
+        id:i+1,
+        fecha_pago:new Date(fechaPago),
+        monto: monto,
+        estado:"simulador"               
+      })
+
     }
   }
 
   const ultimoPago = pagos[3];
   const ultimoPagoFormateado = ultimoPago.toLocaleDateString('es-MX', { day: 'numeric', month: 'long' });
-  return { pagos, ultimoPago: ultimoPagoFormateado };
+  return { pagos, ultimoPago: ultimoPagoFormateado, pagosList };
 }
 
