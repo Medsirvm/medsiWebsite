@@ -1,11 +1,15 @@
 import { Page, Text, View, Document, StyleSheet, Image, } from '@react-pdf/renderer';
-import { formatCurrency, formatNumberToText } from '../../../../../utils/formats';
+import { formatCurrency, formatNumberToText, getDayMonthAndAnio } from '../../../../../utils/formats';
 
 export default function ContractFile({ 
   user, 
   paymentInfo, 
   paymentsList 
 }) {
+
+  const { dia, mes, anio } = getDayMonthAndAnio()
+
+
 
   const firstFourPayments = paymentsList.slice(0, 4)
   const {
@@ -163,8 +167,8 @@ export default function ContractFile({
           firstFourPayments.length > 0 && (
             firstFourPayments.map(item => (
             <View style={trow} key={item.id}>
-              <View style={tcellfirst}><Text style={td}>{formatCurrency(item.amount)}</Text></View>
-              <View style={tcelllast}><Text style={td}>{item.date}</Text></View>
+              <View style={tcellfirst}><Text style={td}>{formatCurrency(item.monto)}</Text></View>
+              <View style={tcelllast}><Text style={td}>{item.fecha_pago}</Text></View>
             </View>
             ))
           )
@@ -330,7 +334,7 @@ export default function ContractFile({
           <Parraf>En caso de cambio de domicilio de alguna de las Partes, la parte que vaya a realizar dicho cambio deberá dar aviso de ello por escrito a las otras dentro de los 5 (cinco) días hábiles anteriores a la fecha en que se vaya a efectuar el cambio; en caso contrario, las notificaciones hechas al domicilio señalado en esta fecha surtirán plenos efectos legales entre las Partes.</Parraf>
           <Parraf><Bold>Novena. Vicios del Consentimiento. </Bold>Las Partes manifiestan que en la celebración del presente no existe dolo, error, mala fe, violencia física o moral o cualquier otro vicio del consentimiento que pudiese afectar la eficacia del presente Contrato.</Parraf>
           <Parraf><Bold>Décima. Jurisdicción y Legislación aplicable. </Bold>Para la solución de los conflictos que pudieren derivarse del presente Contrato, las Partes aceptan someterse a las leyes vigentes en la República Mexicana y a la jurisdicción de los Tribunales competentes en la Ciudad de México, renunciado expresamente al fuero que por razón de sus domicilios, presentes o futuros, o por cualquier otro que por cualquier causa pudieren corresponderles.</Parraf>
-          <Parraf>En virtud de lo anterior, las Partes firman el presente Contrato en 2 (dos) ejemplares, cada uno de los cuales se considera un original y en su conjunto el mismo Contrato, en la Ciudad de México, el día [*] de [*] del año 20[*]</Parraf>
+          <Parraf>En virtud de lo anterior, las Partes firman el presente Contrato en 2 (dos) ejemplares, cada uno de los cuales se considera un original y en su conjunto el mismo Contrato, en la Ciudad de México, el día {dia} de {mes} del año 20{anio}</Parraf>
         </View>
         <SignatureContainer />
         {/* <Text style={{ paddingTop: "4pt", paddingLeft: "10pt", textIndent: "0pt", textAlign: "justify" }}><span class="h1">CONTRATO DE

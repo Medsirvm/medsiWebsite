@@ -32,8 +32,6 @@ export const createOrderConekta = (custId, amount, phone, client, email) => {
     correo: email,
   };
 
-  console.log(payload);
-
   const request = {
     host: `${REACT_APP_API_HOST_URL}`,
     method: "POST",

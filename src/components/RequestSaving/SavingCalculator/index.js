@@ -30,11 +30,9 @@ const SavingCalculator = (props) => {
   const [totalAmountForSave, setTotalAmountForSave] = useState(500);
   const [disbursmentDay, setDisbursmentDay] = useState("");
   const [paymentLinks, setPaymentLinks] = useState([]);
-
   useEffect(() => {
-    const { ultimoPago, pagosList } = calcularProximosPagos();
+    const { ultimoPago } = calcularProximosPagos();
     setDisbursmentDay(ultimoPago);
-    console.log(ultimoPago, pagosList);
   }, []);
 
   const debounce = (func) => {
@@ -57,8 +55,8 @@ const SavingCalculator = (props) => {
         creditLineAmount: amount * 10,
       })
     );
-    const {pagosList} = calcularProximosPagos(amount)
-    dispatch(setSimulationPayments(pagosList))
+    const { pagosList } = calcularProximosPagos(amount);
+    dispatch(setSimulationPayments(pagosList));
   };
 
   const handleChange = useCallback(debounce(handleTotalAmountForSave), []);
@@ -82,11 +80,9 @@ const SavingCalculator = (props) => {
         )
         .then((response) => {
           const { data } = response;
-          console.log({ data });
           const responsePaymentLinks = data
             .map((p, i) => (i < 12 ? p : null))
             .filter((i) => i !== null);
-
           dispatch(setPaymentsList(responsePaymentLinks));
           setPaymentLinks(responsePaymentLinks);
         })
@@ -147,6 +143,7 @@ const SavingCalculator = (props) => {
           Contratar Tanda ahorro ahora
         </GradientButton>
       </div>
+
       <CalendarPayments simulator={isSimulator} paymentLinks={paymentLinks} />
     </>
   );

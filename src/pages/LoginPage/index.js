@@ -1,12 +1,5 @@
-import {
-  Box,
-  Button,
-  Grid,
-  Snackbar,
-  TextField
-} from "@mui/material";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import CenteredContent from "../../components/CenteredContent";
 import MedsiLogo from "../../assets/images/medsiIsotipoLogo.png";
 import emailIcon from "../../assets/images/Mail.png";
 import passwordIcon from "../../assets/images/Password.png";
@@ -28,8 +21,9 @@ import { PRIVATE_ROUTES } from "../../constants/routesConstants";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
 import useWindowSize from "../../hooks/useWindowSize";
-import ui from './index.module.css';
-
+import ui from "./index.module.css";
+import { FONTS } from "../../constants/fontsConstants";
+import { ErrorToast } from "../../components/CustomToasters";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -40,13 +34,9 @@ const LoginPage = () => {
   const [disabled, setDisabled] = useState(true);
   const otpInformation = useSelector(selectOTPInformation);
   const { correo, numero, semilla } = otpInformation;
-  const [openSnackbarError, setOpenSnackbarError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [expired, setExpired] = useState(false);
   const navigate = useNavigate();
-  const handleCloseSnackbarError = () => {
-    setOpenSnackbarError(false);
-  };
 
   const { size } = useWindowSize();
 
@@ -81,12 +71,10 @@ const LoginPage = () => {
       dispatch(setOTPUserSemilla(otpData));
       dispatch(setWaitingForOtp(true));
       setIsLoading(false);
-      // setWait(true);
     });
   };
 
   const validateOTPCode = () => {
-    console.log(otpInformation);
     verifyOTPCode(correo, numero, otpCode, semilla).then((res) => {
       if (res.data.statusCode === 200) {
         dispatch(setUserAuth(true));
@@ -100,7 +88,11 @@ const LoginPage = () => {
     getUserInformationByPhoneNumber(phoneNumber)
       .then((res) => {
         if (res?.data?.body === "[]" || !res.data.body) {
-          setOpenSnackbarError(true);
+          // setOpenSnackbarError(true);
+          ErrorToast(
+            "Lo sentimos, tú numero de telefono no ha sido encontrado"
+          );
+          setIsLoading(false);
         } else {
           const result = res.data.body;
           const email = result.email;
@@ -109,6 +101,7 @@ const LoginPage = () => {
         }
       })
       .catch((err) => {
+        setIsLoading(false);
         console.log("Error, ", err);
       });
   };
@@ -128,15 +121,25 @@ const LoginPage = () => {
     loginBox,
     loginFormBoxCountDown,
     loginFooter,
-    vectorMedsiPic
+    vectorMedsiPic,
   } = ui;
 
-  const LoginTitle = () => <p className={loginTitle}>Iniciar Sesion</p>
-  const LoginLogo = () => <img src={MedsiLogo} alt="logoIsotipo" />
-  const LoginFormTitle = () => <p className={loginFormTitle}> Escribe tu número de celular </p>
-  const EmailIcon = () => (size === 'xs' || size === 's') ? null : <img src={emailIcon} alt="emailField" />
-  const PasswordIcon = () => (size === 'xs' || size === 's') ? null : <img src={passwordIcon} alt="passField" />
-  const VectorMedsi = () => <img src={vectorMedsi} className={vectorMedsiPic} alt="vectorMedsi" />
+  const LoginTitle = () => <p className={loginTitle}>Iniciar Sesion</p>;
+  const LoginLogo = () => <img src={MedsiLogo} alt="logoIsotipo" />;
+  const LoginFormTitle = () => (
+    <p className={loginFormTitle}> Escribe tu número de celular </p>
+  );
+  const EmailIcon = () =>
+    size === "xs" || size === "s" ? null : (
+      <img src={emailIcon} alt="emailField" style={{ marginRight: 20 }} />
+    );
+  const PasswordIcon = () =>
+    size === "xs" || size === "s" ? null : (
+      <img src={passwordIcon} alt="passField" />
+    );
+  const VectorMedsi = () => (
+    <img src={vectorMedsi} className={vectorMedsiPic} alt="vectorMedsi" />
+  );
   const LoginFooter = () => {
     return (
       <>
@@ -158,25 +161,12 @@ const LoginPage = () => {
             </Grid>
           </Grid>
         </Box>
-        <p className={urbanistRegularFooter}>©medsi 2022 Todos los derechos reservados.</p>
+        <p className={urbanistRegularFooter}>
+          ©medsi 2022 Todos los derechos reservados.
+        </p>
       </>
-    )
-  }
-
-  const LoginSnackBar = () => {
-    return (
-      <CenteredContent>
-        <Snackbar
-          open={openSnackbarError}
-          autoHideDuration={6000}
-          onClose={handleCloseSnackbarError}
-          message="Lo sentimos, no encontramos tú numero de teléfono en nuestro servicio"
-          vertical="center"
-          horizontal="center"
-        />
-      </CenteredContent>
-    )
-  }
+    );
+  };
 
   const ContinueButton = () => {
     return (
@@ -186,14 +176,14 @@ const LoginPage = () => {
         onClick={fetchUserInformation}
         className={loginButtonContinue}
         sx={{
-          marginTop: '1rem',
-          borderRadius: '40px'
+          marginTop: "1rem",
+          borderRadius: "40px",
         }}
       >
         Continuar
       </Button>
-    )
-  }
+    );
+  };
 
   const LoginLoadingButton = () => {
     return (
@@ -204,14 +194,14 @@ const LoginPage = () => {
         variant="outlined"
         className={loginButtonLoading}
         sx={{
-          marginTop: '1rem',
-          borderRadius: '40px'
+          marginTop: "1rem",
+          borderRadius: "40px",
         }}
       >
         Enviando
       </LoadingButton>
-    )
-  }
+    );
+  };
 
   const LoginValidate = () => {
     return (
@@ -221,26 +211,18 @@ const LoginPage = () => {
         disabled={expired || !otpCode}
         className={loginButtonValidate}
         sx={{
-          marginTop: '1rem',
-          borderRadius: '40px'
+          marginTop: "1rem",
+          borderRadius: "40px",
         }}
       >
         Validar Código
       </Button>
-    )
-  }
+    );
+  };
 
   const LoginContinue = () => {
-    return (
-      <div>
-        {
-          isLoading
-            ? <LoginLoadingButton />
-            : <ContinueButton />
-        }
-      </div>
-    )
-  }
+    return <div>{isLoading ? <LoginLoadingButton /> : <ContinueButton />}</div>;
+  };
 
   return (
     <Box className={loginContainer}>
@@ -248,17 +230,28 @@ const LoginPage = () => {
         <LoginLogo />
         <LoginTitle />
         <LoginFormTitle />
-        <Box className={loginFormBox}>
-          <EmailIcon />
-          <TextField
-            id="otp-field"
-            variant="outlined"
-            className={emailInputForm}
-            value={phoneNumber}
-            onChange={(e) => handlePhoneNumberChange(e.target.value)}
-            InputProps={{ className: emailInputFormProps, maxLength: 10, }}
-            placeholder="Ingresa tu numero celular"
-          />
+        <Box className={loginFormBox} flexDirection="column">
+          <Box display="flex" flexDirection="row" justifyContent="space-evenly">
+            <EmailIcon />
+            <TextField
+              id="otp-field"
+              variant="outlined"
+              className={emailInputForm}
+              value={phoneNumber}
+              onChange={(e) => handlePhoneNumberChange(e.target.value)}
+              InputProps={{ className: emailInputFormProps, maxLength: 10 }}
+              placeholder="Ingresa tu numero celular"
+              autoComplete="new-password"
+            />
+          </Box>
+          {!isWaitingOTP && (
+            <Typography
+              sx={{ color: "#fff", fontFamily: FONTS.URBANISTREGULAR }}
+            >
+              * Recuerda que este servicio solo está disponible para clientes
+              existentes de la línea de crédito Medsi
+            </Typography>
+          )}
         </Box>
 
         {isWaitingOTP && (
@@ -275,6 +268,12 @@ const LoginPage = () => {
                 placeholder="Ingresa el código"
               />
             </Box>
+            <Typography
+              sx={{ color: "#fff", fontFamily: FONTS.URBANISTREGULAR, marginTop:5 }}
+            >
+              * Recuerda que este servicio solo está disponible para clientes
+              existentes de la línea de crédito Medsi
+            </Typography>
             <CountDown
               resendOTP={generateOTPCodeProcess}
               setExpired={setExpired}
@@ -282,16 +281,10 @@ const LoginPage = () => {
           </Box>
         )}
 
-        {
-          isWaitingOTP
-            ? <LoginValidate />
-            : <LoginContinue />
-        }
-
+        {isWaitingOTP ? <LoginValidate /> : <LoginContinue />}
       </Box>
       <VectorMedsi />
       <LoginFooter />
-      <LoginSnackBar />
     </Box>
   );
 };

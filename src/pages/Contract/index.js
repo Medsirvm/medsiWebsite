@@ -99,7 +99,6 @@ const Contract = () => {
         nextPaymentDate = await getScheduledPaymentDates(nextPaymentDate, index);
         dateList.push(nextPaymentDate);
       };
-      console.log({ dateList })
       setContractDateList(dateList);
     }
 

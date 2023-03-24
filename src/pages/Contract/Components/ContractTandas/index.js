@@ -20,6 +20,7 @@ export default function ContractTandas({
   const userPaymentInformation = useSelector(selectCreditLineAndPaymentAmounts);
   const paymentList = useSelector(selectSimulationPaymentsInformation);
 
+
   return fancyBoxOpen ? (
     <div style={{ display: "block" }} className={modalFancyBoxContract}>
       <span

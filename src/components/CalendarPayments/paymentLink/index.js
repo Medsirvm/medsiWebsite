@@ -48,14 +48,6 @@ const PaymentLink = ({
       <div className={paymentLoan}> </div>
   }
 
-  console.log({
-    date,
-    amount,
-    loan,
-    type,
-    index
-  })
-
   return (
     <div className={`${paymentLink} ${index === 0 ? firstPayment : null}`}
       style={{

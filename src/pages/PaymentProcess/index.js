@@ -17,11 +17,7 @@ const PaymentProcess = () => {
   const payments = useSelector(selectPaymentList);
   const numberOfPaymentToPay = useSelector(selectCurrentNumberUserPayment);
 
-  console.log({ payments });
-  console.log({ numberOfPaymentToPay })
-
   const paymentToPayInfo = payments.find(item => parseInt(item.id_pago) === numberOfPaymentToPay);
-  console.log({ paymentToPayInfo })
   const { id_orden_pago, monto } = paymentToPayInfo;
   // const [checkoutId, setCheckoutId] = useState();
   // const [isReady, setIsReady] = useState(false);

@@ -39,13 +39,13 @@ export default function ContractFile({
   const RomanTwo = ({ children }) => <Text style={ui.parraf}><Text style={ui.number}>II. </Text>{children}</Text>
   const RomanThree = ({ children }) => <Text style={ui.parraf}><Text style={ui.number}>III. </Text>{children}</Text>
 
-  useEffect(() => {
-    console.log({
-      user,
-      paymentInfo
-    });
-  }, [user,
-    paymentInfo])
+  // useEffect(() => {
+  //   console.log({
+  //     user,
+  //     paymentInfo
+  //   });
+  // }, [user,
+  //   paymentInfo])
 
   let rows = [];
 
@@ -76,8 +76,6 @@ export default function ContractFile({
       balance // BALANCE
     ]);
   }
-
-  console.log({ rows });
 
   const SubNumbers = ({ children, subnumber }) => {
     return (

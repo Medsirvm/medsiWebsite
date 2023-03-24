@@ -8,9 +8,11 @@ import accessToYourCredit from "../../../assets/icons/accessToYourCreditIcon.svg
 import fixedPayments from "../../../assets/icons/fixPaymentsIcon.svg";
 import tandaAhorro from "../../../assets/icons/tandaAhorroIcon.svg";
 import ui from './index.module.css';
+import { PRIVATE_ROUTES } from "../../../constants/routesConstants";
+import { useNavigate } from "react-router-dom";
 
 const StepperContainer = (props) => {
-
+  const navigate = useNavigate()
   const { size } = props;
   const steps = [
     {
@@ -66,13 +68,13 @@ const StepperContainer = (props) => {
 
     if (!isDesktop && variant === undefined) {
       return (
-        <button type="button" className={stepperButton}>Activar Tanda Ahorro ahora</button>
+        <button type="button" className={stepperButton} onClick={()=> navigate(PRIVATE_ROUTES.DASHBOARD_CONTRATO_SERVICIO)}>Activar Tanda Ahorro ahora</button>
       )
     }
 
     if (isDesktop && variant === 'desktop') {
       return (
-        <button type="button" className={stepperButton}>Activar Tanda Ahorro ahora</button>
+        <button type="button" className={stepperButton} onClick={()=> navigate(PRIVATE_ROUTES.DASHBOARD_CONTRATO_SERVICIO)}>Activar Tanda Ahorro ahora</button>
       )
     }
   }

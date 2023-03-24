@@ -36,9 +36,9 @@ export function calcularProximosPagos(monto) {
       pagos.push(new Date(fechaPago));
       pagosList.push({
         id:i,
-        date:new Date(fechaPago).toLocaleDateString('es-MX', {month: '2-digit', day: '2-digit', year: 'numeric'}),
-        amount: monto,
-        status:"pendiente"               
+        fecha_pago:new Date(fechaPago).toLocaleDateString('es-MX', {month: '2-digit', day: '2-digit', year: 'numeric'}),
+        monto: monto,
+        estado:"pendiente"               
       })
 
     }

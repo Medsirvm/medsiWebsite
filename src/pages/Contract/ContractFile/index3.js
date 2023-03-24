@@ -1,5 +1,4 @@
 import { Page, Text, View, Document, StyleSheet, Image, Link, } from '@react-pdf/renderer';
-import { useEffect, useState } from 'react';
 
 export default function ContractFile({
   user,
@@ -9,8 +8,6 @@ export default function ContractFile({
   biWeeklyPayment = 5000,
   payedAmount = 20000
 }) {
-
-  console.log({ dates })
 
   const ui = StyleSheet.create({
     page: { padding: "1.27cm" },
@@ -41,20 +38,6 @@ export default function ContractFile({
   const RomanOne = ({ children }) => <Text style={ui.parraf}> <Text style={ui.number}>I. </Text> {children} </Text>
   const RomanTwo = ({ children }) => <Text style={ui.parraf}><Text style={ui.number}>II. </Text>{children}</Text>
   const RomanThree = ({ children }) => <Text style={ui.parraf}><Text style={ui.number}>III. </Text>{children}</Text>
-
-  useEffect(() => {
-    console.log({
-      user,
-      paymentInfo,
-      totalAmount,
-      biWeeklyPayment,
-      payedAmount
-    });
-  }, [user,
-    paymentInfo,
-    totalAmount,
-    biWeeklyPayment,
-    payedAmount])
 
   let rows = [];
 
@@ -945,7 +928,6 @@ export default function ContractFile({
           </Row>
           {
             rows?.map((item, index) => {
-              console.log({ item})
               return (
                 <View style={{ display: 'flex', flexDirection: 'row', }} key={index}>
                   <View style={{ width: '2cm', height: '0.5cm', border: '1px solid #000', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
