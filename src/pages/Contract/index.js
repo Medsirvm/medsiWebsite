@@ -10,120 +10,102 @@ import Layout from "../../Layouts";
 import { useSelector } from "react-redux";
 import {
   selectCreditLineAndPaymentAmounts,
-  selectSimulationPaymentsInformation,
   selectuserInformation,
 } from "../../store/reducers/user/UserAccountSlice";
 import ui from "./index.module.css";
 import Parraf from "../../components/Parraf";
 import LineBreak from "../../components/LineBreak";
 import ContainerTitle from "../../components/ContainerTitle";
-import ContractFile from "./ContractFile/index2.js";
-import ContractFile2 from "./ContractFile/index3.js";
-import { PDFViewer } from "@react-pdf/renderer";
-
-const ModalContractFancyBox = ({
-  fancyOpen,
-  handleFancyOpen,
-  typeContract = false,
-}) => {
-  const { modalFancyBoxContract, fancyBoxContractContainer } = ui;
-  const userInformation = useSelector(selectuserInformation);
-  const userPaymentInformation = useSelector(selectCreditLineAndPaymentAmounts);
-  const paymentList = useSelector(selectSimulationPaymentsInformation);
-  // const paymentsListRedux = useSelector(selectPaymentList);
-  // const currentPayment = useSelector(selectCurrentNumberUserPayment);
-
-  // useEffect(() => {
-  //   console.log({
-  //     userInformation,
-  //     userPaymentInformation,
-  //     paymentList,
-  //     currentPayment,
-  //     paymentsListRedux
-  //   })
-  // }, [
-  //   userInformation,
-  //   userPaymentInformation,
-  //   paymentList,
-  //   currentPayment,
-  //   paymentsListRedux
-  // ])
-
-  useEffect(() => {
-    console.log({ typeContract });
-  }, [typeContract]);
-
-  return fancyOpen ? (
-    <div style={{ display: "block" }} className={modalFancyBoxContract}>
-      <span
-        className="closeBackground"
-        onClick={() => handleFancyOpen()}
-      ></span>
-      <div className={fancyBoxContractContainer}>
-        {/* <ContractFile
-          user={userInformation}
-          paymentInfo={userPaymentInformation}
-        /> */}
-        <PDFViewer>
-          {typeContract ? (
-            <ContractFile2
-              user={userInformation}
-              paymentInfo={userPaymentInformation}
-            />
-          ) : (
-            <ContractFile
-              user={userInformation}
-              paymentInfo={userPaymentInformation}
-              paymentsList={paymentList}
-            />
-          )}
-        </PDFViewer>
-        <button
-          type="button"
-          className="modalButton"
-          onClick={() => {
-            handleFancyOpen();
-          }}
-        >
-          <span>Cerrar</span>
-        </button>
-      </div>
-    </div>
-  ) : null;
-};
+import { generateTransaction } from "../../utils/generateTransaction";
+import { getScheduledPaymentDates } from "../../utils/generatePaymentDates";
+import ContractMedsi from "./Components/ContractMedsi";
+import ContractTandas from "./Components/ContractTandas";
 
 const Contract = () => {
   const [open, setOpen] = useState(false);
+  const [medsiModal, setMedsiModal] = useState(false);
+  const [medsiCheckboxFlag, setMedsiCheckboxFlag] = useState(false);
+  const [tandasModal, setTandasModal] = useState(false);
+  const [tandasCheckboxFlag, setTandasCheckboxFlag] = useState(false);
   const [checkContractOption, setCheckContractOption] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [contractDateList, setContractDateList] = useState([]);
+
   const userInformation = useSelector(selectuserInformation);
-  const [tandasContrato, setTandasContrato] = useState(false);
-  const [creditoContrato, setCreditoContrato] = useState(false);
-  const [fancyOpen, setFancyOpen] = useState(false);
-  const [buttonDisabled, setButtonDisabled] = useState(true);
-  const [typeContract, setTypeContract] = useState(false);
+  const simulationPaymentAmounts = useSelector(selectCreditLineAndPaymentAmounts);
 
   useEffect(() => {
-    const updateButtonState = () => {
-      if (tandasContrato) {
-        setTypeContract(false);
-      }
-      if (creditoContrato) {
-        setTypeContract(true);
-      }
 
-      if (tandasContrato === true && creditoContrato === true) {
-        setButtonDisabled(false);
+    const updateButtonState = () => {
+
+      if (medsiCheckboxFlag && tandasCheckboxFlag) {
+        setIsButtonDisabled(false);
       } else {
-        setButtonDisabled(true);
+        setIsButtonDisabled(true);
       }
     };
+
     updateButtonState();
-  }, [tandasContrato, creditoContrato, buttonDisabled]);
+
+  }, [tandasCheckboxFlag, medsiCheckboxFlag, isButtonDisabled]);
 
   const handleOpenContractCanva = () => {
     setCheckContractOption(!checkContractOption);
     setOpen(!open);
   };
+
+  useEffect(() => {
+
+    const generateDatesList = async () => {
+
+      const {
+        first_name,
+        last_name,
+        maternal_name,
+        kyc_status,
+        email,
+        phone_number,
+        meta_data,
+        is_active,
+        created_at } = userInformation;
+
+      const { biWeeklyAmount, creditLineAmount } = simulationPaymentAmounts;
+      let nextPaymentDate = (() => {
+        const thisMoment = new Date().toLocaleDateString('SV');
+        const [YY, MM, DD] = thisMoment.split('-');
+        if (parseInt(DD) < 17) {
+          const month = parseInt(MM) < 10 ? '0' + parseInt(MM) : MM;
+          return `${YY}-${month}-17`;
+        } else {
+          const month = (parseInt(MM) + 1) < 10 ? '0' + (parseInt(MM) + 1) : parseInt(MM) + 1;
+          return `${YY}-${month}-02`;
+        }
+      })();
+
+      const dateList = [];
+
+      for (let index = 1; index <= 12; index++) {
+        const axiosPaymentsData = {
+          correo: email,
+          fecha_pago: nextPaymentDate,
+          // fecha_pago: new Date(new Date().setHours(24 * (15 * (index + 1)))).toLocaleDateString('sv'),
+          estado: "pendiente",
+          tipo_tx: "tandas_tx",
+          monto: biWeeklyAmount,
+          id_pago: index,
+          id_orden_pago: generateTransaction([last_name, maternal_name, first_name, index])
+        }
+
+        nextPaymentDate = await getScheduledPaymentDates(nextPaymentDate, index);
+        dateList.push(nextPaymentDate);
+      };
+      console.log({ dateList })
+      setContractDateList(dateList);
+    }
+
+    generateDatesList();
+  }, [userInformation, simulationPaymentAmounts]);
+
 
   const checkboxContent = checkContractOption ? (
     <img
@@ -171,19 +153,42 @@ const Contract = () => {
     );
   };
 
-  const handleClickTandasContract = () => {
-    setTandasContrato(!tandasContrato);
-    setFancyOpen(true);
-  };
 
-  const handleClickCreditContract = () => {
-    setCreditoContrato(!creditoContrato);
-    setFancyOpen(true);
-  };
+  const FirstContractCheckBox = ({ checked }) => {
 
-  const handleFancyBox = () => {
-    setFancyOpen(false);
-  };
+    return checked
+      ? <i className="material-icons-outlined" style={{ color: "white", background: "#3552cc", borderRadius: "6px", }} > check_box </i>
+      : <i className="material-icons-outlined"> check_box_outline_blank </i>
+  }
+
+  const SecondContractCheckBox = ({ checked }) => {
+
+    return checked
+      ? <i className="material-icons-outlined" style={{ color: "white", background: "#3552cc", borderRadius: "6px", }} > check_box </i>
+      : <i className="material-icons-outlined"> check_box_outline_blank </i>
+  }
+
+  const TermsAccept = () => {
+    return (
+      <p className={contractTerms}>
+        Acepto los{" "} <strong> Términos y Condiciones de Tanda Ahorros </strong>
+      </p>
+    )
+  }
+
+  const handleMedsiCheckboxButton = (e) => {
+    setMedsiCheckboxFlag(e);
+    if (e) {
+      setMedsiModal(!medsiModal);
+    }
+  }
+
+  const handleTandasCheckboxButton = (e) => {
+    setTandasCheckboxFlag(!tandasCheckboxFlag);
+    if (e) {
+      setTandasModal(!tandasModal);
+    }
+  }
 
   return (
     <Layout>
@@ -220,32 +225,10 @@ const Contract = () => {
                       <LineBreak space={1} />
                       <div
                         className={contractBox}
-                        onClick={() => {
-                          handleClickTandasContract();
-                        }}
+                        onClick={() => { handleMedsiCheckboxButton(!medsiCheckboxFlag); }}
                       >
-                        {tandasContrato ? (
-                          <i
-                            className="material-icons-outlined"
-                            style={{
-                              color: "white",
-                              background: "#3552cc",
-                              borderRadius: "6px",
-                            }}
-                          >
-                            check_box
-                          </i>
-                        ) : (
-                          <i className="material-icons-outlined">
-                            check_box_outline_blank
-                          </i>
-                        )}
-                        <p className={contractTerms}>
-                          Acepto los{" "}
-                          <strong>
-                            Términos y Condiciones de Tanda Ahorros
-                          </strong>
-                        </p>
+                        <FirstContractCheckBox checked={medsiCheckboxFlag} />
+                        <TermsAccept />
                       </div>
                     </div>
                     <LineBreak space={1} />
@@ -265,43 +248,15 @@ const Contract = () => {
                       <LineBreak space={1} />
                       <div
                         className={contractBox}
-                        onClick={() => {
-                          handleClickCreditContract();
-                        }}
+                        onClick={() => { handleTandasCheckboxButton(!tandasCheckboxFlag); }}
                       >
-                        {creditoContrato ? (
-                          <i
-                            className="material-icons-outlined"
-                            style={{
-                              color: "white",
-                              background: "#3552cc",
-                              borderRadius: "6px",
-                            }}
-                          >
-                            check_box
-                          </i>
-                        ) : (
-                          <i className="material-icons-outlined">
-                            check_box_outline_blank
-                          </i>
-                        )}
-                        <p className={contractTerms}>
-                          Acepto los{" "}
-                          <strong>
-                            Términos y Condiciones de solicitud de crédito
-                          </strong>
-                        </p>
+                        <SecondContractCheckBox checked={tandasCheckboxFlag} />
+                        <TermsAccept />
                       </div>
                     </div>
                     <LineBreak space={1} />
-                    <CenteredContent
-                      direction="column"
-                      className="disabledCanva"
-                    >
-                      <CanvaContainer
-                        userInformation={userInformation}
-                        buttonDisabled={buttonDisabled}
-                      />
+                    <CenteredContent direction="column" className="disabledCanva" >
+                      <CanvaContainer userInformation={userInformation} isButtonDisabled={isButtonDisabled} />
                     </CenteredContent>
                   </div>
                 </CardContent>
@@ -309,12 +264,15 @@ const Contract = () => {
             </div>
           </Card>
         </div>
-        <ModalContractFancyBox
-          fancyOpen={fancyOpen}
-          typeContract={typeContract}
-          handleFancyOpen={() => {
-            handleFancyBox();
-          }}
+        <ContractMedsi
+          fancyBoxOpen={medsiModal}
+          contractDateList={contractDateList}
+          closeFancyBox={() => setMedsiModal(false)}
+        />
+        <ContractTandas
+          fancyBoxOpen={tandasModal}
+          contractDateList={contractDateList}
+          closeFancyBox={() => setTandasModal(false)}
         />
       </section>
     </Layout>

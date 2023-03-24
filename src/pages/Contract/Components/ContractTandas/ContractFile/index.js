@@ -1,16 +1,13 @@
 import { Page, Text, View, Document, StyleSheet, Image, Link, } from '@react-pdf/renderer';
-import { useEffect, useState } from 'react';
+import { formatCurrency, formatNumberToText } from '../../../../../utils/formats';
+import { useEffect } from 'react';
+
 
 export default function ContractFile({
   user,
   paymentInfo,
   dates,
-  totalAmount = 50000,
-  biWeeklyPayment = 5000,
-  payedAmount = 20000
 }) {
-
-  console.log({ dates })
 
   const ui = StyleSheet.create({
     page: { padding: "1.27cm" },
@@ -45,25 +42,20 @@ export default function ContractFile({
   useEffect(() => {
     console.log({
       user,
-      paymentInfo,
-      totalAmount,
-      biWeeklyPayment,
-      payedAmount
+      paymentInfo
     });
   }, [user,
-    paymentInfo,
-    totalAmount,
-    biWeeklyPayment,
-    payedAmount])
+    paymentInfo])
 
   let rows = [];
 
-  let paymentNumber = 1;
+  const payment = paymentInfo.biWeeklyAmount;
+  const totalAmount = payment * 10;
+  const payedAmount = payment * 4
   let balance = totalAmount - payedAmount;
-  let payment = biWeeklyPayment;
-  let interest;
-  let capital;
-  let iva = .16;
+  let interest = 0;
+  let capital = 0;
+  let iva = 0.16;
   let cat = 3.95;
 
   for (let index = 0; index < 8; index++) {
@@ -73,17 +65,19 @@ export default function ContractFile({
     balance -= capital;
 
     rows.push([
-      paymentNumber,
-      dates[index],
-      payment,
-      interest,
-      capital,
-      iva,
-      cat,
-      balance
+      (index + 1), // NO. PAGO
+      dates[index], // FECHA DE PAGO      
+      payment, // PAGO QUINCENAL,    
+      payment, // PAGO QUINCENAL
+      capital, // CAPITAL - 
+      interest, // INTERESES ORDINARIOS - OK
+      cat, // CAT
+      iva, // IVA
+      balance // BALANCE
     ]);
-    paymentNumber++;
   }
+
+  console.log({ rows });
 
   const SubNumbers = ({ children, subnumber }) => {
     return (
@@ -113,7 +107,7 @@ export default function ContractFile({
 
   const SignatureContainer = () => {
     return (
-      <View style={{ margin: '0 auto 0.5cm auto' }}>
+      <View style={{ margin: '0 auto 0.2cm auto' }}>
         <View style={{ display: 'flex', flexDirection: 'row' }}>
           <View style={{ width: '6cm', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
             <Text style={ui.center}>ACREDITANTE</Text>
@@ -135,8 +129,8 @@ export default function ContractFile({
             <Text style={{ ...ui.parraf, textAlign: 'center' }}>José Magdaleno Cabrera González</Text>
           </View>
           <View style={{ width: '5.5cm', display: 'block', margin: '0 auto' }}>
-            <Text style={{ ...ui.parraf, textAlign: 'center' }}>[*]</Text>
-            <Text style={{ ...ui.parraf, textAlign: 'center' }}>Por su propio derecho</Text>
+            <Text style={{ ...ui.subNumber, textAlign: 'center', marginTop: '4px' }}>Por su propio derecho</Text>
+            <Text style={{ ...ui.parraf, textAlign: 'center' }}>{[first_name, maternal_name, last_name].join(" ")}</Text>
           </View>
         </View>
       </View>
@@ -229,6 +223,31 @@ export default function ContractFile({
     )
   }
 
+  const {
+    rfc,
+    curp,
+    street,
+    outside_no,
+    inside_no,
+    colony,
+    cp,
+    city,
+    municipality,
+    state,
+    first_name,
+    last_name,
+    maternal_name
+  } = user;
+
+  const nombreCompleto = [first_name, maternal_name, last_name].join(" ")
+
+  const MONTHS = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+  const todayBrowserDate = new Date();
+
+  const todayDate = todayBrowserDate.getDate();
+  const monthDate = MONTHS[todayBrowserDate.getMonth()];
+  const yearDate = todayBrowserDate.getFullYear();
+
   return (
     <Document>
       <Page size="A4" style={ui.page}>
@@ -244,8 +263,8 @@ export default function ContractFile({
         <SubNumbers subnumber="I.">
           <Parraf>
             En esta misma fecha, el Acreditante celebró con el Acreditado cierto Contrato de Depósito (el “<Underline>Contrato de Depósito</Underline>”),
-            mediante el cual el Acreditado se obligó a entregar al Acreditante la cantidad total de $[{parseFloat(biWeeklyPayment * 4).toFixed(2)}].00 M.N.
-            ([*] pesos 00/100 Moneda Nacional) (la “<Underline>Cantidad en Depósito</Underline>”), misma que deberá entregar en las fechas y cantidades
+            mediante el cual el Acreditado se obligó a entregar al Acreditante la cantidad total de <Underline>{formatCurrency(payedAmount)}</Underline> M.N.
+            (<Underline>{formatNumberToText(payedAmount)}</Underline> pesos 00/100 Moneda Nacional) (la “<Underline>Cantidad en Depósito</Underline>”), misma que deberá entregar en las fechas y cantidades
             establecidas en la Cláusula Primera del Contrato de Depósito.
           </Parraf>
         </SubNumbers>
@@ -305,13 +324,13 @@ export default function ContractFile({
         </SubNumbersTwo>
         <SubNumbersTwo subnumber="c)">
           <Parraf>
-            Se encuentra inscrita en el Registro Federal de Contribuyentes del Servicio de Administración Tributaria bajo la clave _____ y Clave Única
-            de Registro de Población ______________.
+            Se encuentra inscrita en el Registro Federal de Contribuyentes del Servicio de Administración Tributaria bajo la clave <Underline>{rfc}</Underline> y Clave Única
+            de Registro de Población <Underline>{curp}</Underline>.
           </Parraf>
         </SubNumbersTwo>
         <SubNumbersTwo subnumber="d)">
           <Parraf>
-            Señala como su domicilio el ubicado en calle ______________.
+            Señala como su domicilio el ubicado en calle {[street, outside_no, inside_no, colony, cp, city, municipality, state].join(', ')}.
           </Parraf>
         </SubNumbersTwo>
         <SubNumbersTwo subnumber="e)">
@@ -332,7 +351,7 @@ export default function ContractFile({
         </SubNumbersTwo>
         <SubNumbersTwo subnumber="g)">
           <Parraf>
-            Es su deseo recibir de “EL ACREDITANTE”, un crédito simple hasta por la cantidad de $[*].00 M.N. ([Quicena x 10] pesos 00/100 Moneda Nacional),
+            Es su deseo recibir de “EL ACREDITANTE”, un crédito simple hasta por la cantidad de $<Underline>{parseFloat(paymentInfo.biWeeklyAmount * 4).toFixed(2)}</Underline>.00 M.N. ([Quicena x 10] pesos 00/100 Moneda Nacional),
             mismo que le ha solicitado con anterioridad a la fecha de este Contrato.
           </Parraf>
         </SubNumbersTwo>
@@ -356,7 +375,7 @@ export default function ContractFile({
         <CenterTitle>C L Á U S U L A S</CenterTitle>
         <Parraf>
           <MayusUnderBold>PRIMERA. OBJETO.</MayusUnderBold> Sujeto a los términos y condiciones pactados en el presente Contrato, el ACREDITANTE otorga y
-          el ACREDITADO acepta recibir del ACREDITANTE un crédito simple por la cantidad de $[Quincena x 10].00 M.N. ([*] pesos 00/100, Moneda Nacional)
+          el ACREDITADO acepta recibir del ACREDITANTE un crédito simple por la cantidad de <Underline>{formatCurrency(totalAmount)}</Underline> M.N. (<Underline>{formatNumberToText(totalAmount)}</Underline> pesos 00/100, Moneda Nacional)
           (en lo sucesivo el “<Underline>Crédito</Underline>”); en el entendido que dentro del importe del Crédito no se encuentran comprendidos los intereses y demás accesorios
           que deba cubrir el ACREDITADO al ACREDITANTE en términos del presente Contrato. Por su parte, el ACREDITADO se obliga a restituir al ACREDITANTE
           el importe total del Crédito y los intereses ordinarios, de conformidad con lo establecido en la o las Disposiciones que realice, de conformidad
@@ -621,7 +640,7 @@ export default function ContractFile({
         <SubNumbers subnumber="4.">
           <Parraf>
             Una comisión por mantenimiento, la cual, el ACREDITADO deberá pagar mensualmente durante toda la vigencia del presente Contrato,
-            misma que asciende a la cantidad de $0[*].00 M.N. (cero[*] pesos 00/100 Moneda Nacional).
+            misma que asciende a la cantidad de $<Underline>{paymentInfo.biWeeklyAmount * 2}</Underline>.00 M.N. (<Underline>{formatNumberToText(paymentInfo.biWeeklyAmount * 2)}</Underline> pesos 00/100 Moneda Nacional).
           </Parraf>
         </SubNumbers>
         <Parraf>
@@ -723,7 +742,7 @@ export default function ContractFile({
           las parcialidades para pagar el Importe Total del Crédito, procederán de su propiedad.
         </Parraf>
         <Parraf>
-          __________________________ Nombre y Firma del Cliente
+          Nombre y Firma del Cliente <Underline>{nombreCompleto}</Underline>
         </Parraf>
         <Parraf>
           <MayusUnderBold>VIGÉSIMO QUINTA. AVISO DE PRIVACIDAD.</MayusUnderBold> En cumplimiento con lo dispuesto en los artículos 15, 16, 17  y demás aplicables de la
@@ -794,7 +813,7 @@ export default function ContractFile({
         </Parraf>
         <Parraf>
           Enteradas las Partes del contenido y alcance del presente Contrato, lo firman de conformidad, por triplicado,
-          en la Ciudad de México, México, el día [*] de [*] de 20[**].
+          en la Ciudad de México, México, el día <Underline>{todayDate}</Underline> de <Underline>{monthDate}</Underline> del <Underline>{yearDate}</Underline>.
         </Parraf>
         <SignatureContainer />
       </Page>
@@ -804,7 +823,7 @@ export default function ContractFile({
         <ParrafBold>
           ANEXO “A” DEL CONTRATO DE APERTURA DE CRÉDITO (EL “<Underline>CONTRATO</Underline>”) QUE CELEBRARON EN ESTA FECHA, POR UNA PARTE,
           MUNBRUNN, S.A. DE C.V., A QUIEN EN LO SUCESIVO Y PARA LOS EFECTOS DEL PRESENTE ANEXO SE LE DENOMINARÁ COMO EL
-          “<Underline>ACREDITANTE</Underline>”, Y POR OTRA PARTE, [*], A QUIEN EN LO SUCESIVO Y PARA LOS EFECTOS DEL PRESENTE ANEXO SE LE DENOMINARÁ
+          “<Underline>ACREDITANTE</Underline>”, Y POR OTRA PARTE, <Underline>{nombreCompleto}</Underline>, A QUIEN EN LO SUCESIVO Y PARA LOS EFECTOS DEL PRESENTE ANEXO SE LE DENOMINARÁ
           COMO EL “<Underline>ACREDITADO</Underline>”.
         </ParrafBold>
         <CenterTitle>SOLICITUD DE DISPOSICIÓN</CenterTitle>
@@ -836,7 +855,7 @@ export default function ContractFile({
           <Row>
             <Cell x={5} y={2}></Cell>
             <Cell x={4} y={2} centered><CellText size={9}>[*]%</CellText></Cell>
-            <Cell x={4} y={2} centered><CellText size={9}>$[quincena x10].00 M.N.</CellText></Cell>
+            <Cell x={4} y={2} centered><CellText size={9}>$[*].00 M.N.</CellText></Cell>
             <Cell x={10} y={2} centered full><CellText size={9}>$[En blanco].00 M.N.</CellText></Cell>
           </Row>
           <Row>
@@ -943,39 +962,52 @@ export default function ContractFile({
             <Cell x={2.625} y={1.5} centered><CellText bold size={9}>I.V.A.</CellText></Cell>
             <Cell x={2.625} y={1.5} centered><CellText bold size={9}>Balance</CellText></Cell>
           </Row>
+          <View style={{ display: 'flex', flexDirection: 'row', }}>
+            <View style={{ width: '2cm', height: '0.5cm', border: '1px solid #000', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
+              <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>0</Text>
+            </View>
+            <View style={{ width: '2.625cm', height: '0.5cm', border: '1px solid #000', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}></View>
+            <View style={{ width: '2.625cm', height: '0.5cm', border: '1px solid #000' }}></View>
+            <View style={{ width: '2.625cm', height: '0.5cm', border: '1px solid #000', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
+              <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{formatCurrency(payedAmount)}</Text>
+            </View>
+            <View style={{ width: '2.625cm', height: '0.5cm', border: '1px solid #000' }}></View>
+            <View style={{ width: '2.625cm', height: '0.5cm', border: '1px solid #000' }}></View>
+            <View style={{ width: '2.625cm', height: '0.5cm', border: '1px solid #000' }}></View>
+            <View style={{ width: '2.625cm', height: '0.5cm', border: '1px solid #000' }}></View>
+            <View style={{ width: '2.625cm', height: '0.5cm', border: '1px solid #000' }}></View>
+          </View>
           {
             rows?.map((item, index) => {
-              console.log({ item})
               return (
                 <View style={{ display: 'flex', flexDirection: 'row', }} key={index}>
                   <View style={{ width: '2cm', height: '0.5cm', border: '1px solid #000', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
                     <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{item[0]}</Text>
                   </View>
                   <View style={{ width: '2.625cm', height: '0.5cm', border: '1px solid #000', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
-                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{item[1]}</Text>
+                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}></Text>
                   </View>
                   <View style={{ width: '2.625cm', height: '0.5cm', border: '1px solid #000', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
-                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{parseFloat(item[2]).toFixed(2)}</Text>
+                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{formatCurrency(item[2])}</Text>
                   </View>
                   <View style={{ width: '2.625cm', height: '0.5cm', border: '1px solid #000', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
-                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{item[3]}</Text>
+                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{formatCurrency(item[3])}</Text>
                   </View>
                   <View style={{ width: '2.625cm', height: '0.5cm', border: '1px solid #000', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
-                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{parseFloat(item[4]).toFixed(2)}</Text>
+                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{formatCurrency(item[4])}</Text>
                   </View>
                   <View style={{ width: '2.625cm', height: '0.5cm', border: '1px solid #000', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
-                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{item[5]}</Text>
+                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{formatCurrency(item[5])}</Text>
                   </View>
                   <View style={{ width: '2.625cm', height: '0.5cm', border: '1px solid #000', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
-                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{item[6]}</Text>
+                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{formatCurrency(item[6])}</Text>
                   </View>
                   <View style={{ width: '2.625cm', height: '0.5cm', border: '1px solid #000', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
-                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{parseFloat(item[7]).toFixed(2)}</Text>
+                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{formatCurrency(item[7])}</Text>
                   </View>
                   <View style={{ width: '2.625cm', height: '0.5cm', border: '1px solid #000', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
-                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{item[8]}</Text>
+                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{formatCurrency(item[8])}</Text>
                   </View>
-
                 </View>
               )
             }
@@ -1022,21 +1054,20 @@ export default function ContractFile({
 
         <LineBreak />
         <Parraf>
-          Enteradas las Partes del contenido y alcance del presente Anexo, lo firman de conformidad, por triplicado, en la Ciudad de México, México, el día [*] de [*] de 20[**].
+          Enteradas las Partes del contenido y alcance del presente Anexo, lo firman de conformidad, por triplicado, en la Ciudad de México, México, el día <Underline>{todayDate}</Underline> de <Underline>{monthDate}</Underline> de <Underline>{yearDate}</Underline>.
         </Parraf>
-        <LineBreak />
         <SignatureContainer />
       </Page>
       <Page size="A4" style={ui.page}>
         <ParrafBold>
           ANEXO “B” DEL CONTRATO DE APERTURA DE CRÉDITO (EL “CONTRATO”)QUE CELEBRARON EN ESTA FECHA, POR UNA PARTE, MUNBRUNN, S.A. DE C.V., A QUIEN EN LO SUCESIVO Y
-          PARA LOS EFECTOS DEL PRESENTE ANEXO SE LE DENOMINARÁ COMO EL “<Underline>ACREDITANTE</Underline>”, Y POR OTRA PARTE, [*], A QUIEN EN LO SUCESIVO Y PARA LOS EFECTOS DEL PRESENTE
+          PARA LOS EFECTOS DEL PRESENTE ANEXO SE LE DENOMINARÁ COMO EL “<Underline>ACREDITANTE</Underline>”, Y POR OTRA PARTE, <Underline> {nombreCompleto}</Underline>, A QUIEN EN LO SUCESIVO Y PARA LOS EFECTOS DEL PRESENTE
           ANEXO SE LE DENOMINARÁ COMO EL “<Underline>ACREDITADO</Underline>”.
         </ParrafBold>
         <CenterTitle>P A G A R É</CenterTitle>
         <Parraf>
-          POR VALOR RECIBIDO, el Suscrito, (el “<Bold>Suscriptor</Bold>”), [*], por medio de este PAGARÉ promete incondicionalmente pagar a la orden de <Bold>MUNBRUNN, S.A. DE C.V.</Bold> (el “<Bold>Acreedor</Bold>”),
-          la cantidad principal de $[*].00 ([*] DE PESOS 00/100 M.N.), cuyo monto será pagado en cada una de las Fechas de Pago y en las cantidades establecidas a continuación,
+          POR VALOR RECIBIDO, el Suscrito, (el “<Bold>Suscriptor</Bold>”), <Underline>{nombreCompleto}</Underline>, por medio de este PAGARÉ promete incondicionalmente pagar a la orden de <Bold>MUNBRUNN, S.A. DE C.V.</Bold> (el “<Bold>Acreedor</Bold>”),
+          la cantidad principal de <Underline>{formatCurrency(payedAmount)}</Underline> (<Underline>{formatNumberToText(payedAmount)}</Underline> DE PESOS 00/100 M.N.), cuyo monto será pagado en cada una de las Fechas de Pago y en las cantidades establecidas a continuación,
           debiendo cubrir cualesquier saldo insoluto a más tardar en la Fecha de Vencimiento, conforme a la siguiente tabla de parcialidades:
         </Parraf>
         <Table type="portrait">
@@ -1050,30 +1081,35 @@ export default function ContractFile({
             <Cell x={2.57} y={1.54} centered><CellText size={9} bold>I.V.A.</CellText></Cell>
             <Cell x={2.57} y={1.54} centered><CellText size={9} bold>Balance</CellText></Cell>
           </Row>
-          <Row>
-            <Cell x={2} y={1.54} centered><CellText size={9} bold>No. Pago</CellText></Cell>
-            <Cell x={2.57} y={1.54} centered><CellText size={9} bold>Fecha de pago</CellText></Cell>
-            <Cell x={2.57} y={1.54} centered><CellText size={9} bold>Importe de Pagos</CellText></Cell>
-            <Cell x={2.57} y={1.54} centered><CellText size={9} bold>Capital</CellText></Cell>
-            <Cell x={2.57} y={1.54} centered><CellText size={9} bold>Intereses ordinarios</CellText></Cell>
-            <Cell x={2.57} y={1.54} centered><CellText size={9} bold>CAT</CellText></Cell>
-            <Cell x={2.57} y={1.54} centered><CellText size={9} bold>I.V.A.</CellText></Cell>
-            <Cell x={2.57} y={1.54} centered><CellText size={9} bold>Balance</CellText></Cell>
-          </Row>
           {
             rows?.map((item, index) => {
               return (
-                <Row key={index}>
-                  <Cell x={2.000} y={0.47} bg="transparent"><Text style={ui.number}>2023</Text></Cell>
-                  <Cell x={2.625} y={0.47} bg="transparent"><Text style={ui.number}>{item[0]}</Text></Cell>
-                  <Cell x={2.625} y={0.47} bg="transparent"><Text style={ui.number}>{item[1]}</Text></Cell>
-                  <Cell x={2.625} y={0.47} bg="transparent"><Text style={ui.number}>{item[2]}</Text></Cell>
-                  <Cell x={2.625} y={0.47} bg="transparent"><Text style={ui.number}>{item[3]}</Text></Cell>
-                  <Cell x={2.625} y={0.47} bg="transparent"><Text style={ui.number}>{item[4]}</Text></Cell>
-                  <Cell x={2.625} y={0.47} bg="transparent"><Text style={ui.number}>{item[5]}</Text></Cell>
-                  <Cell x={2.625} y={0.47} bg="transparent"><Text style={ui.number}>{item[6]}</Text></Cell>
-                  <Cell x={2.625} y={0.47} bg="transparent"><Text style={ui.number}>{item[6]}</Text></Cell>
-                </Row>
+                <View style={{ display: 'flex', flexDirection: 'row', }} key={index}>
+                  <View style={{ width: '2cm', height: '0.5cm', border: '1px solid #000', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
+                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{item[0]}</Text>
+                  </View>
+                  <View style={{ width: '2.57cm', height: '0.5cm', border: '1px solid #000', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
+                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}></Text>
+                  </View>
+                  <View style={{ width: '2.57cm', height: '0.5cm', border: '1px solid #000', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
+                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{formatCurrency(item[2])}</Text>
+                  </View>
+                  <View style={{ width: '2.57cm', height: '0.5cm', border: '1px solid #000', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
+                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{formatCurrency(item[3])}</Text>
+                  </View>
+                  <View style={{ width: '2.57cm', height: '0.5cm', border: '1px solid #000', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
+                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{formatCurrency(item[5])}</Text>
+                  </View>
+                  <View style={{ width: '2.57cm', height: '0.5cm', border: '1px solid #000', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
+                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{formatCurrency(item[6])}</Text>
+                  </View>
+                  <View style={{ width: '2.57cm', height: '0.5cm', border: '1px solid #000', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
+                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{formatCurrency(item[7])}</Text>
+                  </View>
+                  <View style={{ width: '2.57cm', height: '0.5cm', border: '1px solid #000', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
+                    <Text style={{ color: "#000", fontFamily: "Helvetica", fontSize: "9px" }}>{formatCurrency(item[8])}</Text>
+                  </View>
+                </View>
               )
             }
             )
@@ -1101,7 +1137,7 @@ export default function ContractFile({
           sobre la cantidad pagada reduciéndose así el monto principal del presente PAGARÉ.
         </Parraf>
         <Parraf>
-          Para todo lo relacionado con el PAGARÉ, el Suscriptor designa como su domicilio el siguiente: [*].
+          Para todo lo relacionado con el PAGARÉ, el Suscriptor designa como su domicilio el siguiente: {[street, outside_no, inside_no, colony, cp, city, municipality, state].join(', ')}.
         </Parraf>
         <Parraf>
           Este PAGARÉ se regirá e interpretará conforme a las leyes aplicables en los Estados Unidos Mexicanos.
@@ -1126,7 +1162,7 @@ export default function ContractFile({
           conforme a la tabla anterior, en los términos del artículo 128 de la Ley General de Títulos y Operaciones de Crédito.
         </Parraf>
         <Parraf>
-          Este PAGARÉ consta de [*] páginas, las cuales constituyen un solo documento y se suscribe en la Ciudad de México, el [*] de [*] de 20[**].
+          Este PAGARÉ consta de <Underline>13</Underline> páginas, las cuales constituyen un solo documento y se suscribe en la Ciudad de México, el <Underline>{todayDate}</Underline> de <Underline>{monthDate}</Underline> del <Underline>{yearDate}</Underline>.
         </Parraf>
 
         <View style={{ margin: '0 auto' }}>
@@ -1140,7 +1176,7 @@ export default function ContractFile({
           </View>
           <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', maxWidth: '12cm' }}>
             <View style={{ width: '5.5cm', display: 'block', margin: '0 auto' }}>
-              <Text style={{ ...ui.parraf, textAlign: 'center' }}>[*]</Text>
+              <Text style={{ ...ui.parraf, textAlign: 'center' }}>{nombreCompleto}</Text>
             </View>
           </View>
         </View>
