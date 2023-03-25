@@ -2,19 +2,18 @@ import React from "react";
 import ContainerTitle from "../ContainerTitle";
 import PaymentLink from "./paymentLink";
 import ui from "./index.module.css";
-import { useSelector } from "react-redux";
-import { selectSimulationPaymentsInformation } from "../../store/reducers/user/UserAccountSlice";
+import { useLocation } from "react-router-dom";
 
 const CalendarPayments = ({ paymentLinks, isSimulator }) => {
   const { paymentsCalendar } = ui;
-  const reduxSimulationPayments = useSelector(
-    selectSimulationPaymentsInformation
-  );
-  return reduxSimulationPayments.length > 0  ? (
+  const location = useLocation()
+  const isRootPath = location.pathname === "/" 
+
+  return paymentLinks.length > 0 && !isRootPath  ?  (
     <>
       <ContainerTitle>Calendario de Próximos Pagos</ContainerTitle>
       <div className={paymentsCalendar}>
-        {reduxSimulationPayments.map((payment, index) => {
+        {paymentLinks.map((payment, index) => {
           if (index === 3) {
             return (
               <PaymentLink
@@ -23,6 +22,7 @@ const CalendarPayments = ({ paymentLinks, isSimulator }) => {
                 date={payment.fecha_pago}
                 amount={payment.monto}
                 loan={payment.monto * 10}
+                index={index}
               />
             );
           } else {

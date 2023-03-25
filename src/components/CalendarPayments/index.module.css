@@ -23,7 +23,7 @@
   height: 50px;
   content: "Pagos";
   top: -2rem;
-  left: 0; 
+  left: 0;
   font-family: UrbanistSemiBold;
   font-size: 16px;
 }
@@ -35,7 +35,7 @@
   height: 50px;
   content: "Prestamo";
   top: -2rem;
-  left: 0; 
+  left: 0;
   font-family: UrbanistSemiBold;
   font-size: 16px;
 }
@@ -48,7 +48,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #E6E6E6;
+  background: #e6e6e6;
 }
 
 .paymentParraf {
@@ -85,4 +85,16 @@
 .paymentTitles p {
   font-family: UrbanistSemiBold;
   font-size: 16px;
+}
+.paymentsLinkIcon {
+  background-color: #222B45;
+  min-width: 20px;
+  min-height: 20px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: UrbanistSemiBold;
+  color: #ffffff;
+  font-size: 12px;
 }

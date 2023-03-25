@@ -1,7 +1,6 @@
-import { Box, Button, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Box } from "@mui/material";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CenteredContent from "../../../components/CenteredContent";
 import { PRIVATE_ROUTES } from "../../../constants/routesConstants";
 import { CanvaContainerPageStyles } from "./CanvaContainer.styles";
 import CanvaSignatureModal from "./CanvaSignatureModal";

@@ -1,7 +1,5 @@
 import { Page, Text, View, Document, StyleSheet, Image, Link, } from '@react-pdf/renderer';
 import { formatCurrency, formatNumberToText } from '../../../../../utils/formats';
-import { useEffect } from 'react';
-
 
 export default function ContractFile({
   user,
@@ -38,14 +36,6 @@ export default function ContractFile({
   const RomanOne = ({ children }) => <Text style={ui.parraf}> <Text style={ui.number}>I. </Text> {children} </Text>
   const RomanTwo = ({ children }) => <Text style={ui.parraf}><Text style={ui.number}>II. </Text>{children}</Text>
   const RomanThree = ({ children }) => <Text style={ui.parraf}><Text style={ui.number}>III. </Text>{children}</Text>
-
-  // useEffect(() => {
-  //   console.log({
-  //     user,
-  //     paymentInfo
-  //   });
-  // }, [user,
-  //   paymentInfo])
 
   let rows = [];
 

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PRIVATE_ROUTES } from "../../../constants/routesConstants";
 import {
+  selectSimulationPaymentsInformation,
   selectuserInformation,
   setPaymentAmounts,
   setPaymentsList,
@@ -20,8 +21,12 @@ import LineBreak from "../../LineBreak";
 import Parraf from "../../Parraf";
 
 const SavingCalculator = (props) => {
-  const userInformation = useSelector(selectuserInformation);
   const { isSimulator } = props;
+  const userInformation = useSelector(selectuserInformation);
+  const reduxSimulationPayments = useSelector(
+    selectSimulationPaymentsInformation
+  );
+  console.log("reduxSimulationPayments ", reduxSimulationPayments);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const valuetext = (value) => `${value}`;
@@ -80,6 +85,7 @@ const SavingCalculator = (props) => {
         )
         .then((response) => {
           const { data } = response;
+
           const responsePaymentLinks = data
             .map((p, i) => (i < 12 ? p : null))
             .filter((i) => i !== null);
@@ -144,7 +150,10 @@ const SavingCalculator = (props) => {
         </GradientButton>
       </div>
 
-      <CalendarPayments simulator={isSimulator} paymentLinks={paymentLinks} />
+      <CalendarPayments
+        simulator={true}
+        paymentLinks={isSimulator ? reduxSimulationPayments : paymentLinks}
+      />
     </>
   );
 };
